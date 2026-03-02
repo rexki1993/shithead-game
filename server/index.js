@@ -8,8 +8,10 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 app.use(express.static(path.join(__dirname, "../client/public")));
 
-// A=1 (lowest), wraps around onto K. 2 and 10 are always-playable specials.
-const RANK_VALUE = { "A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"J":11,"Q":12,"K":13,"2":99,"10":99 };
+// A=1 (lowest, wraps onto K). 2=always playable, stays as value 2 on pile.
+// 10=always playable, burns pile. 7=next must play lower.
+// Normal order: A(1) < 3 < 4 < 5 < 6 < 7 < 8 < 9 < J < Q < K < 2
+const RANK_VALUE = { "A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"J":11,"Q":12,"K":13,"2":15 };
 const SUITS = ["♠","♥","♦","♣"];
 
 function createDeck() {
@@ -31,48 +33,53 @@ function shuffle(arr) {
 
 // Walk back through pile skipping transparent 3s.
 // Returns { card, sevenActive }
-// card = the effective card that must be beaten (null = anything goes)
-// sevenActive = true only when the last real non-3 card is a 7
-//   — meaning the NEXT player must play lower than 7.
-//   Once any card beats or responds to the 7, sevenActive is gone.
+// sevenActive = last real non-3 card was a 7 → next must play LOWER than 7
 function getPileState(pile) {
   for (let i = pile.length - 1; i >= 0; i--) {
     const r = pile[i].rank;
-    if (r === "3") continue;           // transparent — skip it
-    if (r === "2") return { card: null, sevenActive: false }; // 2 resets
-    // Found the last real card
+    if (r === "3") continue; // transparent — skip
     return { card: pile[i], sevenActive: r === "7" };
   }
-  return { card: null, sevenActive: false }; // empty pile
+  return { card: null, sevenActive: false };
 }
 
 function canPlay(card, pile) {
   if (!pile.length) return true;
-  if (card.rank === "2" || card.rank === "10") return true; // always playable
+
+  // 10 always burns — always playable on anything
+  if (card.rank === "10") return true;
 
   const last = pile[pile.length - 1];
 
-  // 3 cannot go on another 3
-  if (card.rank === "3" && last.rank === "3") return false;
-  // 3 goes on anything else
+  // Same rank on same rank is never allowed
+  if (card.rank === last.rank) return false;
+
+  // 3 is transparent — playable on anything (same rank already blocked above)
   if (card.rank === "3") return true;
 
+  // 2 is always playable (on anything except another 2, already blocked above)
+  if (card.rank === "2") return true;
+
   const { card: top, sevenActive } = getPileState(pile);
-  if (!top) return true; // pile effectively empty (e.g. only 2s/3s)
+  if (!top) return true; // pile only has 3s
 
   if (sevenActive) {
-    // After a 7 the next player must play STRICTLY LOWER than 7
+    // After 7: must play STRICTLY LOWER than 7
     return RANK_VALUE[card.rank] < RANK_VALUE["7"];
   }
 
-  // Ace wrap-around: A can be played on K
+  // After a 2: top.rank==="2", value 15. A=1 < 15 so A fails — correct.
+  // Normal cards must beat 2 (value 15) — impossible without 10.
+  // So after a 2: only 10 can follow (or pick up). That's intended.
+
+  // Ace wraps: A can be played on K
   if (card.rank === "A" && top.rank === "K") return true;
 
-  // Normal: strictly higher than the effective top card
+  // Normal: strictly higher
   return RANK_VALUE[card.rank] > RANK_VALUE[top.rank];
 }
 
-// Four of a kind: 4+ consecutive same-rank non-3 cards at top of pile
+// Four of a kind at top of pile (ignore 3s)
 function checkFourOfAKind(pile) {
   const nonThrees = pile.filter(c => c.rank !== "3");
   if (nonThrees.length < 4) return false;
@@ -101,7 +108,7 @@ function dealGame(playerCount) {
       finishOrder: null,
     });
   }
-  return { players, drawPile: deck, pile: [], burned: [], phase: "lobby", currentPlayer: 0, finishCount: 0 };
+  return { players, drawPile: deck, pile: [], burned: [], phase: "lobby", currentPlayer: 0, finishCount: 0, lastBlind: null };
 }
 
 const rooms = {};
@@ -130,6 +137,7 @@ function getRoomState(room, forPlayerIndex) {
     burned: g.burned.length,
     message: g.message || "",
     shithead: g.shithead,
+    lastBlind: g.lastBlind || null,
   };
 }
 
@@ -171,6 +179,14 @@ function playerFinished(room, idx) {
   if (!checkWin(room)) nextPlayer(room);
 }
 
+// When hand is empty and draw pile is empty, immediately promote face-up cards to hand
+function promoteIfNeeded(player, drawPile) {
+  if (player.hand.length === 0 && drawPile.length === 0 && player.faceUp.length > 0) {
+    player.hand.push(...player.faceUp);
+    player.faceUp = [];
+  }
+}
+
 function afterPlay(room, playerIdx) {
   const g = room.game;
   const player = g.players[playerIdx];
@@ -179,11 +195,15 @@ function afterPlay(room, playerIdx) {
   while (player.hand.length < 3 && g.drawPile.length > 0)
     player.hand.push(g.drawPile.pop());
 
+  // Promote face-up → hand if draw pile now empty
+  promoteIfNeeded(player, g.drawPile);
+
   if (g.pile.length > 0) {
     if (g.pile[g.pile.length - 1].rank === "10") {
       g.burned.push(...g.pile);
       g.pile = [];
       g.message += " 💥 BURN! Play again.";
+      promoteIfNeeded(player, g.drawPile);
       emitToAll(room);
       return;
     }
@@ -191,6 +211,7 @@ function afterPlay(room, playerIdx) {
       g.burned.push(...g.pile);
       g.pile = [];
       g.message += " 🔥 Four of a kind — BURN! Play again.";
+      promoteIfNeeded(player, g.drawPile);
       emitToAll(room);
       return;
     }
@@ -209,20 +230,18 @@ function afterPlay(room, playerIdx) {
 function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
   const g = room.game;
   const player = g.players[playerIdx];
+  g.lastBlind = null;
 
   if (fromFaceDown) {
     const fdIdx = player.faceDown.findIndex(c => c.id === cardIds[0]);
-    if (fdIdx === -1) {
-      g.message = "Invalid face-down card";
-      emitToAll(room);
-      return;
-    }
+    if (fdIdx === -1) { g.message = "Invalid face-down card"; emitToAll(room); return; }
     const card = player.faceDown[fdIdx];
     player.faceDown.splice(fdIdx, 1);
+    g.lastBlind = card; // triggers flip animation on clients
 
     if (canPlay(card, g.pile)) {
       g.pile.push(card);
-      g.message = `${player.name} played blind: ${card.rank}${card.suit}`;
+      g.message = `${player.name} flipped blind: ${card.rank}${card.suit} ✓`;
     } else {
       player.hand.push(card, ...g.pile);
       g.pile = [];
@@ -238,21 +257,9 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
   const source = player.hand.length > 0 ? player.hand : player.faceUp;
   const cards = cardIds.map(id => source.find(c => c.id === id)).filter(Boolean);
 
-  if (!cards.length) {
-    g.message = "❌ Those cards are no longer in your hand";
-    emitToAll(room);
-    return;
-  }
-  if (!cards.every(c => c.rank === cards[0].rank)) {
-    g.message = "❌ All played cards must be the same rank";
-    emitToAll(room);
-    return;
-  }
-  if (!canPlay(cards[0], g.pile)) {
-    g.message = `❌ ${cards[0].rank} can't be played here — too low!`;
-    emitToAll(room);
-    return;
-  }
+  if (!cards.length) { g.message = "❌ Those cards are no longer in your hand"; emitToAll(room); return; }
+  if (!cards.every(c => c.rank === cards[0].rank)) { g.message = "❌ All played cards must be the same rank"; emitToAll(room); return; }
+  if (!canPlay(cards[0], g.pile)) { g.message = `❌ Can't play ${cards[0].rank} here!`; emitToAll(room); return; }
 
   cards.forEach(card => {
     const idx = source.findIndex(c => c.id === card.id);
@@ -262,7 +269,7 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
 
   if (cards[0].rank === "3") {
     const { card: below } = getPileState(g.pile.slice(0, g.pile.length - cards.length));
-    g.message = `${player.name} played ${cards.length > 1 ? cards.length + '×' : ''}3 👻 — next player beats ${below ? below.rank : 'anything'}!`;
+    g.message = `${player.name} played ${cards.length > 1 ? cards.length + "×" : ""}3 👻 — beat ${below ? below.rank : "anything"}!`;
   } else {
     g.message = `${player.name} played ${cards.map(c => c.rank + c.suit).join(" ")}`;
   }
@@ -303,19 +310,15 @@ io.on("connection", (socket) => {
     emitToAll(room);
   });
 
-  // Rejoin mid-game after disconnect/reconnect
   socket.on("rejoinRoom", ({ code, playerIndex }) => {
     const room = rooms[code];
     if (!room) { socket.emit("error", "Room not found — game may have ended"); return; }
-    const g = room.game;
-    const player = g.players[playerIndex];
+    const player = room.game.players[playerIndex];
     if (!player) { socket.emit("error", "Invalid player"); return; }
-    // Re-attach socket
     player.socketId = socket.id;
     player.connected = true;
     socket.join(code);
-    g.message = `${player.name} reconnected.`;
-    // Send full state to the rejoining player immediately
+    room.game.message = `${player.name} reconnected.`;
     socket.emit("gameState", getRoomState(room, playerIndex));
     emitToAll(room);
   });
@@ -397,11 +400,7 @@ io.on("connection", (socket) => {
     for (const code of Object.keys(rooms)) {
       const room = rooms[code];
       const player = room.game.players.find(p => p.socketId === socket.id);
-      if (player) {
-        player.connected = false;
-        player.socketId = null;
-        emitToAll(room);
-      }
+      if (player) { player.connected = false; player.socketId = null; emitToAll(room); }
     }
   });
 });
