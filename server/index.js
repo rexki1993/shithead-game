@@ -8,7 +8,8 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 app.use(express.static(path.join(__dirname, "../client/public")));
 
-const RANK_VALUE = { "3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"J":11,"Q":12,"K":13,"A":14,"2":99,"10":99 };
+// A = 1 (lowest), but can also wrap around and be played on top of K
+const RANK_VALUE = { "A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"J":11,"Q":12,"K":13,"2":99,"10":99 };
 const SUITS = ["♠","♥","♦","♣"];
 
 function createDeck() {
@@ -61,6 +62,9 @@ function canPlay(card, pile) {
     // After 7: strictly lower than 7, no 7 allowed
     return RANK_VALUE[card.rank] < RANK_VALUE["7"];
   }
+
+  // Ace wrap-around: A (value 1) can be played on K (value 13)
+  if (card.rank === "A" && top.rank === "K") return true;
 
   // Normal: strictly higher
   return RANK_VALUE[card.rank] > RANK_VALUE[top.rank];
