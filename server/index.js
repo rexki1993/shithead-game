@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 app.use(express.static(path.join(__dirname, "../client/public")));
 
-// A = 1 (lowest), but can also wrap around and be played on top of K
+// A=1 (lowest), wraps around onto K. 2 and 10 are always-playable specials.
 const RANK_VALUE = { "A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"J":11,"Q":12,"K":13,"2":99,"10":99 };
 const SUITS = ["♠","♥","♦","♣"];
 
@@ -31,22 +31,24 @@ function shuffle(arr) {
 
 // Walk back through pile skipping transparent 3s.
 // Returns { card, sevenActive }
-// card = the card that must be beaten (null = anything goes)
-// sevenActive = next player must play LOWER than 7
+// card = the effective card that must be beaten (null = anything goes)
+// sevenActive = true only when the last real non-3 card is a 7
+//   — meaning the NEXT player must play lower than 7.
+//   Once any card beats or responds to the 7, sevenActive is gone.
 function getPileState(pile) {
   for (let i = pile.length - 1; i >= 0; i--) {
     const r = pile[i].rank;
-    if (r === "3") continue;          // transparent — skip
+    if (r === "3") continue;           // transparent — skip it
     if (r === "2") return { card: null, sevenActive: false }; // 2 resets
-    if (r === "7") return { card: pile[i], sevenActive: true };
-    return { card: pile[i], sevenActive: false };
+    // Found the last real card
+    return { card: pile[i], sevenActive: r === "7" };
   }
-  return { card: null, sevenActive: false };
+  return { card: null, sevenActive: false }; // empty pile
 }
 
 function canPlay(card, pile) {
   if (!pile.length) return true;
-  if (card.rank === "2" || card.rank === "10") return true;
+  if (card.rank === "2" || card.rank === "10") return true; // always playable
 
   const last = pile[pile.length - 1];
 
@@ -56,21 +58,21 @@ function canPlay(card, pile) {
   if (card.rank === "3") return true;
 
   const { card: top, sevenActive } = getPileState(pile);
-  if (!top) return true; // pile effectively empty after 2/reset
+  if (!top) return true; // pile effectively empty (e.g. only 2s/3s)
 
   if (sevenActive) {
-    // After 7: strictly lower than 7, no 7 allowed
+    // After a 7 the next player must play STRICTLY LOWER than 7
     return RANK_VALUE[card.rank] < RANK_VALUE["7"];
   }
 
-  // Ace wrap-around: A (value 1) can be played on K (value 13)
+  // Ace wrap-around: A can be played on K
   if (card.rank === "A" && top.rank === "K") return true;
 
-  // Normal: strictly higher
+  // Normal: strictly higher than the effective top card
   return RANK_VALUE[card.rank] > RANK_VALUE[top.rank];
 }
 
-// Four of a kind: count consecutive matching non-3 cards at top of pile
+// Four of a kind: 4+ consecutive same-rank non-3 cards at top of pile
 function checkFourOfAKind(pile) {
   const nonThrees = pile.filter(c => c.rank !== "3");
   if (nonThrees.length < 4) return false;
@@ -178,7 +180,6 @@ function afterPlay(room, playerIdx) {
     player.hand.push(g.drawPile.pop());
 
   if (g.pile.length > 0) {
-    // Check 10 burn
     if (g.pile[g.pile.length - 1].rank === "10") {
       g.burned.push(...g.pile);
       g.pile = [];
@@ -186,7 +187,6 @@ function afterPlay(room, playerIdx) {
       emitToAll(room);
       return;
     }
-    // Check four of a kind burn
     if (checkFourOfAKind(g.pile)) {
       g.burned.push(...g.pile);
       g.pile = [];
@@ -214,17 +214,16 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
     const fdIdx = player.faceDown.findIndex(c => c.id === cardIds[0]);
     if (fdIdx === -1) {
       g.message = "Invalid face-down card";
-      emitToAll(room); // always emit so all clients stay in sync
+      emitToAll(room);
       return;
     }
     const card = player.faceDown[fdIdx];
-    player.faceDown.splice(fdIdx, 1); // remove from face-down regardless
+    player.faceDown.splice(fdIdx, 1);
 
     if (canPlay(card, g.pile)) {
       g.pile.push(card);
       g.message = `${player.name} played blind: ${card.rank}${card.suit}`;
     } else {
-      // Cannot play — face-down card AND pile all go to player's hand
       player.hand.push(card, ...g.pile);
       g.pile = [];
       g.message = `${player.name} flipped ${card.rank}${card.suit} — can't play! Takes it + the pile.`;
@@ -236,13 +235,12 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
     return;
   }
 
-  // From hand or face-up
   const source = player.hand.length > 0 ? player.hand : player.faceUp;
   const cards = cardIds.map(id => source.find(c => c.id === id)).filter(Boolean);
 
   if (!cards.length) {
     g.message = "❌ Those cards are no longer in your hand";
-    emitToAll(room); // sync everyone so stale selections get cleared
+    emitToAll(room);
     return;
   }
   if (!cards.every(c => c.rank === cards[0].rank)) {
@@ -256,7 +254,6 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown = false) {
     return;
   }
 
-  // Remove from source
   cards.forEach(card => {
     const idx = source.findIndex(c => c.id === card.id);
     if (idx !== -1) source.splice(idx, 1);
@@ -306,6 +303,23 @@ io.on("connection", (socket) => {
     emitToAll(room);
   });
 
+  // Rejoin mid-game after disconnect/reconnect
+  socket.on("rejoinRoom", ({ code, playerIndex }) => {
+    const room = rooms[code];
+    if (!room) { socket.emit("error", "Room not found — game may have ended"); return; }
+    const g = room.game;
+    const player = g.players[playerIndex];
+    if (!player) { socket.emit("error", "Invalid player"); return; }
+    // Re-attach socket
+    player.socketId = socket.id;
+    player.connected = true;
+    socket.join(code);
+    g.message = `${player.name} reconnected.`;
+    // Send full state to the rejoining player immediately
+    socket.emit("gameState", getRoomState(room, playerIndex));
+    emitToAll(room);
+  });
+
   socket.on("placeFaceUp", ({ code, playerIndex, handCardId }) => {
     const room = rooms[code];
     if (!room || room.game.phase !== "swap") return;
@@ -347,18 +361,15 @@ io.on("connection", (socket) => {
     const room = rooms[code];
     if (!room || room.game.phase !== "play") return;
     if (room.game.currentPlayer !== playerIndex) {
-      // Still emit to sync the requesting player
       io.to(socket.id).emit("gameState", getRoomState(room, playerIndex));
       return;
     }
     const player = room.game.players[playerIndex];
     const fromFaceDown = player.hand.length === 0 && player.faceUp.length === 0;
-
     if (fromFaceDown) {
-      // Resolve __fd__N positional markers to real card IDs
       const resolvedIds = cardIds.map(id => {
-        if (typeof id === 'string' && id.startsWith('__fd__')) {
-          const pos = parseInt(id.replace('__fd__', ''), 10);
+        if (typeof id === "string" && id.startsWith("__fd__")) {
+          const pos = parseInt(id.replace("__fd__", ""), 10);
           return player.faceDown[pos] ? player.faceDown[pos].id : null;
         }
         return id;
@@ -386,7 +397,11 @@ io.on("connection", (socket) => {
     for (const code of Object.keys(rooms)) {
       const room = rooms[code];
       const player = room.game.players.find(p => p.socketId === socket.id);
-      if (player) { player.connected = false; player.socketId = null; emitToAll(room); }
+      if (player) {
+        player.connected = false;
+        player.socketId = null;
+        emitToAll(room);
+      }
     }
   });
 });
