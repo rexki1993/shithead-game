@@ -232,17 +232,36 @@ function openRules(){document.getElementById('rulesOverlay').classList.add('open
 function closeRules(){document.getElementById('rulesOverlay').classList.remove('open')}
 function clearSel(){sel=[]}
 
-socket.on('roomCreated',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;document.getElementById('dcode').textContent=code;show('lobbyScreen')});
-socket.on('roomJoined',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;document.getElementById('dcode').textContent=code;show('lobbyScreen')});
-socket.on('error',msg=>{document.getElementById('jerr').textContent='❌ '+msg});
+// Persist session across page reloads and reconnects
+function saveSession(){try{sessionStorage.setItem('sh_code',myCode);sessionStorage.setItem('sh_idx',myIndex)}catch(e){}}
+function loadSession(){try{return{code:sessionStorage.getItem('sh_code'),idx:parseInt(sessionStorage.getItem('sh_idx'))}}catch(e){return{code:null,idx:-1}}}
+function clearSession(){try{sessionStorage.removeItem('sh_code');sessionStorage.removeItem('sh_idx')}catch(e){}}
+
+// On every (re)connect: try to rejoin if we have a session
+socket.on('connect',()=>{
+  if(myCode&&myIndex>=0){
+    socket.emit('rejoinRoom',{code:myCode,playerIndex:myIndex});
+  } else {
+    const {code,idx}=loadSession();
+    if(code&&idx>=0){myCode=code;myIndex=idx;socket.emit('rejoinRoom',{code,playerIndex:idx});}
+  }
+});
+
+socket.on('roomCreated',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;saveSession();document.getElementById('dcode').textContent=code;show('lobbyScreen')});
+socket.on('roomJoined',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;saveSession();document.getElementById('dcode').textContent=code;show('lobbyScreen')});
+socket.on('error',msg=>{
+  document.getElementById('jerr').textContent='❌ '+msg;
+  if(msg.includes('not found')||msg.includes('ended'))clearSession();
+});
 
 socket.on('gameState',gs=>{
   // Clear selection when it stops being our turn
   if(state && state.currentPlayer===myIndex && gs.currentPlayer!==myIndex) clearSel();
   state=gs;
-  if(gs.phase==='ended'){renderEnd(gs);show('endScreen');return}
+  if(gs.phase==='ended'){clearSession();renderEnd(gs);show('endScreen');return}
   renderLobby(gs);
   if(gs.phase==='lobby'){show('lobbyScreen');return}
+  // swap or play — always show game screen (handles mid-game rejoin too)
   show('gameScreen');
   renderGame(gs);
 });
