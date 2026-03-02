@@ -6,6 +6,7 @@ const path = require("path");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
+app.get("/health", (req, res) => res.send("ok"));
 app.use(express.static(path.join(__dirname, "../client/public")));
 
 // Card order: A(1) < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < 2
@@ -600,5 +601,3 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, "0.0.0.0", () => console.log(`Shithead server listening on 0.0.0.0:${PORT}`));
-
-
