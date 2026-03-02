@@ -8,155 +8,130 @@
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --card-bg: #f5f0e8;
-    --card-red: #c0392b;
-    --card-black: #1a1a2e;
-    --accent: #f0a500;
-    --accent2: #e05c2a;
-    --text: #f0ebe0;
-    --muted: #7a7590;
-    --green: #27ae60;
-    --border: #2a2a3a;
-    --pile-bg: #16213e;
+    --bg:#0a0a0f; --surface:#13131a; --card-bg:#f5f0e8;
+    --red:#c0392b; --black:#1a1a2e;
+    --accent:#f0a500; --accent2:#e05c2a;
+    --text:#f0ebe0; --muted:#7a7590; --green:#27ae60;
+    --border:#2a2a3a; --pile:#16213e;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-
-  .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-  .screen.active { display: flex; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+  .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .screen.active{display:flex}
 
   /* HOME */
-  #homeScreen { background: radial-gradient(ellipse at 30% 20%, #1a1230 0%, #0a0a0f 70%); }
-  .home-logo { font-size: 80px; margin-bottom: 4px; }
-  .home-title { font-family: 'Abril Fatface', serif; font-size: 56px; color: var(--accent); letter-spacing: -2px; }
-  .home-sub { color: var(--muted); font-size: 13px; margin-bottom: 44px; letter-spacing: 3px; text-transform: uppercase; }
+  #homeScreen{background:radial-gradient(ellipse at 30% 20%,#1a1230 0%,#0a0a0f 70%)}
+  .logo{font-size:80px;margin-bottom:4px}
+  .title{font-family:'Abril Fatface',serif;font-size:56px;color:var(--accent);letter-spacing:-2px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:44px;letter-spacing:3px;text-transform:uppercase}
 
-  .btn { display: block; width: 100%; max-width: 320px; padding: 16px 24px; border-radius: 14px; border: none; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.12s; margin-bottom: 12px; }
-  .btn-primary { background: var(--accent); color: #0a0a0f; }
-  .btn-primary:active { transform: scale(0.97); }
-  .btn-secondary { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
-  .btn-secondary:active { transform: scale(0.97); }
-  .btn-danger { background: #c0392b; color: white; }
-  .btn-green { background: var(--green); color: white; }
-  .btn:disabled { opacity: 0.45; }
+  .btn{display:block;width:100%;max-width:320px;padding:16px 24px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all .12s;margin-bottom:12px}
+  .btn-primary{background:var(--accent);color:#0a0a0f}.btn-primary:active{transform:scale(.97)}
+  .btn-secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border)}
+  .btn-danger{background:#c0392b;color:white}
+  .btn-green{background:var(--green);color:white}
+  .btn:disabled{opacity:.4}
 
-  input, select { width: 100%; max-width: 320px; padding: 14px 16px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; font-family: 'DM Sans', sans-serif; margin-bottom: 12px; outline: none; }
-  input:focus, select:focus { border-color: var(--accent); }
-  select option { background: var(--surface); }
-  label { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
-  .field { width: 100%; max-width: 320px; margin-bottom: 4px; }
+  input,select{width:100%;max-width:320px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;margin-bottom:12px;outline:none}
+  input:focus,select:focus{border-color:var(--accent)}
+  select option{background:var(--surface)}
+  label{font-size:12px;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:1px}
+  .field{width:100%;max-width:320px;margin-bottom:4px}
+  .back{position:absolute;top:18px;left:14px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
 
   /* LOBBY */
-  #lobbyScreen { justify-content: flex-start; padding-top: 50px; }
-  .room-code-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 18px 28px; text-align: center; margin-bottom: 20px; width: 100%; max-width: 320px; }
-  .room-code { font-family: 'Abril Fatface', serif; font-size: 52px; color: var(--accent); letter-spacing: 8px; }
-  .player-pill { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; display: flex; align-items: center; gap: 10px; font-size: 14px; width: 100%; max-width: 320px; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-  .dot.on { background: var(--green); }
-  .dot.ready { background: var(--accent); }
+  #lobbyScreen{justify-content:flex-start;padding-top:50px}
+  .code-box{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:18px 28px;text-align:center;margin-bottom:20px;width:100%;max-width:320px}
+  .code{font-family:'Abril Fatface',serif;font-size:52px;color:var(--accent);letter-spacing:8px}
+  .ppill{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;font-size:14px;width:100%;max-width:320px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0}
+  .dot.on{background:var(--green)}.dot.rdy{background:var(--accent)}
+  .info{font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.5}
 
   /* GAME */
-  #gameScreen { justify-content: flex-start; padding: 0; background: #0d1117; }
-  .game-wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 10px 10px 130px; }
+  #gameScreen{justify-content:flex-start;padding:0;background:#0d1117}
+  .gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
 
   /* Cards */
-  .card {
-    width: 54px; height: 78px; background: var(--card-bg); border-radius: 7px;
-    display: inline-flex; flex-direction: column; justify-content: space-between; padding: 4px 5px;
-    font-size: 15px; font-weight: 700; cursor: pointer;
-    border: 2.5px solid transparent; transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
-    position: relative; user-select: none; flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-  }
-  .card.red { color: var(--card-red); }
-  .card.black { color: var(--card-black); }
-  .card.selected { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 10px 24px rgba(240,165,0,0.45); }
-  .card.facedown { background: linear-gradient(135deg, #1e2a4a 0%, #0f3460 100%); cursor: default; border-color: #2a4a8a; }
-  .card.facedown::after { content: '🂠'; font-size: 32px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
-  .card.dim { opacity: 0.45; }
-  .card-rank { font-size: 13px; line-height: 1; }
-  .card-suit { font-size: 20px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
-  .special-pip { position: absolute; top: -7px; right: -7px; background: var(--accent); border-radius: 50%; width: 16px; height: 16px; font-size: 9px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: 700; }
+  .card{width:54px;height:78px;background:var(--card-bg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .card.r{color:var(--red)}.card.b{color:var(--black)}
+  .card.sel{border-color:var(--accent);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
+  .card.fd{background:linear-gradient(135deg,#1e2a4a 0%,#0f3460 100%);border-color:#2a4a8a;cursor:default}
+  .card.fd>*{display:none}
+  .card.fd::after{content:'🂠';font-size:32px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
+  .card.dim{opacity:.4;cursor:default}
+  .cr{font-size:13px;line-height:1}
+  .cs{font-size:20px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+  .sp{position:absolute;top:-7px;right:-7px;background:var(--accent);border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;z-index:2}
 
-  /* Stacked card piles (face-down under face-up) */
-  .card-stack { position: relative; width: 54px; height: 94px; display: inline-block; flex-shrink: 0; }
-  .card-stack .card-fd { position: absolute; top: 0; left: 0; }
-  .card-stack .card-fu { position: absolute; top: 16px; left: 0; }
+  /* Stacked table cards */
+  .stack{position:relative;width:54px;height:96px;display:inline-block;flex-shrink:0}
+  .stack .sfd{position:absolute;top:0;left:0}
+  .stack .sfu{position:absolute;top:18px;left:0}
 
-  .cards-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
+  .crow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;align-items:flex-end}
 
-  /* Other players mini */
-  .other-player { background: var(--surface); border: 1.5px solid var(--border); border-radius: 11px; padding: 9px 11px; margin-bottom: 7px; }
-  .other-player.active { border-color: var(--accent); box-shadow: 0 0 12px rgba(240,165,0,0.2); }
-  .op-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .op-name { font-weight: 600; font-size: 14px; flex: 1; }
-  .op-cards { display: flex; gap: 4px; align-items: flex-end; }
-  .mini-card { width: 26px; height: 38px; background: var(--card-bg); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--card-black); flex-shrink: 0; }
-  .mini-card.r { color: var(--card-red); }
-  .mini-card.fd { background: linear-gradient(135deg,#1e2a4a,#0f3460); font-size: 14px; }
-  .mini-stack { position: relative; width: 26px; height: 48px; display: inline-block; flex-shrink: 0; }
-  .mini-stack .mfd { position: absolute; top: 0; }
-  .mini-stack .mfu { position: absolute; top: 10px; }
+  /* Other players */
+  .op{background:var(--surface);border:1.5px solid var(--border);border-radius:11px;padding:9px 11px;margin-bottom:7px}
+  .op.act{border-color:var(--accent);box-shadow:0 0 12px rgba(240,165,0,.2)}
+  .opn{font-weight:600;font-size:14px;margin-bottom:6px}
+  .opc{display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap}
+  .mc{width:26px;height:38px;background:var(--card-bg);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--black);flex-shrink:0}
+  .mc.mr{color:var(--red)}.mc.mfd{background:linear-gradient(135deg,#1e2a4a,#0f3460);font-size:14px;color:white}
+  .mstack{position:relative;width:26px;height:48px;display:inline-block;flex-shrink:0}
+  .mstack .msfd{position:absolute;top:0}.mstack .msfu{position:absolute;top:10px}
 
   /* Pile area */
-  .pile-area { background: var(--pile-bg); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-  .pile-slot { text-align: center; flex: 1; }
-  .pile-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-  .pile-empty { width: 54px; height: 78px; border: 2px dashed var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 20px; margin: 0 auto; }
-  .pile-num { font-family: 'Abril Fatface', serif; font-size: 26px; }
-  .pile-sub { font-size: 10px; color: var(--muted); }
+  .parea{background:var(--pile);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+  .pslot{text-align:center;flex:1}
+  .plbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+  .pempty{width:54px;height:78px;border:2px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;margin:0 auto}
+  .psub{font-size:10px;color:var(--muted);margin-top:4px}
 
   /* My area */
-  .my-area { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px; }
-  .my-name { font-family: 'Abril Fatface', serif; font-size: 20px; color: var(--accent); margin-bottom: 10px; }
-  .sec-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; margin-top: 10px; }
+  .myarea{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px}
+  .myname{font-family:'Abril Fatface',serif;font-size:20px;color:var(--accent);margin-bottom:10px}
+  .slbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:10px}
+  .swapbox{background:rgba(240,165,0,.08);border:1.5px solid rgba(240,165,0,.3);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:var(--accent);line-height:1.6}
 
   /* Toast & badge */
-  .toast { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; margin-bottom: 10px; font-size: 13px; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; }
-  .turn-badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .turn-badge.mine { background: var(--accent); color: #0a0a0f; }
-  .turn-badge.wait { background: var(--surface); color: var(--muted); border: 1.5px solid var(--border); }
+  .toast{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:13px;text-align:center;min-height:36px;display:flex;align-items:center;justify-content:center}
+  .tbadge{display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .tbadge.mine{background:var(--accent);color:#0a0a0f}
+  .tbadge.wait{background:var(--surface);color:var(--muted);border:1.5px solid var(--border)}
 
   /* Action bar */
-  .action-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: linear-gradient(to top, var(--bg) 75%, transparent); padding: 12px 12px 28px; display: flex; gap: 8px; }
-  .action-bar .btn { max-width: none; flex: 1; margin: 0; padding: 13px 10px; font-size: 14px; }
+  .abar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:linear-gradient(to top,var(--bg) 75%,transparent);padding:12px 12px 28px;display:flex;gap:8px}
+  .abar .btn{max-width:none;flex:1;margin:0;padding:13px 10px;font-size:14px}
 
-  /* Swap phase instructions */
-  .swap-box { background: rgba(240,165,0,0.08); border: 1.5px solid rgba(240,165,0,0.25); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-size: 12px; color: var(--accent); line-height: 1.5; }
-  .swap-progress { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-
-  /* Misc */
-  .back-btn { position: absolute; top: 18px; left: 14px; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; }
-  .info-text { font-size: 13px; color: var(--muted); text-align: center; max-width: 300px; line-height: 1.5; }
-  .finished-tag { font-size: 10px; background: var(--green); color: white; padding: 2px 5px; border-radius: 5px; font-weight: 600; }
-  #joinError { color: #e74c3c; font-size: 13px; margin-top: 6px; }
-  #endScreen { text-align: center; }
-  .trophy { font-size: 80px; margin-bottom: 10px; }
-  .end-title { font-family: 'Abril Fatface', serif; font-size: 38px; color: var(--accent); margin-bottom: 8px; }
-  .shithead-name { color: var(--accent2); font-weight: 700; }
+  /* End */
+  #endScreen{text-align:center}
+  .trophy{font-size:80px;margin-bottom:10px}
+  .etitle{font-family:'Abril Fatface',serif;font-size:38px;color:var(--accent);margin-bottom:8px}
+  .shn{color:var(--accent2);font-weight:700}
+  .ftag{font-size:10px;background:var(--green);color:white;padding:2px 5px;border-radius:5px;font-weight:600}
+  #jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div id="homeScreen" class="screen active">
-  <div class="home-logo">💩</div>
-  <h1 class="home-title">Shithead</h1>
-  <div class="home-sub">Zweeds Pesten</div>
+  <div class="logo">💩</div>
+  <div class="title">Shithead</div>
+  <div class="sub">Zweeds Pesten</div>
   <button class="btn btn-primary" onclick="show('createScreen')">🎮 Create Game</button>
   <button class="btn btn-secondary" onclick="show('joinScreen')">🔗 Join Game</button>
-  <div style="margin-top:16px;" class="info-text">2–4 players · Each on their own phone</div>
+  <button class="btn btn-secondary" onclick="show('rulesScreen')" style="background:none;color:var(--muted);border-color:transparent;font-size:14px;margin-top:4px;">📖 Rules</button>
 </div>
 
 <!-- CREATE -->
 <div id="createScreen" class="screen">
-  <button class="back-btn" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px;">New Game</h2>
-  <div class="field"><label>Your Name</label><input id="createName" type="text" placeholder="e.g. Sjoerd" maxlength="16"/></div>
+  <button class="back" onclick="show('homeScreen')">←</button>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px">New Game</h2>
+  <div class="field"><label>Your Name</label><input id="cname" type="text" placeholder="e.g. Sjoerd" maxlength="16"/></div>
   <div class="field"><label>Number of Players</label>
-    <select id="playerCount">
+    <select id="pcount">
       <option value="2">2 Players</option>
       <option value="3">3 Players</option>
       <option value="4" selected>4 Players</option>
@@ -167,335 +142,344 @@
 
 <!-- JOIN -->
 <div id="joinScreen" class="screen">
-  <button class="back-btn" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px;">Join Game</h2>
-  <div class="field"><label>Your Name</label><input id="joinName" type="text" placeholder="e.g. Lars" maxlength="16"/></div>
-  <div class="field"><label>Room Code</label><input id="joinCode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:26px;letter-spacing:6px;text-align:center;"/></div>
+  <button class="back" onclick="show('homeScreen')">←</button>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px">Join Game</h2>
+  <div class="field"><label>Your Name</label><input id="jname" type="text" placeholder="e.g. Lars" maxlength="16"/></div>
+  <div class="field"><label>Room Code</label><input id="jcode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:26px;letter-spacing:6px;text-align:center"/></div>
   <button class="btn btn-primary" onclick="joinGame()">Join →</button>
-  <div id="joinError"></div>
+  <div id="jerr"></div>
+</div>
+
+<!-- RULES -->
+<div id="rulesScreen" class="screen" style="justify-content:flex-start;padding-top:40px;overflow-y:auto">
+  <button class="back" onclick="show('homeScreen')">←</button>
+  <div style="width:100%;max-width:380px;padding-bottom:40px">
+    <div style="font-family:'Abril Fatface',serif;font-size:32px;color:var(--accent);margin-bottom:20px;text-align:center">💩 How to Play</div>
+
+    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
+      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">🎯 Goal</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--text)">Be the first to get rid of ALL your cards. The last player still holding cards is the <strong>Shithead</strong> 💩 and loses!</div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
+      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">🃏 Setup</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--text)">Each player gets:<br>
+      • <strong>3 face-down cards</strong> — placed on the table, kept secret (even from you!)<br>
+      • <strong>6 hand cards</strong> — choose 3 to place face-up on top of your face-down cards. Keep 3 in hand.<br>
+      Put your best (high) cards face-up!</div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
+      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">▶️ Playing</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--text)">
+      • Play a card <strong>strictly higher</strong> than the top card of the pile<br>
+      • You can play multiple cards of the <strong>same rank</strong> at once<br>
+      • After playing, draw back up to 3 cards (while draw pile lasts)<br>
+      • Can't play? Pick up the whole pile!<br>
+      • When your hand is empty, play your <strong>face-up cards</strong><br>
+      • When face-up is gone, play your <strong>face-down cards blind</strong> (no peeking!)
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
+      <div style="font-weight:600;color:var(--accent);margin-bottom:8px">✨ Special Cards</div>
+      <div style="font-size:14px;line-height:1.8;color:var(--text)">
+        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">2</span> — Play on anything. Resets pile: next player can play any card.</div>
+        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">3</span> — <strong>Transparent / Invisible.</strong> Can be played on anything <em>except another 3</em>. The next player must beat the card <em>below</em> the 3, as if the 3 wasn't there.</div>
+        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">7</span> — Next player must play <strong>strictly lower</strong> than 7 (no 7 allowed). After that, normal rules resume.</div>
+        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">10</span> — <strong>Burns</strong> the entire pile. Play again!</div>
+        <div><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">4×</span> — Four cards of the same rank also <strong>burns</strong> the pile. Play again!</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
+      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">💡 Tips</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--text)">
+      • Place high cards (A, K, Q) face-up — you'll need them later<br>
+      • Save your 10s and 2s for tough situations<br>
+      • If someone plays a high card you can't beat, use a 2 or 10!
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="show('homeScreen')" style="max-width:100%;margin-top:8px">← Back to Home</button>
+  </div>
 </div>
 
 <!-- LOBBY -->
-<div id="lobbyScreen" class="screen" style="justify-content:flex-start;padding-top:50px;">
-  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--accent);margin-bottom:14px;">Lobby</h2>
-  <div class="room-code-box">
-    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Share this code</div>
-    <div class="room-code" id="displayCode">----</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px;">Everyone opens the same link</div>
+<div id="lobbyScreen" class="screen" style="justify-content:flex-start;padding-top:50px">
+  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--accent);margin-bottom:14px">Waiting Room</h2>
+  <div class="code-box">
+    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Share this code</div>
+    <div class="code" id="dcode">----</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">Everyone opens the same link</div>
   </div>
-  <div id="lobbyPlayers" style="width:100%;max-width:320px;"></div>
-  <div id="lobbyStatus" class="info-text" style="margin:10px 0 14px;"></div>
+  <div id="lplayers" style="width:100%;max-width:320px"></div>
+  <div id="lstatus" class="info" style="margin-top:10px"></div>
 </div>
 
 <!-- GAME -->
 <div id="gameScreen" class="screen">
-  <div class="game-wrap">
-    <div id="otherPlayers"></div>
-    <div class="pile-area">
-      <div class="pile-slot">
-        <div class="pile-label">Draw Pile</div>
-        <div id="drawDisplay" class="pile-empty">🂠</div>
-        <div class="pile-sub" id="drawCount" style="margin-top:4px;">0</div>
+  <div class="gwrap">
+    <div id="others"></div>
+    <div class="parea">
+      <div class="pslot">
+        <div class="plbl">Draw Pile</div>
+        <div id="drawD" class="pempty">🂠</div>
+        <div class="psub" id="drawC">0 left</div>
       </div>
-      <div class="pile-slot">
-        <div class="pile-label">Play Pile</div>
-        <div id="topDisplay" class="pile-empty">+</div>
-        <div class="pile-sub" id="pileCount" style="margin-top:4px;">empty</div>
+      <div class="pslot">
+        <div class="plbl">Play Pile</div>
+        <div id="topD" class="pempty">+</div>
+        <div class="psub" id="pileC">empty</div>
       </div>
-      <div class="pile-slot">
-        <div class="pile-label">Burned</div>
-        <div style="font-size:32px;text-align:center;">🔥</div>
-        <div class="pile-sub" id="burnCount" style="margin-top:4px;">0</div>
+      <div class="pslot">
+        <div class="plbl">Burned</div>
+        <div style="font-size:32px;text-align:center;margin-bottom:4px">🔥</div>
+        <div class="psub" id="burnC">0</div>
       </div>
     </div>
-    <div class="toast" id="msgToast">Welcome!</div>
-    <div id="turnBadge" class="turn-badge wait">Waiting…</div>
-    <div class="my-area">
-      <div class="my-name" id="myName">You</div>
-      <div id="swapBox" style="display:none;"></div>
-      <div class="sec-label">Your Table Cards</div>
-      <div class="cards-row" id="myTable"></div>
-      <div class="sec-label" id="handLabel">Hand</div>
-      <div class="cards-row" id="myHand"></div>
+    <div class="toast" id="msg">Welcome!</div>
+    <div id="tbadge" class="tbadge wait">Waiting…</div>
+    <div class="myarea">
+      <div class="myname" id="myname">You</div>
+      <div id="swapbox" style="display:none"></div>
+      <div class="slbl">Table Cards</div>
+      <div class="crow" id="mytable"></div>
+      <div class="slbl" id="hlbl">Hand</div>
+      <div class="crow" id="myhand"></div>
     </div>
   </div>
-  <div class="action-bar" id="actionBar"></div>
+  <div class="abar" id="abar"></div>
 </div>
 
 <!-- END -->
 <div id="endScreen" class="screen">
   <div class="trophy">🏆</div>
-  <div class="end-title" id="winnerText">Winner!</div>
-  <div style="font-size:18px;margin-bottom:6px;">💩 Shithead: <span class="shithead-name" id="shitheadText">—</span></div>
-  <br/>
-  <button class="btn btn-primary" onclick="location.reload();">Play Again</button>
+  <div class="etitle" id="wtext">Winner!</div>
+  <div style="font-size:18px;margin-bottom:6px">💩 Shithead: <span class="shn" id="shtext">—</span></div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">The Shithead shuffles next round!</div>
+  <button class="btn btn-primary" onclick="location.reload()">Play Again</button>
 </div>
 
 <script>
 const socket = io();
-let myCode = null, myIndex = -1, state = null;
-let selected = []; // card ids selected in hand/faceup during play
+let myCode=null, myIndex=-1, state=null, sel=[];
 
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function isRed(c) { return c.suit === '♥' || c.suit === '♦'; }
+function isRed(c){return c.suit==='♥'||c.suit==='♦'}
 
-// ── Sockets ──
-socket.on('roomCreated', ({code, playerIndex}) => {
-  myCode = code; myIndex = playerIndex;
-  document.getElementById('displayCode').textContent = code;
+socket.on('roomCreated',({code,playerIndex})=>{
+  myCode=code; myIndex=playerIndex;
+  document.getElementById('dcode').textContent=code;
   show('lobbyScreen');
 });
-socket.on('roomJoined', ({code, playerIndex}) => {
-  myCode = code; myIndex = playerIndex;
-  document.getElementById('displayCode').textContent = code;
+socket.on('roomJoined',({code,playerIndex})=>{
+  myCode=code; myIndex=playerIndex;
+  document.getElementById('dcode').textContent=code;
   show('lobbyScreen');
 });
-socket.on('error', msg => { document.getElementById('joinError').textContent = '❌ ' + msg; });
-socket.on('gameState', gs => {
-  state = gs;
-  if (gs.phase === 'ended') {
-    document.getElementById('winnerText').textContent = gs.winner ? `🏆 ${gs.winner} wins!` : 'Game Over!';
-    document.getElementById('shitheadText').textContent = gs.shithead || '?';
+socket.on('error',msg=>{document.getElementById('jerr').textContent='❌ '+msg});
+socket.on('gameState',gs=>{
+  state=gs;
+  if(gs.phase==='ended'){
+    document.getElementById('wtext').textContent=gs.winner?`🏆 ${gs.winner} wins!`:'Game Over!';
+    document.getElementById('shtext').textContent=gs.shithead||'?';
     show('endScreen'); return;
   }
   renderLobby(gs);
-  if (gs.phase === 'swap' || gs.phase === 'play') {
-    show('gameScreen');
-    renderGame(gs);
-  }
+  if(gs.phase==='lobby'){show('lobbyScreen'); return;}
+  show('gameScreen');
+  renderGame(gs);
 });
 
-// ── Create / Join ──
-function createGame() {
-  const name = document.getElementById('createName').value.trim() || 'Player 1';
-  socket.emit('createRoom', { playerCount: parseInt(document.getElementById('playerCount').value), playerName: name });
+function createGame(){
+  const name=document.getElementById('cname').value.trim()||'Player 1';
+  socket.emit('createRoom',{playerCount:parseInt(document.getElementById('pcount').value),playerName:name});
 }
-function joinGame() {
-  const name = document.getElementById('joinName').value.trim() || 'Player';
-  const code = document.getElementById('joinCode').value.trim().toUpperCase();
-  if (code.length < 4) { document.getElementById('joinError').textContent = 'Enter 4-letter code'; return; }
-  socket.emit('joinRoom', { code, playerName: name });
+function joinGame(){
+  const name=document.getElementById('jname').value.trim()||'Player';
+  const code=document.getElementById('jcode').value.trim().toUpperCase();
+  if(code.length<4){document.getElementById('jerr').textContent='Enter 4-letter code';return}
+  document.getElementById('jerr').textContent='';
+  socket.emit('joinRoom',{code,playerName:name});
 }
 
-// ── Lobby ──
-function renderLobby(gs) {
-  const c = document.getElementById('lobbyPlayers');
-  c.innerHTML = '';
-  gs.players.forEach((p,i) => {
-    const el = document.createElement('div');
-    el.className = 'player-pill';
-    const dotClass = p.ready ? 'dot ready' : (p.connected ? 'dot on' : 'dot');
-    const status = p.ready ? 'Ready ✅' : p.connected ? 'Connected' : 'Waiting…';
-    el.innerHTML = `<div class="${dotClass}"></div><span style="flex:1">${p.name||'Player '+(i+1)}</span><span style="color:var(--muted);font-size:12px;">${status}</span>`;
+function renderLobby(gs){
+  const c=document.getElementById('lplayers');
+  c.innerHTML='';
+  gs.players.forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.className='ppill';
+    const dc=p.ready?'dot rdy':(p.connected?'dot on':'dot');
+    const st=p.ready?'Ready ✅':p.connected?'Connected':'Waiting…';
+    el.innerHTML=`<div class="${dc}"></div><span style="flex:1">${p.name||'Player '+(i+1)}</span><span style="color:var(--muted);font-size:12px">${st}</span>`;
     c.appendChild(el);
   });
-  const allOn = gs.players.every(p => p.connected);
-  document.getElementById('lobbyStatus').textContent = allOn ? 'All connected! Choose your face-up cards in the game.' : 'Waiting for all players to join…';
+  const n=gs.players.filter(p=>p.connected).length, t=gs.players.length;
+  document.getElementById('lstatus').textContent=n<t?`Waiting for players… (${n}/${t} joined)`:'Everyone joined! Choose your face-up cards in the game.';
 }
 
-// ── Card element ──
-function makeCard(card, opts={}) {
-  const el = document.createElement('div');
-  el.className = 'card ' + (isRed(card) ? 'red' : 'black');
-  if (opts.facedown) { el.classList.add('facedown'); return el; }
-  if (opts.selected) el.classList.add('selected');
-  if (opts.dim) el.classList.add('dim');
-  const specials = {'2':'↺','7':'↓','10':'🔥'};
-  el.innerHTML = `<div class="card-rank">${card.rank}</div><div class="card-suit">${card.suit}</div><div class="card-rank" style="transform:rotate(180deg)">${card.rank}</div>${specials[card.rank]?`<div class="special-pip">${specials[card.rank]}</div>`:''}`;
+function makeCard(card,opts={}){
+  const el=document.createElement('div');
+  el.className='card '+(isRed(card)?'r':'b');
+  if(opts.fd){el.classList.add('fd');return el}
+  if(opts.sel)el.classList.add('sel');
+  if(opts.dim)el.classList.add('dim');
+  const sp={'2':'↺','3':'👻','7':'↓','10':'🔥'};
+  el.innerHTML=`<div class="cr">${card.rank}</div><div class="cs">${card.suit}</div><div class="cr" style="transform:rotate(180deg)">${card.rank}</div>${sp[card.rank]?`<div class="sp">${sp[card.rank]}</div>`:''}`;
   return el;
 }
 
-// ── Game render ──
-function renderGame(gs) {
-  if (!gs) return;
-  const me = gs.players[myIndex];
-  if (!me) return;
-  const isMyTurn = gs.currentPlayer === myIndex && gs.phase === 'play';
+function renderGame(gs){
+  if(!gs)return;
+  const me=gs.players[myIndex];
+  if(!me)return;
+  const myTurn=gs.currentPlayer===myIndex&&gs.phase==='play';
 
-  // Turn badge
-  const badge = document.getElementById('turnBadge');
-  badge.className = 'turn-badge ' + (isMyTurn ? 'mine' : 'wait');
-  badge.textContent = isMyTurn ? '🎮 YOUR TURN' : `⏳ ${gs.players[gs.currentPlayer]?.name||'?'}'s turn`;
+  // Badge
+  const b=document.getElementById('tbadge');
+  b.className='tbadge '+(myTurn?'mine':'wait');
+  b.textContent=myTurn?'🎮 YOUR TURN':`⏳ ${gs.players[gs.currentPlayer]?.name||'?'}'s turn`;
 
   // Message
-  document.getElementById('msgToast').textContent = gs.message || '';
+  document.getElementById('msg').textContent=gs.message||'';
 
   // Pile
-  const topEl = document.getElementById('topDisplay');
-  topEl.innerHTML = ''; topEl.className = '';
-  if (gs.pile.length) {
-    const c = makeCard(gs.pile[gs.pile.length-1]);
-    c.style.margin = '0 auto'; topEl.appendChild(c);
-  } else { topEl.className = 'pile-empty'; topEl.textContent = '+'; }
-  document.getElementById('pileCount').textContent = gs.pile.length + ' cards';
-  document.getElementById('drawCount').textContent = gs.drawPileCount + ' left';
-  document.getElementById('burnCount').textContent = gs.burned;
-  const drawEl = document.getElementById('drawDisplay');
-  drawEl.textContent = gs.drawPileCount > 0 ? '🂠' : '✓';
-  drawEl.className = gs.drawPileCount > 0 ? '' : 'pile-empty';
+  const td=document.getElementById('topD');
+  td.innerHTML=''; td.className='';
+  if(gs.pile.length){
+    const c=makeCard(gs.pile[gs.pile.length-1]);
+    c.style.margin='0 auto'; td.appendChild(c);
+  } else {td.className='pempty'; td.textContent='+'}
+  document.getElementById('pileC').textContent=gs.pile.length+' cards';
+  document.getElementById('drawC').textContent=gs.drawPileCount+' left';
+  document.getElementById('burnC').textContent=gs.burned;
+  const dd=document.getElementById('drawD');
+  dd.className='pempty'; dd.textContent=gs.drawPileCount>0?'🂠':'✓';
 
-  // Other players
-  const othEl = document.getElementById('otherPlayers');
-  othEl.innerHTML = '';
-  gs.players.forEach((p,i) => {
-    if (i === myIndex) return;
-    const div = document.createElement('div');
-    div.className = 'other-player' + (gs.currentPlayer===i?' active':'');
-    // mini stacked cards
-    let stacksHtml = '';
-    const maxShow = Math.min(p.faceDownCount||0, 5);
-    for (let s=0; s<maxShow; s++) {
-      const fu = p.faceUp[s];
-      const fuHtml = fu ? `<div class="mini-card mfu ${isRed(fu)?'r':''}">${fu.rank}</div>` : '<div class="mini-card mfu fd">🂠</div>';
-      stacksHtml += `<div class="mini-stack"><div class="mini-card mfd fd">🂠</div>${fuHtml}</div>`;
+  // Others
+  const oe=document.getElementById('others');
+  oe.innerHTML='';
+  gs.players.forEach((p,i)=>{
+    if(i===myIndex)return;
+    const div=document.createElement('div');
+    div.className='op'+(gs.currentPlayer===i?' act':'');
+    let ch='';
+    for(let s=0;s<Math.min(Math.max(p.faceDownCount||0,p.faceUp.length),5);s++){
+      const fu=p.faceUp[s];
+      if(s<(p.faceDownCount||0)){
+        const fuh=fu?`<div class="mc msfu ${isRed(fu)?'mr':''}">${fu.rank}</div>`:'';
+        ch+=`<div class="mstack"><div class="mc msfd mfd">🂠</div>${fuh}</div>`;
+      } else if(fu){
+        ch+=`<div class="mc ${isRed(fu)?'mr':''}">${fu.rank}</div>`;
+      }
     }
-    // show extra face-up cards if more than face-down
-    for (let s=maxShow; s<p.faceUp.length; s++) {
-      const fu = p.faceUp[s];
-      stacksHtml += `<div class="mini-card ${isRed(fu)?'r':''}">${fu.rank}</div>`;
-    }
-    // hand cards (face down)
-    for (let h=0; h<Math.min(p.handCount,5); h++) stacksHtml += `<div class="mini-card fd">🂠</div>`;
-
-    div.innerHTML = `<div class="op-top"><span class="op-name">${p.name}${p.finished?' <span class="finished-tag">Done</span>':''}${gs.currentPlayer===i?' 👈':''}</span></div><div class="op-cards">${stacksHtml}</div>`;
-    othEl.appendChild(div);
+    for(let h=0;h<Math.min(p.handCount,5);h++) ch+=`<div class="mc mfd">🂠</div>`;
+    div.innerHTML=`<div class="opn">${p.name}${p.finished?' <span class="ftag">Done ✅</span>':''}${gs.currentPlayer===i?' 👈':''}</div><div class="opc">${ch}</div>`;
+    oe.appendChild(div);
   });
 
   // My name
-  document.getElementById('myName').textContent = (me.name||'You') + (me.finished?' ✅':'');
+  document.getElementById('myname').textContent=(me.name||'You')+(me.finished?' ✅':'');
 
   // Swap box
-  const swapBox = document.getElementById('swapBox');
-  if (gs.phase === 'swap') {
-    swapBox.style.display = 'block';
-    const n = me.faceUp.length;
-    swapBox.innerHTML = `<div class="swap-box"><div class="swap-progress">Face-up cards chosen: ${n}/3</div>Tap a hand card to place it face-up. Tap a face-up card to take it back. Choose wisely — high cards face-up are good!</div>`;
-  } else {
-    swapBox.style.display = 'none';
-  }
+  const sb=document.getElementById('swapbox');
+  if(gs.phase==='swap'){
+    sb.style.display='block';
+    sb.innerHTML=`<strong>${me.faceUp.length}/3 face-up cards chosen</strong><br>Tap a hand card to place it face-up on the table. Tap a face-up card to take it back.`;
+  } else sb.style.display='none';
 
-  // My table cards (stacked face-down + face-up)
-  const tableEl = document.getElementById('myTable');
-  tableEl.innerHTML = '';
-  const maxStacks = Math.max(me.faceDown.length, me.faceUp.length);
-  for (let s=0; s<maxStacks; s++) {
-    const fd = me.faceDown[s];
-    const fu = me.faceUp[s];
-    if (fd || fu) {
-      const stack = document.createElement('div');
-      stack.className = 'card-stack';
-      if (fd) {
-        const fdEl = makeCard(fd, {facedown: gs.phase !== 'swap'});
-        if (gs.phase === 'swap') {
-          // show face down during swap so player can see what they have
-          fdEl.classList.remove('facedown');
-          fdEl.innerHTML = `<div class="card-rank">${fd.rank}</div><div class="card-suit">${fd.suit}</div><div class="card-rank" style="transform:rotate(180deg)">${fd.rank}</div>`;
-        }
-        fdEl.classList.add('card-fd');
-        stack.appendChild(fdEl);
-      }
-      if (fu) {
-        const canPlayFU = gs.phase === 'play' && isMyTurn && me.hand.length === 0;
-        const isSel = selected.includes(fu.id);
-        const fuEl = makeCard(fu, {selected: isSel});
-        fuEl.classList.add('card-fu');
-        if (gs.phase === 'swap') {
-          fuEl.onclick = () => { socket.emit('returnToHand', {code:myCode, playerIndex:myIndex, faceUpCardId:fu.id}); };
-        } else if (canPlayFU) {
-          fuEl.onclick = () => toggleSelect(fu.id);
-        }
-        stack.appendChild(fuEl);
-      } else if (fd && gs.phase === 'play' && isMyTurn && me.hand.length === 0 && me.faceUp.length === 0) {
-        // face-down playable
-        const fdPlayEl = makeCard(fd, {facedown: true});
-        fdPlayEl.classList.add('card-fu');
-        fdPlayEl.style.cursor = 'pointer';
-        fdPlayEl.onclick = () => playFaceDown(s);
-        stack.appendChild(fdPlayEl);
-      }
-      tableEl.appendChild(stack);
+  // My table: stacked face-down (always hidden) + face-up on top
+  const te=document.getElementById('mytable');
+  te.innerHTML='';
+  const sc=Math.max(me.faceDown.length,me.faceUp.length);
+  for(let s=0;s<sc;s++){
+    const hasFD=s<me.faceDown.length;
+    const fu=me.faceUp[s];
+    const stk=document.createElement('div');
+    stk.className='stack';
+    // Face-down: always shown as card back, never revealed
+    if(hasFD){
+      const fde=makeCard({rank:'?',suit:'?'},{fd:true});
+      fde.classList.add('sfd');
+      stk.appendChild(fde);
     }
-  }
-  // extra face-up without a face-down pair
-  for (let s=me.faceDown.length; s<me.faceUp.length; s++) {
-    const fu = me.faceUp[s];
-    const canPlayFU = gs.phase === 'play' && isMyTurn && me.hand.length === 0;
-    const isSel = selected.includes(fu.id);
-    const fuEl = makeCard(fu, {selected:isSel});
-    if (gs.phase === 'swap') fuEl.onclick = () => socket.emit('returnToHand',{code:myCode,playerIndex:myIndex,faceUpCardId:fu.id});
-    else if (canPlayFU) fuEl.onclick = () => toggleSelect(fu.id);
-    tableEl.appendChild(fuEl);
+    // Face-up: sits on top
+    if(fu){
+      const canFU=gs.phase==='play'&&myTurn&&me.hand.length===0;
+      const fue=makeCard(fu,{sel:sel.includes(fu.id)});
+      fue.classList.add('sfu');
+      if(gs.phase==='swap') fue.onclick=()=>socket.emit('returnToHand',{code:myCode,playerIndex:myIndex,faceUpCardId:fu.id});
+      else if(canFU) fue.onclick=()=>toggle(fu.id);
+      stk.appendChild(fue);
+    } else if(hasFD&&gs.phase==='play'&&myTurn&&me.hand.length===0&&me.faceUp.length===0){
+      // Playable face-down blind
+      const fde2=makeCard({rank:'?',suit:'?'},{fd:true});
+      fde2.classList.add('sfu');
+      fde2.style.cursor='pointer';
+      fde2.title='Tap to play blind!';
+      fde2.onclick=()=>socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:[s]});
+      stk.appendChild(fde2);
+    }
+    te.appendChild(stk);
   }
 
   // Hand label
-  document.getElementById('handLabel').textContent = gs.phase === 'swap' ? `Hand — tap to place face-up (${3-me.faceUp.length} more needed)` : 'Hand';
+  document.getElementById('hlbl').textContent=gs.phase==='swap'?`Hand — tap to place face-up (${3-me.faceUp.length} more)`:'Hand';
 
   // My hand
-  const handEl = document.getElementById('myHand');
-  handEl.innerHTML = '';
-  (me.hand||[]).forEach(c => {
-    const isSel = selected.includes(c.id);
-    const canPlay = gs.phase === 'play' && isMyTurn && me.hand.length > 0;
-    const el = makeCard(c, {selected: isSel});
-    if (gs.phase === 'swap') {
-      el.onclick = () => socket.emit('placeFaceUp',{code:myCode, playerIndex:myIndex, handCardId:c.id});
-    } else if (canPlay) {
-      el.onclick = () => toggleSelect(c.id);
-    } else {
-      el.classList.add('dim');
-    }
-    handEl.appendChild(el);
+  const he=document.getElementById('myhand');
+  he.innerHTML='';
+  (me.hand||[]).forEach(c=>{
+    const canH=gs.phase==='play'&&myTurn&&me.hand.length>0;
+    const ce=makeCard(c,{sel:sel.includes(c.id),dim:gs.phase==='play'&&!myTurn});
+    if(gs.phase==='swap') ce.onclick=()=>socket.emit('placeFaceUp',{code:myCode,playerIndex:myIndex,handCardId:c.id});
+    else if(canH) ce.onclick=()=>toggle(c.id);
+    he.appendChild(ce);
   });
 
-  renderActionBar(gs, me, isMyTurn);
+  renderBar(gs,me,myTurn);
 }
 
-function renderActionBar(gs, me, isMyTurn) {
-  const bar = document.getElementById('actionBar');
-  bar.innerHTML = '';
-
-  if (gs.phase === 'swap') {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-green';
-    btn.textContent = me.ready ? '⏳ Waiting for others…' : (me.faceUp.length===3 ? '✅ Ready to Play!' : `Choose ${3-me.faceUp.length} more card${3-me.faceUp.length!==1?'s':''}`);
-    btn.disabled = me.faceUp.length !== 3 || me.ready;
-    btn.onclick = () => socket.emit('readyToPlay',{code:myCode,playerIndex:myIndex});
-    bar.appendChild(btn);
-    return;
+function renderBar(gs,me,myTurn){
+  const bar=document.getElementById('abar');
+  bar.innerHTML='';
+  if(gs.phase==='swap'){
+    const btn=document.createElement('button');
+    btn.className='btn btn-green';
+    btn.textContent=me.ready?'⏳ Waiting for others…':(me.faceUp.length===3?'✅ Ready to Play!':'Choose '+(3-me.faceUp.length)+' more card(s)');
+    btn.disabled=me.faceUp.length!==3||me.ready;
+    btn.onclick=()=>socket.emit('readyToPlay',{code:myCode,playerIndex:myIndex});
+    bar.appendChild(btn); return;
   }
-
-  if (!isMyTurn) return;
-
-  if (selected.length > 0) {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-primary';
-    btn.textContent = `▶ Play ${selected.length} card${selected.length>1?'s':''}`;
-    btn.onclick = playSelected;
-    bar.appendChild(btn);
+  if(!myTurn)return;
+  if(sel.length>0){
+    const pb=document.createElement('button');
+    pb.className='btn btn-primary';
+    pb.textContent=`▶ Play ${sel.length} card${sel.length>1?'s':''}`;
+    pb.onclick=playSel;
+    bar.appendChild(pb);
   }
-  const pickBtn = document.createElement('button');
-  pickBtn.className = 'btn btn-danger';
-  pickBtn.textContent = '📥 Pick Up Pile';
-  pickBtn.disabled = !gs.pile.length;
-  pickBtn.onclick = () => { selected=[]; socket.emit('pickUpPile',{code:myCode,playerIndex:myIndex}); };
-  bar.appendChild(pickBtn);
+  const pick=document.createElement('button');
+  pick.className='btn btn-danger';
+  pick.textContent='📥 Pick Up Pile';
+  pick.disabled=!gs.pile.length;
+  pick.onclick=()=>{sel=[];socket.emit('pickUpPile',{code:myCode,playerIndex:myIndex})};
+  bar.appendChild(pick);
 }
 
-function toggleSelect(id) {
-  const i = selected.indexOf(id);
-  if (i===-1) selected.push(id); else selected.splice(i,1);
+function toggle(id){
+  const i=sel.indexOf(id);
+  if(i===-1)sel.push(id); else sel.splice(i,1);
   renderGame(state);
 }
-function playSelected() {
-  if (!selected.length) return;
-  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:selected});
-  selected=[];
-}
-function playFaceDown(idx) {
-  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:[idx]});
+function playSel(){
+  if(!sel.length)return;
+  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:sel});
+  sel=[];
 }
 </script>
 </body>
