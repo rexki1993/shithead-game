@@ -19,228 +19,141 @@
     --muted: #7a7590;
     --green: #27ae60;
     --border: #2a2a3a;
-    --pile: #16213e;
+    --pile-bg: #16213e;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    overflow-x: hidden;
-  }
-  h1, h2, .title { font-family: 'Abril Fatface', serif; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-  /* ── Screens ── */
   .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
   .screen.active { display: flex; }
 
-  /* ── Home ── */
-  #homeScreen {
-    background: radial-gradient(ellipse at 30% 20%, #1a1230 0%, #0a0a0f 60%),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .home-logo { font-size: 72px; margin-bottom: 8px; }
-  .home-title { font-family: 'Abril Fatface', serif; font-size: 52px; color: var(--accent); letter-spacing: -1px; }
-  .home-sub { color: var(--muted); font-size: 14px; margin-bottom: 48px; letter-spacing: 2px; text-transform: uppercase; }
-  .btn {
-    display: block; width: 100%; max-width: 320px;
-    padding: 16px 24px; border-radius: 12px; border: none;
-    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
-    cursor: pointer; transition: all 0.15s; margin-bottom: 12px; letter-spacing: 0.5px;
-  }
+  /* HOME */
+  #homeScreen { background: radial-gradient(ellipse at 30% 20%, #1a1230 0%, #0a0a0f 70%); }
+  .home-logo { font-size: 80px; margin-bottom: 4px; }
+  .home-title { font-family: 'Abril Fatface', serif; font-size: 56px; color: var(--accent); letter-spacing: -2px; }
+  .home-sub { color: var(--muted); font-size: 13px; margin-bottom: 44px; letter-spacing: 3px; text-transform: uppercase; }
+
+  .btn { display: block; width: 100%; max-width: 320px; padding: 16px 24px; border-radius: 14px; border: none; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.12s; margin-bottom: 12px; }
   .btn-primary { background: var(--accent); color: #0a0a0f; }
-  .btn-primary:active { transform: scale(0.97); background: #d49400; }
+  .btn-primary:active { transform: scale(0.97); }
   .btn-secondary { background: var(--surface); color: var(--text); border: 1.5px solid var(--border); }
   .btn-secondary:active { transform: scale(0.97); }
   .btn-danger { background: #c0392b; color: white; }
-  .btn-danger:active { transform: scale(0.97); }
   .btn-green { background: var(--green); color: white; }
-  .btn-green:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.45; }
 
-  /* ── Inputs ── */
-  input, select {
-    width: 100%; max-width: 320px; padding: 14px 16px;
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 12px; color: var(--text); font-size: 16px;
-    font-family: 'DM Sans', sans-serif; margin-bottom: 12px; outline: none;
-    transition: border-color 0.15s;
-  }
+  input, select { width: 100%; max-width: 320px; padding: 14px 16px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; font-family: 'DM Sans', sans-serif; margin-bottom: 12px; outline: none; }
   input:focus, select:focus { border-color: var(--accent); }
   select option { background: var(--surface); }
-  label { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+  label { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
   .field { width: 100%; max-width: 320px; margin-bottom: 4px; }
 
-  /* ── Lobby ── */
-  #lobbyScreen { justify-content: flex-start; padding-top: 60px; }
-  .room-code-box {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 16px; padding: 20px 28px; text-align: center; margin-bottom: 24px;
-    width: 100%; max-width: 320px;
-  }
-  .room-code-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
-  .room-code { font-family: 'Abril Fatface', serif; font-size: 48px; color: var(--accent); letter-spacing: 6px; }
-  .player-list { width: 100%; max-width: 320px; margin-bottom: 24px; }
-  .player-pill {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 10px; padding: 12px 16px; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 10px; font-size: 15px;
-  }
-  .player-pill .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
-  .player-pill .dot.connected { background: var(--green); }
-  .player-pill .dot.ready { background: var(--accent); }
+  /* LOBBY */
+  #lobbyScreen { justify-content: flex-start; padding-top: 50px; }
+  .room-code-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 18px 28px; text-align: center; margin-bottom: 20px; width: 100%; max-width: 320px; }
+  .room-code { font-family: 'Abril Fatface', serif; font-size: 52px; color: var(--accent); letter-spacing: 8px; }
+  .player-pill { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; display: flex; align-items: center; gap: 10px; font-size: 14px; width: 100%; max-width: 320px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .dot.on { background: var(--green); }
+  .dot.ready { background: var(--accent); }
 
-  /* ── Game Screen ── */
-  #gameScreen {
-    justify-content: flex-start; padding: 0;
-    background: #0d1117;
-    min-height: 100vh;
-  }
-  .game-wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 12px 12px 120px; }
+  /* GAME */
+  #gameScreen { justify-content: flex-start; padding: 0; background: #0d1117; }
+  .game-wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 10px 10px 130px; }
 
-  .section-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
-
-  /* ── Cards ── */
+  /* Cards */
   .card {
-    width: 58px; height: 84px;
-    background: var(--card-bg); border-radius: 8px;
-    display: inline-flex; flex-direction: column; justify-content: space-between; padding: 5px;
-    font-size: 18px; font-weight: 700; cursor: pointer;
-    border: 2px solid transparent; transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+    width: 54px; height: 78px; background: var(--card-bg); border-radius: 7px;
+    display: inline-flex; flex-direction: column; justify-content: space-between; padding: 4px 5px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    border: 2.5px solid transparent; transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
     position: relative; user-select: none; flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
   }
   .card.red { color: var(--card-red); }
   .card.black { color: var(--card-black); }
-  .card.selected { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 8px 20px rgba(240,165,0,0.4); }
-  .card.facedown {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    cursor: default;
-  }
-  .card.facedown::after {
-    content: '🂠'; font-size: 36px; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-  }
-  .card.playable:not(.selected):hover { border-color: rgba(240,165,0,0.4); }
-  .card-rank { font-size: 14px; line-height: 1; }
-  .card-suit { font-size: 16px; line-height: 1; }
-  .card-center { font-size: 24px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .card.selected { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 10px 24px rgba(240,165,0,0.45); }
+  .card.facedown { background: linear-gradient(135deg, #1e2a4a 0%, #0f3460 100%); cursor: default; border-color: #2a4a8a; }
+  .card.facedown::after { content: '🂠'; font-size: 32px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .card.dim { opacity: 0.45; }
+  .card-rank { font-size: 13px; line-height: 1; }
+  .card-suit { font-size: 20px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .special-pip { position: absolute; top: -7px; right: -7px; background: var(--accent); border-radius: 50%; width: 16px; height: 16px; font-size: 9px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: 700; }
 
-  .cards-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+  /* Stacked card piles (face-down under face-up) */
+  .card-stack { position: relative; width: 54px; height: 94px; display: inline-block; flex-shrink: 0; }
+  .card-stack .card-fd { position: absolute; top: 0; left: 0; }
+  .card-stack .card-fu { position: absolute; top: 16px; left: 0; }
 
-  /* ── Other players ── */
-  .other-player {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .other-player.current-turn { border-color: var(--accent); box-shadow: 0 0 12px rgba(240,165,0,0.2); }
-  .other-player .name { font-weight: 600; font-size: 14px; flex: 1; }
-  .other-player .counts { font-size: 12px; color: var(--muted); }
-  .other-player .mini-cards { display: flex; gap: 3px; }
-  .mini-card {
-    width: 28px; height: 40px; background: var(--card-bg); border-radius: 4px;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; color: var(--card-black); flex-shrink: 0;
-  }
-  .mini-card.red-card { color: var(--card-red); }
-  .mini-card.facedown-mini {
-    background: linear-gradient(135deg, #1a1a2e, #0f3460);
-    font-size: 16px;
-  }
+  .cards-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
 
-  /* ── Pile area ── */
-  .pile-area {
-    background: var(--pile); border-radius: 16px; padding: 16px;
-    margin-bottom: 12px; display: flex; align-items: center; gap: 16px;
-  }
+  /* Other players mini */
+  .other-player { background: var(--surface); border: 1.5px solid var(--border); border-radius: 11px; padding: 9px 11px; margin-bottom: 7px; }
+  .other-player.active { border-color: var(--accent); box-shadow: 0 0 12px rgba(240,165,0,0.2); }
+  .op-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .op-name { font-weight: 600; font-size: 14px; flex: 1; }
+  .op-cards { display: flex; gap: 4px; align-items: flex-end; }
+  .mini-card { width: 26px; height: 38px; background: var(--card-bg); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--card-black); flex-shrink: 0; }
+  .mini-card.r { color: var(--card-red); }
+  .mini-card.fd { background: linear-gradient(135deg,#1e2a4a,#0f3460); font-size: 14px; }
+  .mini-stack { position: relative; width: 26px; height: 48px; display: inline-block; flex-shrink: 0; }
+  .mini-stack .mfd { position: absolute; top: 0; }
+  .mini-stack .mfu { position: absolute; top: 10px; }
+
+  /* Pile area */
+  .pile-area { background: var(--pile-bg); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
   .pile-slot { text-align: center; flex: 1; }
-  .pile-slot-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  .pile-card { width: 64px; height: 90px; margin: 0 auto; }
-  .pile-empty {
-    width: 64px; height: 90px; border: 2px dashed var(--border);
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 22px; margin: 0 auto;
-  }
-  .pile-count { font-size: 28px; font-family: 'Abril Fatface', serif; color: var(--text); }
-  .pile-count-label { font-size: 11px; color: var(--muted); }
+  .pile-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .pile-empty { width: 54px; height: 78px; border: 2px dashed var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 20px; margin: 0 auto; }
+  .pile-num { font-family: 'Abril Fatface', serif; font-size: 26px; }
+  .pile-sub { font-size: 10px; color: var(--muted); }
 
-  /* ── My area ── */
-  .my-area {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 16px; padding: 14px; margin-bottom: 12px;
-  }
-  .my-name { font-family: 'Abril Fatface', serif; font-size: 22px; color: var(--accent); margin-bottom: 12px; }
+  /* My area */
+  .my-area { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px; }
+  .my-name { font-family: 'Abril Fatface', serif; font-size: 20px; color: var(--accent); margin-bottom: 10px; }
+  .sec-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; margin-top: 10px; }
 
-  /* ── Action bar ── */
-  .action-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, var(--bg) 80%, transparent);
-    padding: 16px 16px 32px; display: flex; gap: 10px; justify-content: center;
-    max-width: 480px; margin: 0 auto; left: 50%; transform: translateX(-50%);
-  }
-  .action-bar .btn { max-width: none; flex: 1; margin: 0; padding: 14px 12px; font-size: 15px; }
+  /* Toast & badge */
+  .toast { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; margin-bottom: 10px; font-size: 13px; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; }
+  .turn-badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .turn-badge.mine { background: var(--accent); color: #0a0a0f; }
+  .turn-badge.wait { background: var(--surface); color: var(--muted); border: 1.5px solid var(--border); }
 
-  /* ── Message toast ── */
-  .toast {
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 12px; padding: 10px 14px; margin-bottom: 12px;
-    font-size: 13px; color: var(--text); text-align: center; min-height: 38px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  /* Action bar */
+  .action-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: linear-gradient(to top, var(--bg) 75%, transparent); padding: 12px 12px 28px; display: flex; gap: 8px; }
+  .action-bar .btn { max-width: none; flex: 1; margin: 0; padding: 13px 10px; font-size: 14px; }
 
-  /* ── Turn indicator ── */
-  .turn-badge {
-    display: inline-block; padding: 6px 14px; border-radius: 20px;
-    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-  .turn-badge.my-turn { background: var(--accent); color: #0a0a0f; }
-  .turn-badge.waiting { background: var(--surface); color: var(--muted); border: 1.5px solid var(--border); }
+  /* Swap phase instructions */
+  .swap-box { background: rgba(240,165,0,0.08); border: 1.5px solid rgba(240,165,0,0.25); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-size: 12px; color: var(--accent); line-height: 1.5; }
+  .swap-progress { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 
-  /* ── Swap phase ── */
-  .swap-hint { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 12px; }
-
-  /* ── End screen ── */
-  #endScreen { text-align: center; }
-  .trophy { font-size: 80px; margin-bottom: 12px; }
-  .end-title { font-family: 'Abril Fatface', serif; font-size: 40px; color: var(--accent); margin-bottom: 8px; }
-  .shithead-announce { font-size: 20px; margin-bottom: 8px; }
-  .shithead-name { color: var(--accent2); font-weight: 700; }
-
-  /* ── Misc ── */
-  .divider { width: 100%; max-width: 320px; height: 1px; background: var(--border); margin: 20px 0; }
-  .back-btn { position: absolute; top: 20px; left: 16px; background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+  /* Misc */
+  .back-btn { position: absolute; top: 18px; left: 14px; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; }
   .info-text { font-size: 13px; color: var(--muted); text-align: center; max-width: 300px; line-height: 1.5; }
-  .special-badge {
-    position: absolute; top: -6px; right: -6px;
-    background: var(--accent); border-radius: 50%; width: 18px; height: 18px;
-    font-size: 10px; display: flex; align-items: center; justify-content: center;
-    color: #000; font-weight: 700;
-  }
-  .finished-badge {
-    font-size: 11px; background: var(--green); color: white;
-    padding: 2px 6px; border-radius: 6px; font-weight: 600;
-  }
+  .finished-tag { font-size: 10px; background: var(--green); color: white; padding: 2px 5px; border-radius: 5px; font-weight: 600; }
+  #joinError { color: #e74c3c; font-size: 13px; margin-top: 6px; }
+  #endScreen { text-align: center; }
+  .trophy { font-size: 80px; margin-bottom: 10px; }
+  .end-title { font-family: 'Abril Fatface', serif; font-size: 38px; color: var(--accent); margin-bottom: 8px; }
+  .shithead-name { color: var(--accent2); font-weight: 700; }
 </style>
 </head>
 <body>
 
-<!-- ── HOME ── -->
+<!-- HOME -->
 <div id="homeScreen" class="screen active">
   <div class="home-logo">💩</div>
   <h1 class="home-title">Shithead</h1>
   <div class="home-sub">Zweeds Pesten</div>
-  <button class="btn btn-primary" onclick="showScreen('createScreen')">🎮 Create Game</button>
-  <button class="btn btn-secondary" onclick="showScreen('joinScreen')">🔗 Join Game</button>
-  <div style="margin-top:20px;" class="info-text">2–4 players · Each on their own phone</div>
+  <button class="btn btn-primary" onclick="show('createScreen')">🎮 Create Game</button>
+  <button class="btn btn-secondary" onclick="show('joinScreen')">🔗 Join Game</button>
+  <div style="margin-top:16px;" class="info-text">2–4 players · Each on their own phone</div>
 </div>
 
-<!-- ── CREATE ── -->
+<!-- CREATE -->
 <div id="createScreen" class="screen">
-  <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:24px;">New Game</h2>
+  <button class="back-btn" onclick="show('homeScreen')">←</button>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px;">New Game</h2>
   <div class="field"><label>Your Name</label><input id="createName" type="text" placeholder="e.g. Sjoerd" maxlength="16"/></div>
   <div class="field"><label>Number of Players</label>
     <select id="playerCount">
@@ -252,324 +165,291 @@
   <button class="btn btn-primary" onclick="createGame()">Create Room →</button>
 </div>
 
-<!-- ── JOIN ── -->
+<!-- JOIN -->
 <div id="joinScreen" class="screen">
-  <button class="back-btn" onclick="showScreen('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:24px;">Join Game</h2>
+  <button class="back-btn" onclick="show('homeScreen')">←</button>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px;">Join Game</h2>
   <div class="field"><label>Your Name</label><input id="joinName" type="text" placeholder="e.g. Lars" maxlength="16"/></div>
-  <div class="field"><label>Room Code</label><input id="joinCode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:24px;letter-spacing:4px;text-align:center;"/></div>
+  <div class="field"><label>Room Code</label><input id="joinCode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:26px;letter-spacing:6px;text-align:center;"/></div>
   <button class="btn btn-primary" onclick="joinGame()">Join →</button>
-  <div id="joinError" style="color:#e74c3c;font-size:14px;margin-top:8px;"></div>
+  <div id="joinError"></div>
 </div>
 
-<!-- ── LOBBY ── -->
-<div id="lobbyScreen" class="screen">
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:16px;">Lobby</h2>
+<!-- LOBBY -->
+<div id="lobbyScreen" class="screen" style="justify-content:flex-start;padding-top:50px;">
+  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--accent);margin-bottom:14px;">Lobby</h2>
   <div class="room-code-box">
-    <div class="room-code-label">Share this code</div>
+    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Share this code</div>
     <div class="room-code" id="displayCode">----</div>
-    <div style="font-size:12px;color:var(--muted);margin-top:6px;">Others join at this address</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px;">Everyone opens the same link</div>
   </div>
-  <div id="lobbyPlayers" class="player-list"></div>
-  <div id="lobbyStatus" class="info-text" style="margin-bottom:16px;">Waiting for players to connect…</div>
-  <button id="readyBtn" class="btn btn-green" onclick="setReady()" style="display:none;">✅ I'm Ready!</button>
+  <div id="lobbyPlayers" style="width:100%;max-width:320px;"></div>
+  <div id="lobbyStatus" class="info-text" style="margin:10px 0 14px;"></div>
 </div>
 
-<!-- ── GAME ── -->
+<!-- GAME -->
 <div id="gameScreen" class="screen">
   <div class="game-wrap">
     <div id="otherPlayers"></div>
-    <div class="pile-area" id="pileArea">
+    <div class="pile-area">
       <div class="pile-slot">
-        <div class="pile-slot-label">Draw Pile</div>
-        <div class="pile-empty" id="drawPileDisplay">🂠</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="drawCount">0 cards</div>
+        <div class="pile-label">Draw Pile</div>
+        <div id="drawDisplay" class="pile-empty">🂠</div>
+        <div class="pile-sub" id="drawCount" style="margin-top:4px;">0</div>
       </div>
       <div class="pile-slot">
-        <div class="pile-slot-label">Play Pile</div>
-        <div id="topCardDisplay" class="pile-empty">+</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="pileCount">empty</div>
+        <div class="pile-label">Play Pile</div>
+        <div id="topDisplay" class="pile-empty">+</div>
+        <div class="pile-sub" id="pileCount" style="margin-top:4px;">empty</div>
       </div>
       <div class="pile-slot">
-        <div class="pile-slot-label">Burned</div>
-        <div style="font-size:28px;text-align:center;">🔥</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="burnCount">0</div>
+        <div class="pile-label">Burned</div>
+        <div style="font-size:32px;text-align:center;">🔥</div>
+        <div class="pile-sub" id="burnCount" style="margin-top:4px;">0</div>
       </div>
     </div>
-    <div class="toast" id="messageToast">Welcome to Shithead!</div>
-    <div id="turnBadge" class="turn-badge waiting">Waiting…</div>
-    <div class="my-area" id="myArea">
+    <div class="toast" id="msgToast">Welcome!</div>
+    <div id="turnBadge" class="turn-badge wait">Waiting…</div>
+    <div class="my-area">
       <div class="my-name" id="myName">You</div>
-      <div id="swapHint" class="swap-hint" style="display:none;">Tap a hand card then a face-up card to swap them before the game starts.</div>
-      <div class="section-label">Face Down (hidden)</div>
-      <div class="cards-row" id="myFaceDown"></div>
-      <div class="section-label" style="margin-top:8px;">Face Up</div>
-      <div class="cards-row" id="myFaceUp"></div>
-      <div class="section-label" style="margin-top:8px;">Hand</div>
+      <div id="swapBox" style="display:none;"></div>
+      <div class="sec-label">Your Table Cards</div>
+      <div class="cards-row" id="myTable"></div>
+      <div class="sec-label" id="handLabel">Hand</div>
       <div class="cards-row" id="myHand"></div>
     </div>
   </div>
   <div class="action-bar" id="actionBar"></div>
 </div>
 
-<!-- ── END ── -->
+<!-- END -->
 <div id="endScreen" class="screen">
   <div class="trophy">🏆</div>
   <div class="end-title" id="winnerText">Winner!</div>
-  <div class="shithead-announce">💩 The Shithead is: <span class="shithead-name" id="shitheadText">—</span></div>
+  <div style="font-size:18px;margin-bottom:6px;">💩 Shithead: <span class="shithead-name" id="shitheadText">—</span></div>
   <br/>
-  <button class="btn btn-primary" onclick="showScreen('homeScreen');location.reload();">Play Again</button>
+  <button class="btn btn-primary" onclick="location.reload();">Play Again</button>
 </div>
 
 <script>
 const socket = io();
-let myCode = null;
-let myIndex = -1;
-let myPhase = null; // 'swap' | 'play'
-let state = null;
-let selectedCards = [];
-let swapState = { handCard: null, faceUpCard: null };
+let myCode = null, myIndex = -1, state = null;
+let selected = []; // card ids selected in hand/faceup during play
 
-// ── Navigation ──
-function showScreen(id) {
+function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+function isRed(c) { return c.suit === '♥' || c.suit === '♦'; }
 
-// ── Socket events ──
-socket.on('roomCreated', ({ code, playerIndex }) => {
-  myCode = code;
-  myIndex = playerIndex;
+// ── Sockets ──
+socket.on('roomCreated', ({code, playerIndex}) => {
+  myCode = code; myIndex = playerIndex;
   document.getElementById('displayCode').textContent = code;
-  showScreen('lobbyScreen');
+  show('lobbyScreen');
 });
-
-socket.on('roomJoined', ({ code, playerIndex }) => {
-  myCode = code;
-  myIndex = playerIndex;
+socket.on('roomJoined', ({code, playerIndex}) => {
+  myCode = code; myIndex = playerIndex;
   document.getElementById('displayCode').textContent = code;
-  showScreen('lobbyScreen');
+  show('lobbyScreen');
 });
-
-socket.on('error', (msg) => {
-  document.getElementById('joinError').textContent = '❌ ' + msg;
-});
-
-socket.on('gameState', (gs) => {
+socket.on('error', msg => { document.getElementById('joinError').textContent = '❌ ' + msg; });
+socket.on('gameState', gs => {
   state = gs;
   if (gs.phase === 'ended') {
     document.getElementById('winnerText').textContent = gs.winner ? `🏆 ${gs.winner} wins!` : 'Game Over!';
     document.getElementById('shitheadText').textContent = gs.shithead || '?';
-    showScreen('endScreen');
-    return;
+    show('endScreen'); return;
   }
+  renderLobby(gs);
   if (gs.phase === 'swap' || gs.phase === 'play') {
-    renderLobby(gs);
-    if (gs.phase === 'play') {
-      showScreen('gameScreen');
-    }
+    show('gameScreen');
     renderGame(gs);
-  } else {
-    renderLobby(gs);
   }
 });
 
 // ── Create / Join ──
 function createGame() {
   const name = document.getElementById('createName').value.trim() || 'Player 1';
-  const count = parseInt(document.getElementById('playerCount').value);
-  socket.emit('createRoom', { playerCount: count, playerName: name });
+  socket.emit('createRoom', { playerCount: parseInt(document.getElementById('playerCount').value), playerName: name });
 }
-
 function joinGame() {
   const name = document.getElementById('joinName').value.trim() || 'Player';
   const code = document.getElementById('joinCode').value.trim().toUpperCase();
-  if (!code || code.length < 4) { document.getElementById('joinError').textContent = 'Enter a 4-letter code'; return; }
+  if (code.length < 4) { document.getElementById('joinError').textContent = 'Enter 4-letter code'; return; }
   socket.emit('joinRoom', { code, playerName: name });
 }
 
 // ── Lobby ──
 function renderLobby(gs) {
-  if (!gs) return;
-  const container = document.getElementById('lobbyPlayers');
-  container.innerHTML = '';
-  gs.players.forEach((p, i) => {
+  const c = document.getElementById('lobbyPlayers');
+  c.innerHTML = '';
+  gs.players.forEach((p,i) => {
     const el = document.createElement('div');
     el.className = 'player-pill';
-    const dotClass = p.ready ? 'dot ready' : (p.connected ? 'dot connected' : 'dot');
-    const status = p.ready ? 'Ready ✅' : (p.connected ? 'Connected' : 'Waiting…');
-    el.innerHTML = `<div class="${dotClass}"></div><span>${p.name || `Player ${i+1}`}</span><span style="color:var(--muted);font-size:13px;">${status}</span>`;
-    container.appendChild(el);
+    const dotClass = p.ready ? 'dot ready' : (p.connected ? 'dot on' : 'dot');
+    const status = p.ready ? 'Ready ✅' : p.connected ? 'Connected' : 'Waiting…';
+    el.innerHTML = `<div class="${dotClass}"></div><span style="flex:1">${p.name||'Player '+(i+1)}</span><span style="color:var(--muted);font-size:12px;">${status}</span>`;
+    c.appendChild(el);
   });
-
-  const allConnected = gs.players.every(p => p.connected);
-  const myReady = gs.players[myIndex]?.ready;
-  const lobbyStatus = document.getElementById('lobbyStatus');
-  const readyBtn = document.getElementById('readyBtn');
-
-  if (!allConnected) {
-    lobbyStatus.textContent = 'Waiting for all players to join…';
-    readyBtn.style.display = 'none';
-  } else if (!myReady) {
-    lobbyStatus.textContent = 'Everyone is connected! Swap your cards, then mark ready.';
-    readyBtn.style.display = 'block';
-  } else {
-    lobbyStatus.textContent = 'Waiting for others to ready up…';
-    readyBtn.style.display = 'none';
-  }
-
-  if (gs.phase === 'swap' || gs.phase === 'play') {
-    // show swap UI inside lobby
-    renderSwapInLobby(gs);
-  }
+  const allOn = gs.players.every(p => p.connected);
+  document.getElementById('lobbyStatus').textContent = allOn ? 'All connected! Choose your face-up cards in the game.' : 'Waiting for all players to join…';
 }
 
-function renderSwapInLobby(gs) {
-  // We render the game screen in the background; just make sure lobby has swap info
-}
-
-function setReady() {
-  socket.emit('readyToPlay', { code: myCode, playerIndex: myIndex });
-}
-
-// ── Game Render ──
-function isRed(card) { return card.suit === '♥' || card.suit === '♦'; }
-
-function makeCard(card, opts = {}) {
+// ── Card element ──
+function makeCard(card, opts={}) {
   const el = document.createElement('div');
   el.className = 'card ' + (isRed(card) ? 'red' : 'black');
   if (opts.facedown) { el.classList.add('facedown'); return el; }
   if (opts.selected) el.classList.add('selected');
-  if (opts.playable) el.classList.add('playable');
-
-  const specials = { '2':'↺','7':'↓','10':'🔥' };
-  el.innerHTML = `
-    <div class="card-rank">${card.rank}</div>
-    <div class="card-center">${card.suit}</div>
-    <div class="card-rank" style="transform:rotate(180deg)">${card.rank}</div>
-    ${specials[card.rank] ? `<div class="special-badge">${specials[card.rank]}</div>` : ''}
-  `;
+  if (opts.dim) el.classList.add('dim');
+  const specials = {'2':'↺','7':'↓','10':'🔥'};
+  el.innerHTML = `<div class="card-rank">${card.rank}</div><div class="card-suit">${card.suit}</div><div class="card-rank" style="transform:rotate(180deg)">${card.rank}</div>${specials[card.rank]?`<div class="special-pip">${specials[card.rank]}</div>`:''}`;
   return el;
 }
 
+// ── Game render ──
 function renderGame(gs) {
   if (!gs) return;
   const me = gs.players[myIndex];
   if (!me) return;
-  myPhase = gs.phase;
+  const isMyTurn = gs.currentPlayer === myIndex && gs.phase === 'play';
 
   // Turn badge
-  const isMyTurn = gs.currentPlayer === myIndex && gs.phase === 'play';
   const badge = document.getElementById('turnBadge');
-  badge.className = 'turn-badge ' + (isMyTurn ? 'my-turn' : 'waiting');
-  badge.textContent = isMyTurn ? '🎮 YOUR TURN' : `⏳ ${gs.players[gs.currentPlayer]?.name || '?'}'s turn`;
+  badge.className = 'turn-badge ' + (isMyTurn ? 'mine' : 'wait');
+  badge.textContent = isMyTurn ? '🎮 YOUR TURN' : `⏳ ${gs.players[gs.currentPlayer]?.name||'?'}'s turn`;
 
   // Message
-  document.getElementById('messageToast').textContent = gs.message || '';
+  document.getElementById('msgToast').textContent = gs.message || '';
 
-  // Pile area
-  const top = gs.pile.length ? gs.pile[gs.pile.length - 1] : null;
-  const topEl = document.getElementById('topCardDisplay');
-  topEl.className = '';
-  topEl.innerHTML = '';
-  if (top) {
-    const c = makeCard(top);
-    c.style.margin = '0 auto';
-    topEl.appendChild(c);
-  } else {
-    topEl.className = 'pile-empty';
-    topEl.textContent = '+';
-  }
-  document.getElementById('pileCount').textContent = gs.pile.length + ' card' + (gs.pile.length !== 1 ? 's' : '');
+  // Pile
+  const topEl = document.getElementById('topDisplay');
+  topEl.innerHTML = ''; topEl.className = '';
+  if (gs.pile.length) {
+    const c = makeCard(gs.pile[gs.pile.length-1]);
+    c.style.margin = '0 auto'; topEl.appendChild(c);
+  } else { topEl.className = 'pile-empty'; topEl.textContent = '+'; }
+  document.getElementById('pileCount').textContent = gs.pile.length + ' cards';
   document.getElementById('drawCount').textContent = gs.drawPileCount + ' left';
   document.getElementById('burnCount').textContent = gs.burned;
-
-  // Draw pile display
-  const drawEl = document.getElementById('drawPileDisplay');
+  const drawEl = document.getElementById('drawDisplay');
   drawEl.textContent = gs.drawPileCount > 0 ? '🂠' : '✓';
+  drawEl.className = gs.drawPileCount > 0 ? '' : 'pile-empty';
 
   // Other players
-  const othersEl = document.getElementById('otherPlayers');
-  othersEl.innerHTML = '';
-  gs.players.forEach((p, i) => {
+  const othEl = document.getElementById('otherPlayers');
+  othEl.innerHTML = '';
+  gs.players.forEach((p,i) => {
     if (i === myIndex) return;
     const div = document.createElement('div');
-    div.className = 'other-player' + (gs.currentPlayer === i ? ' current-turn' : '');
-    const miniCards = (p.faceUp || []).slice(0, 5).map(c =>
-      `<div class="mini-card ${isRed(c)?'red-card':''}">${c.rank}</div>`
-    ).join('');
-    const fdCards = Array(Math.min(p.faceDownCount || 0, 3)).fill(0).map(() =>
-      `<div class="mini-card facedown-mini">🂠</div>`
-    ).join('');
-    div.innerHTML = `
-      <div>
-        <div class="name">${p.name} ${p.finished ? '<span class="finished-badge">Done ✅</span>' : ''} ${gs.currentPlayer === i ? '👈' : ''}</div>
-        <div class="counts">Hand: ${p.handCount} · FU: ${p.faceUpCount} · FD: ${p.faceDownCount}</div>
-        <div class="mini-cards" style="margin-top:6px;">${fdCards}${miniCards}</div>
-      </div>
-    `;
-    othersEl.appendChild(div);
+    div.className = 'other-player' + (gs.currentPlayer===i?' active':'');
+    // mini stacked cards
+    let stacksHtml = '';
+    const maxShow = Math.min(p.faceDownCount||0, 5);
+    for (let s=0; s<maxShow; s++) {
+      const fu = p.faceUp[s];
+      const fuHtml = fu ? `<div class="mini-card mfu ${isRed(fu)?'r':''}">${fu.rank}</div>` : '<div class="mini-card mfu fd">🂠</div>';
+      stacksHtml += `<div class="mini-stack"><div class="mini-card mfd fd">🂠</div>${fuHtml}</div>`;
+    }
+    // show extra face-up cards if more than face-down
+    for (let s=maxShow; s<p.faceUp.length; s++) {
+      const fu = p.faceUp[s];
+      stacksHtml += `<div class="mini-card ${isRed(fu)?'r':''}">${fu.rank}</div>`;
+    }
+    // hand cards (face down)
+    for (let h=0; h<Math.min(p.handCount,5); h++) stacksHtml += `<div class="mini-card fd">🂠</div>`;
+
+    div.innerHTML = `<div class="op-top"><span class="op-name">${p.name}${p.finished?' <span class="finished-tag">Done</span>':''}${gs.currentPlayer===i?' 👈':''}</span></div><div class="op-cards">${stacksHtml}</div>`;
+    othEl.appendChild(div);
   });
 
   // My name
-  document.getElementById('myName').textContent = (me.name || 'You') + (me.finished ? ' ✅' : '');
+  document.getElementById('myName').textContent = (me.name||'You') + (me.finished?' ✅':'');
 
-  // Swap hint
-  document.getElementById('swapHint').style.display = gs.phase === 'swap' ? 'block' : 'none';
+  // Swap box
+  const swapBox = document.getElementById('swapBox');
+  if (gs.phase === 'swap') {
+    swapBox.style.display = 'block';
+    const n = me.faceUp.length;
+    swapBox.innerHTML = `<div class="swap-box"><div class="swap-progress">Face-up cards chosen: ${n}/3</div>Tap a hand card to place it face-up. Tap a face-up card to take it back. Choose wisely — high cards face-up are good!</div>`;
+  } else {
+    swapBox.style.display = 'none';
+  }
 
-  // My face down
-  const fdEl = document.getElementById('myFaceDown');
-  fdEl.innerHTML = '';
-  (me.faceDown || []).forEach((c, i) => {
-    let cardEl;
-    const canPlayFD = gs.phase === 'play' && isMyTurn && me.hand.length === 0 && me.faceUp.length === 0;
-    if (gs.phase === 'swap') {
-      cardEl = makeCard(c); // revealed during swap phase
-    } else if (canPlayFD) {
-      cardEl = makeCard(c, { facedown: false, playable: true });
-      // show back actually
-      cardEl = document.createElement('div');
-      cardEl.className = 'card facedown';
-      cardEl.title = 'Click to play blind';
-      cardEl.onclick = () => playFaceDown(i);
-    } else {
-      cardEl = document.createElement('div');
-      cardEl.className = 'card facedown';
+  // My table cards (stacked face-down + face-up)
+  const tableEl = document.getElementById('myTable');
+  tableEl.innerHTML = '';
+  const maxStacks = Math.max(me.faceDown.length, me.faceUp.length);
+  for (let s=0; s<maxStacks; s++) {
+    const fd = me.faceDown[s];
+    const fu = me.faceUp[s];
+    if (fd || fu) {
+      const stack = document.createElement('div');
+      stack.className = 'card-stack';
+      if (fd) {
+        const fdEl = makeCard(fd, {facedown: gs.phase !== 'swap'});
+        if (gs.phase === 'swap') {
+          // show face down during swap so player can see what they have
+          fdEl.classList.remove('facedown');
+          fdEl.innerHTML = `<div class="card-rank">${fd.rank}</div><div class="card-suit">${fd.suit}</div><div class="card-rank" style="transform:rotate(180deg)">${fd.rank}</div>`;
+        }
+        fdEl.classList.add('card-fd');
+        stack.appendChild(fdEl);
+      }
+      if (fu) {
+        const canPlayFU = gs.phase === 'play' && isMyTurn && me.hand.length === 0;
+        const isSel = selected.includes(fu.id);
+        const fuEl = makeCard(fu, {selected: isSel});
+        fuEl.classList.add('card-fu');
+        if (gs.phase === 'swap') {
+          fuEl.onclick = () => { socket.emit('returnToHand', {code:myCode, playerIndex:myIndex, faceUpCardId:fu.id}); };
+        } else if (canPlayFU) {
+          fuEl.onclick = () => toggleSelect(fu.id);
+        }
+        stack.appendChild(fuEl);
+      } else if (fd && gs.phase === 'play' && isMyTurn && me.hand.length === 0 && me.faceUp.length === 0) {
+        // face-down playable
+        const fdPlayEl = makeCard(fd, {facedown: true});
+        fdPlayEl.classList.add('card-fu');
+        fdPlayEl.style.cursor = 'pointer';
+        fdPlayEl.onclick = () => playFaceDown(s);
+        stack.appendChild(fdPlayEl);
+      }
+      tableEl.appendChild(stack);
     }
-    fdEl.appendChild(cardEl);
-  });
-
-  // My face up
-  const fuEl = document.getElementById('myFaceUp');
-  fuEl.innerHTML = '';
-  (me.faceUp || []).forEach((c, i) => {
+  }
+  // extra face-up without a face-down pair
+  for (let s=me.faceDown.length; s<me.faceUp.length; s++) {
+    const fu = me.faceUp[s];
     const canPlayFU = gs.phase === 'play' && isMyTurn && me.hand.length === 0;
-    const isSelected = swapState.faceUpCard === c.id;
-    const cardEl = makeCard(c, { selected: isSelected, playable: canPlayFU || gs.phase === 'swap' });
-    if (gs.phase === 'swap') {
-      cardEl.onclick = () => swapSelectFaceUp(c.id);
-    } else if (canPlayFU) {
-      cardEl.onclick = () => toggleSelect(c.id);
-    }
-    fuEl.appendChild(cardEl);
-  });
+    const isSel = selected.includes(fu.id);
+    const fuEl = makeCard(fu, {selected:isSel});
+    if (gs.phase === 'swap') fuEl.onclick = () => socket.emit('returnToHand',{code:myCode,playerIndex:myIndex,faceUpCardId:fu.id});
+    else if (canPlayFU) fuEl.onclick = () => toggleSelect(fu.id);
+    tableEl.appendChild(fuEl);
+  }
+
+  // Hand label
+  document.getElementById('handLabel').textContent = gs.phase === 'swap' ? `Hand — tap to place face-up (${3-me.faceUp.length} more needed)` : 'Hand';
 
   // My hand
   const handEl = document.getElementById('myHand');
   handEl.innerHTML = '';
-  (me.hand || []).forEach(c => {
-    const isSelected = selectedCards.includes(c.id);
-    const canPlayH = gs.phase === 'play' && isMyTurn;
-    const cardEl = makeCard(c, { selected: isSelected, playable: canPlayH || gs.phase === 'swap' });
+  (me.hand||[]).forEach(c => {
+    const isSel = selected.includes(c.id);
+    const canPlay = gs.phase === 'play' && isMyTurn && me.hand.length > 0;
+    const el = makeCard(c, {selected: isSel});
     if (gs.phase === 'swap') {
-      cardEl.onclick = () => swapSelectHand(c.id);
-    } else if (canPlayH) {
-      cardEl.onclick = () => toggleSelect(c.id);
+      el.onclick = () => socket.emit('placeFaceUp',{code:myCode, playerIndex:myIndex, handCardId:c.id});
+    } else if (canPlay) {
+      el.onclick = () => toggleSelect(c.id);
+    } else {
+      el.classList.add('dim');
     }
-    handEl.appendChild(cardEl);
+    handEl.appendChild(el);
   });
 
-  // Action bar
   renderActionBar(gs, me, isMyTurn);
 }
 
@@ -580,71 +460,42 @@ function renderActionBar(gs, me, isMyTurn) {
   if (gs.phase === 'swap') {
     const btn = document.createElement('button');
     btn.className = 'btn btn-green';
-    btn.textContent = '✅ Ready to Play!';
-    btn.onclick = () => { socket.emit('readyToPlay', { code: myCode, playerIndex: myIndex }); };
-    if (me.ready) { btn.textContent = '⏳ Waiting for others…'; btn.disabled = true; }
+    btn.textContent = me.ready ? '⏳ Waiting for others…' : (me.faceUp.length===3 ? '✅ Ready to Play!' : `Choose ${3-me.faceUp.length} more card${3-me.faceUp.length!==1?'s':''}`);
+    btn.disabled = me.faceUp.length !== 3 || me.ready;
+    btn.onclick = () => socket.emit('readyToPlay',{code:myCode,playerIndex:myIndex});
     bar.appendChild(btn);
     return;
   }
 
   if (!isMyTurn) return;
 
-  if (selectedCards.length > 0) {
-    const playBtn = document.createElement('button');
-    playBtn.className = 'btn btn-primary';
-    playBtn.textContent = `▶ Play ${selectedCards.length} card${selectedCards.length>1?'s':''}`;
-    playBtn.onclick = playSelected;
-    bar.appendChild(playBtn);
+  if (selected.length > 0) {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-primary';
+    btn.textContent = `▶ Play ${selected.length} card${selected.length>1?'s':''}`;
+    btn.onclick = playSelected;
+    bar.appendChild(btn);
   }
-
   const pickBtn = document.createElement('button');
   pickBtn.className = 'btn btn-danger';
   pickBtn.textContent = '📥 Pick Up Pile';
-  pickBtn.onclick = () => { selectedCards = []; socket.emit('pickUpPile', { code: myCode, playerIndex: myIndex }); };
-  if (!gs.pile.length) pickBtn.disabled = true;
+  pickBtn.disabled = !gs.pile.length;
+  pickBtn.onclick = () => { selected=[]; socket.emit('pickUpPile',{code:myCode,playerIndex:myIndex}); };
   bar.appendChild(pickBtn);
 }
 
-function toggleSelect(cardId) {
-  const idx = selectedCards.indexOf(cardId);
-  if (idx === -1) {
-    selectedCards.push(cardId);
-  } else {
-    selectedCards.splice(idx, 1);
-  }
+function toggleSelect(id) {
+  const i = selected.indexOf(id);
+  if (i===-1) selected.push(id); else selected.splice(i,1);
   renderGame(state);
 }
-
 function playSelected() {
-  if (!selectedCards.length) return;
-  socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: selectedCards });
-  selectedCards = [];
+  if (!selected.length) return;
+  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:selected});
+  selected=[];
 }
-
 function playFaceDown(idx) {
-  socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: [idx] });
-}
-
-// ── Swap ──
-function swapSelectHand(cardId) {
-  swapState.handCard = cardId;
-  trySwap();
-}
-
-function swapSelectFaceUp(cardId) {
-  swapState.faceUpCard = cardId;
-  trySwap();
-}
-
-function trySwap() {
-  if (swapState.handCard && swapState.faceUpCard) {
-    socket.emit('swapCard', {
-      code: myCode, playerIndex: myIndex,
-      handCardId: swapState.handCard, faceUpCardId: swapState.faceUpCard
-    });
-    swapState = { handCard: null, faceUpCard: null };
-  }
-  renderGame(state);
+  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:[idx]});
 }
 </script>
 </body>
