@@ -2,133 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <title>Shithead 💩</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg:#0a0a0f; --surface:#13131a; --card-bg:#f5f0e8;
-    --red:#c0392b; --black:#1a1a2e;
-    --accent:#f0a500; --accent2:#e05c2a;
-    --text:#f0ebe0; --muted:#7a7590; --green:#27ae60;
-    --border:#2a2a3a; --pile:#16213e;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-  .screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
-  .screen.active{display:flex}
+:root{--bg:#0a0a0f;--sur:#13131a;--cbg:#f5f0e8;--red:#c0392b;--blk:#1a1a2e;--acc:#f0a500;--acc2:#e05c2a;--txt:#f0ebe0;--mut:#7a7590;--grn:#27ae60;--bdr:#2a2a3a;--pile:#16213e}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.screen.active{display:flex}
 
-  /* HOME */
-  #homeScreen{background:radial-gradient(ellipse at 30% 20%,#1a1230 0%,#0a0a0f 70%)}
-  .logo{font-size:80px;margin-bottom:4px}
-  .title{font-family:'Abril Fatface',serif;font-size:56px;color:var(--accent);letter-spacing:-2px}
-  .sub{color:var(--muted);font-size:13px;margin-bottom:44px;letter-spacing:3px;text-transform:uppercase}
+#homeScreen{background:radial-gradient(ellipse at 30% 20%,#1a1230,#0a0a0f 70%)}
+.btn{display:block;width:100%;max-width:320px;padding:16px 24px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all .12s;margin-bottom:12px}
+.btn-pri{background:var(--acc);color:#0a0a0f}.btn-pri:active{transform:scale(.97)}
+.btn-sec{background:var(--sur);color:var(--txt);border:1.5px solid var(--bdr)}
+.btn-red{background:#c0392b;color:#fff}
+.btn-grn{background:var(--grn);color:#fff}
+.btn:disabled{opacity:.4}
+input,select{width:100%;max-width:320px;padding:14px 16px;background:var(--sur);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt);font-size:16px;font-family:'DM Sans',sans-serif;margin-bottom:12px;outline:none}
+input:focus,select:focus{border-color:var(--acc)}
+select option{background:var(--sur)}
+label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:1px}
+.field{width:100%;max-width:320px;margin-bottom:4px}
+.back{position:absolute;top:18px;left:14px;background:none;border:none;color:var(--mut);font-size:22px;cursor:pointer}
 
-  .btn{display:block;width:100%;max-width:320px;padding:16px 24px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all .12s;margin-bottom:12px}
-  .btn-primary{background:var(--accent);color:#0a0a0f}.btn-primary:active{transform:scale(.97)}
-  .btn-secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border)}
-  .btn-danger{background:#c0392b;color:white}
-  .btn-green{background:var(--green);color:white}
-  .btn:disabled{opacity:.4}
+#lobbyScreen{justify-content:flex-start;padding-top:50px}
+.codebox{background:var(--sur);border:1.5px solid var(--bdr);border-radius:16px;padding:18px 28px;text-align:center;margin-bottom:20px;width:100%;max-width:320px}
+.bigcode{font-family:'Abril Fatface',serif;font-size:52px;color:var(--acc);letter-spacing:8px}
+.ppill{background:var(--sur);border:1.5px solid var(--bdr);border-radius:10px;padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;font-size:14px;width:100%;max-width:320px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--bdr);flex-shrink:0}
+.dot.on{background:var(--grn)}.dot.rdy{background:var(--acc)}
 
-  input,select{width:100%;max-width:320px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;margin-bottom:12px;outline:none}
-  input:focus,select:focus{border-color:var(--accent)}
-  select option{background:var(--surface)}
-  label{font-size:12px;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:1px}
-  .field{width:100%;max-width:320px;margin-bottom:4px}
-  .back{position:absolute;top:18px;left:14px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+#gameScreen{justify-content:flex-start;padding:0;background:#0d1117}
+.gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
 
-  /* LOBBY */
-  #lobbyScreen{justify-content:flex-start;padding-top:50px}
-  .code-box{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:18px 28px;text-align:center;margin-bottom:20px;width:100%;max-width:320px}
-  .code{font-family:'Abril Fatface',serif;font-size:52px;color:var(--accent);letter-spacing:8px}
-  .ppill{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;font-size:14px;width:100%;max-width:320px}
-  .dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0}
-  .dot.on{background:var(--green)}.dot.rdy{background:var(--accent)}
-  .info{font-size:13px;color:var(--muted);text-align:center;max-width:300px;line-height:1.5}
+/* ── Cards ── */
+.card{width:54px;height:78px;background:var(--cbg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.card.r{color:var(--red)}.card.b{color:var(--blk)}
+.card.sel{border-color:var(--acc);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
+.card.fd{background:linear-gradient(135deg,#1e2a4a,#0f3460);border-color:#2a4a8a;cursor:default}
+.card.fd>*{display:none}
+.card.fd::after{content:'🂠';font-size:32px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
+.card.dim{opacity:.4;cursor:default}
+.cr{font-size:13px;line-height:1}
+.cs{font-size:20px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.sp{position:absolute;top:-7px;right:-7px;background:var(--acc);border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;z-index:2}
 
-  /* GAME */
-  #gameScreen{justify-content:flex-start;padding:0;background:#0d1117}
-  .gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
+/* ── Table stacks (face-down behind, face-up on top) ── */
+.stk{position:relative;width:54px;height:96px;display:inline-block;flex-shrink:0}
+.stk .sfd{position:absolute;top:0;left:0}
+.stk .sfu{position:absolute;top:18px;left:0}
+.crow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;align-items:flex-end}
 
-  /* Cards */
-  .card{width:54px;height:78px;background:var(--card-bg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
-  .card.r{color:var(--red)}.card.b{color:var(--black)}
-  .card.sel{border-color:var(--accent);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
-  .card.fd{background:linear-gradient(135deg,#1e2a4a 0%,#0f3460 100%);border-color:#2a4a8a;cursor:default}
-  .card.fd>*{display:none}
-  .card.fd::after{content:'🂠';font-size:32px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
-  .card.dim{opacity:.4;cursor:default}
-  .cr{font-size:13px;line-height:1}
-  .cs{font-size:20px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
-  .sp{position:absolute;top:-7px;right:-7px;background:var(--accent);border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;z-index:2}
+/* ── Pile fan: stacked cards peeking from top-right corner ── */
+/* Container sized to one card; extra cards peek out behind */
+.pile-fan{position:relative;width:54px;height:78px;margin:0 auto}
+.pile-fan .pf-card{position:absolute;top:0;left:0;transition:none}
+/* Each card behind shifts right and up slightly */
+.pile-fan .pf-card:nth-child(1){top:6px;left:-6px;z-index:1}
+.pile-fan .pf-card:nth-child(2){top:3px;left:-3px;z-index:2}
+.pile-fan .pf-card:nth-child(3){top:0;left:0;z-index:3}
+/* If only 1 card, it's the last child so z-index 3 by default */
 
-  /* Stacked table cards */
-  .stack{position:relative;width:54px;height:96px;display:inline-block;flex-shrink:0}
-  .stack .sfd{position:absolute;top:0;left:0}
-  .stack .sfu{position:absolute;top:18px;left:0}
+/* ── Other players ── */
+.op{background:var(--sur);border:1.5px solid var(--bdr);border-radius:11px;padding:9px 11px;margin-bottom:7px}
+.op.act{border-color:var(--acc);box-shadow:0 0 12px rgba(240,165,0,.2)}
+.opn{font-weight:600;font-size:14px;margin-bottom:6px}
+.opc{display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap}
+.mc{width:26px;height:38px;background:var(--cbg);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blk);flex-shrink:0}
+.mc.mr{color:var(--red)}.mc.mfd{background:linear-gradient(135deg,#1e2a4a,#0f3460);font-size:14px;color:#fff}
+.mstk{position:relative;width:26px;height:48px;display:inline-block;flex-shrink:0}
+.mstk .msfd{position:absolute;top:0}.mstk .msfu{position:absolute;top:10px}
 
-  .crow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;align-items:flex-end}
+.parea{background:var(--pile);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.pslot{text-align:center;flex:1}
+.plbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.pemp{width:54px;height:78px;border:2px dashed var(--bdr);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:20px;margin:0 auto}
+.psub{font-size:10px;color:var(--mut);margin-top:4px}
 
-  /* Other players */
-  .op{background:var(--surface);border:1.5px solid var(--border);border-radius:11px;padding:9px 11px;margin-bottom:7px}
-  .op.act{border-color:var(--accent);box-shadow:0 0 12px rgba(240,165,0,.2)}
-  .opn{font-weight:600;font-size:14px;margin-bottom:6px}
-  .opc{display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap}
-  .mc{width:26px;height:38px;background:var(--card-bg);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--black);flex-shrink:0}
-  .mc.mr{color:var(--red)}.mc.mfd{background:linear-gradient(135deg,#1e2a4a,#0f3460);font-size:14px;color:white}
-  .mstack{position:relative;width:26px;height:48px;display:inline-block;flex-shrink:0}
-  .mstack .msfd{position:absolute;top:0}.mstack .msfu{position:absolute;top:10px}
+.myarea{background:var(--sur);border:1.5px solid var(--bdr);border-radius:14px;padding:12px}
+.myname{font-family:'Abril Fatface',serif;font-size:20px;color:var(--acc);margin-bottom:10px}
+.slbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:10px}
+.swapbox{background:rgba(240,165,0,.08);border:1.5px solid rgba(240,165,0,.3);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:var(--acc);line-height:1.6}
+.toast{background:var(--sur);border:1.5px solid var(--bdr);border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:13px;text-align:center;min-height:36px;display:flex;align-items:center;justify-content:center}
+.tbdg{display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.tbdg.mine{background:var(--acc);color:#0a0a0f}
+.tbdg.wait{background:var(--sur);color:var(--mut);border:1.5px solid var(--bdr)}
+.abar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:linear-gradient(to top,var(--bg) 75%,transparent);padding:12px 12px 28px;display:flex;gap:8px}
+.abar .btn{max-width:none;flex:1;margin:0;padding:13px 10px;font-size:14px}
 
-  /* Pile area */
-  .parea{background:var(--pile);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
-  .pslot{text-align:center;flex:1}
-  .plbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-  .pempty{width:54px;height:78px;border:2px dashed var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;margin:0 auto}
-  .psub{font-size:10px;color:var(--muted);margin-top:4px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;overflow-y:auto;padding:20px 16px 40px}
+.overlay.open{display:block}
+.rcard{background:var(--sur);border:1.5px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:12px}
+.rh{font-weight:600;color:var(--acc);margin-bottom:6px;font-size:14px}
+.rb{font-size:13px;line-height:1.7;color:var(--txt)}
+.rbadge{display:inline-block;background:var(--cbg);color:var(--blk);border-radius:4px;padding:1px 6px;font-weight:700;font-size:13px;margin-right:3px}
 
-  /* My area */
-  .myarea{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px}
-  .myname{font-family:'Abril Fatface',serif;font-size:20px;color:var(--accent);margin-bottom:10px}
-  .slbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:10px}
-  .swapbox{background:rgba(240,165,0,.08);border:1.5px solid rgba(240,165,0,.3);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:var(--accent);line-height:1.6}
-
-  /* Toast & badge */
-  .toast{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:13px;text-align:center;min-height:36px;display:flex;align-items:center;justify-content:center}
-  .tbadge{display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-  .tbadge.mine{background:var(--accent);color:#0a0a0f}
-  .tbadge.wait{background:var(--surface);color:var(--muted);border:1.5px solid var(--border)}
-
-  /* Action bar */
-  .abar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:linear-gradient(to top,var(--bg) 75%,transparent);padding:12px 12px 28px;display:flex;gap:8px}
-  .abar .btn{max-width:none;flex:1;margin:0;padding:13px 10px;font-size:14px}
-
-  /* End */
-  #endScreen{text-align:center}
-  .trophy{font-size:80px;margin-bottom:10px}
-  .etitle{font-family:'Abril Fatface',serif;font-size:38px;color:var(--accent);margin-bottom:8px}
-  .shn{color:var(--accent2);font-weight:700}
-  .ftag{font-size:10px;background:var(--green);color:white;padding:2px 5px;border-radius:5px;font-weight:600}
-  #jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
+#endScreen{text-align:center}
+.ftag{font-size:10px;background:var(--grn);color:#fff;padding:2px 5px;border-radius:5px;font-weight:600}
+#jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div id="homeScreen" class="screen active">
-  <div class="logo">💩</div>
-  <div class="title">Shithead</div>
-  <div class="sub">Zweeds Pesten</div>
-  <button class="btn btn-primary" onclick="show('createScreen')">🎮 Create Game</button>
-  <button class="btn btn-secondary" onclick="show('joinScreen')">🔗 Join Game</button>
-  <button class="btn btn-secondary" onclick="show('rulesScreen')" style="background:none;color:var(--muted);border-color:transparent;font-size:14px;margin-top:4px;">📖 Rules</button>
+  <div style="font-size:80px;margin-bottom:4px">💩</div>
+  <h1 style="font-family:'Abril Fatface',serif;font-size:56px;color:var(--acc);letter-spacing:-2px">Shithead</h1>
+  <div style="color:var(--mut);font-size:13px;margin-bottom:32px;letter-spacing:3px;text-transform:uppercase">Zweeds Pesten</div>
+  <button class="btn btn-pri" onclick="show('createScreen')">🎮 Create Game</button>
+  <button class="btn btn-sec" onclick="show('joinScreen')">🔗 Join Game</button>
+  <button class="btn btn-sec" style="margin-top:4px;opacity:.7" onclick="openRules()">📖 Rules</button>
 </div>
 
 <!-- CREATE -->
 <div id="createScreen" class="screen">
   <button class="back" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px">New Game</h2>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc);margin-bottom:22px">New Game</h2>
   <div class="field"><label>Your Name</label><input id="cname" type="text" placeholder="e.g. Sjoerd" maxlength="16"/></div>
   <div class="field"><label>Number of Players</label>
     <select id="pcount">
@@ -137,84 +128,29 @@
       <option value="4" selected>4 Players</option>
     </select>
   </div>
-  <button class="btn btn-primary" onclick="createGame()">Create Room →</button>
+  <button class="btn btn-pri" onclick="createGame()">Create Room →</button>
 </div>
 
 <!-- JOIN -->
 <div id="joinScreen" class="screen">
   <button class="back" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--accent);margin-bottom:22px">Join Game</h2>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc);margin-bottom:22px">Join Game</h2>
   <div class="field"><label>Your Name</label><input id="jname" type="text" placeholder="e.g. Lars" maxlength="16"/></div>
   <div class="field"><label>Room Code</label><input id="jcode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:26px;letter-spacing:6px;text-align:center"/></div>
-  <button class="btn btn-primary" onclick="joinGame()">Join →</button>
+  <button class="btn btn-pri" onclick="joinGame()">Join →</button>
   <div id="jerr"></div>
-</div>
-
-<!-- RULES -->
-<div id="rulesScreen" class="screen" style="justify-content:flex-start;padding-top:40px;overflow-y:auto">
-  <button class="back" onclick="show('homeScreen')">←</button>
-  <div style="width:100%;max-width:380px;padding-bottom:40px">
-    <div style="font-family:'Abril Fatface',serif;font-size:32px;color:var(--accent);margin-bottom:20px;text-align:center">💩 How to Play</div>
-
-    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
-      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">🎯 Goal</div>
-      <div style="font-size:14px;line-height:1.6;color:var(--text)">Be the first to get rid of ALL your cards. The last player still holding cards is the <strong>Shithead</strong> 💩 and loses!</div>
-    </div>
-
-    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
-      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">🃏 Setup</div>
-      <div style="font-size:14px;line-height:1.6;color:var(--text)">Each player gets:<br>
-      • <strong>3 face-down cards</strong> — placed on the table, kept secret (even from you!)<br>
-      • <strong>6 hand cards</strong> — choose 3 to place face-up on top of your face-down cards. Keep 3 in hand.<br>
-      Put your best (high) cards face-up!</div>
-    </div>
-
-    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
-      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">▶️ Playing</div>
-      <div style="font-size:14px;line-height:1.6;color:var(--text)">
-      • Play a card <strong>strictly higher</strong> than the top card of the pile<br>
-      • You can play multiple cards of the <strong>same rank</strong> at once<br>
-      • After playing, draw back up to 3 cards (while draw pile lasts)<br>
-      • Can't play? Pick up the whole pile!<br>
-      • When your hand is empty, play your <strong>face-up cards</strong><br>
-      • When face-up is gone, play your <strong>face-down cards blind</strong> (no peeking!)
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
-      <div style="font-weight:600;color:var(--accent);margin-bottom:8px">✨ Special Cards</div>
-      <div style="font-size:14px;line-height:1.8;color:var(--text)">
-        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">2</span> — Play on anything. Resets pile: next player can play any card.</div>
-        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">3</span> — <strong>Transparent / Invisible.</strong> Can be played on anything <em>except another 3</em>. The next player must beat the card <em>below</em> the 3, as if the 3 wasn't there.</div>
-        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">7</span> — Next player must play <strong>strictly lower</strong> than 7 (no 7 allowed). After that, normal rules resume.</div>
-        <div style="margin-bottom:6px"><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">10</span> — <strong>Burns</strong> the entire pile. Play again!</div>
-        <div><span style="background:var(--accent);color:#000;padding:1px 6px;border-radius:4px;font-weight:700">4×</span> — Four cards of the same rank also <strong>burns</strong> the pile. Play again!</div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid var(--border)">
-      <div style="font-weight:600;color:var(--accent);margin-bottom:6px">💡 Tips</div>
-      <div style="font-size:14px;line-height:1.6;color:var(--text)">
-      • Place high cards (A, K, Q) face-up — you'll need them later<br>
-      • Save your 10s and 2s for tough situations<br>
-      • If someone plays a high card you can't beat, use a 2 or 10!
-      </div>
-    </div>
-
-    <button class="btn btn-primary" onclick="show('homeScreen')" style="max-width:100%;margin-top:8px">← Back to Home</button>
-  </div>
 </div>
 
 <!-- LOBBY -->
 <div id="lobbyScreen" class="screen" style="justify-content:flex-start;padding-top:50px">
-  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--accent);margin-bottom:14px">Waiting Room</h2>
-  <div class="code-box">
-    <div style="font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Share this code</div>
-    <div class="code" id="dcode">----</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px">Everyone opens the same link</div>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--acc);margin-bottom:14px">Waiting Room</h2>
+  <div class="codebox">
+    <div style="font-size:11px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Share this code</div>
+    <div class="bigcode" id="dcode">----</div>
+    <div style="font-size:11px;color:var(--mut);margin-top:4px">Everyone opens the same link</div>
   </div>
   <div id="lplayers" style="width:100%;max-width:320px"></div>
-  <div id="lstatus" class="info" style="margin-top:10px"></div>
+  <div id="lstatus" style="font-size:13px;color:var(--mut);text-align:center;max-width:300px;margin-top:10px"></div>
 </div>
 
 <!-- GAME -->
@@ -224,22 +160,23 @@
     <div class="parea">
       <div class="pslot">
         <div class="plbl">Draw Pile</div>
-        <div id="drawD" class="pempty">🂠</div>
+        <div id="drawD" class="pemp">🂠</div>
         <div class="psub" id="drawC">0 left</div>
       </div>
       <div class="pslot">
         <div class="plbl">Play Pile</div>
-        <div id="topD" class="pempty">+</div>
+        <!-- pile-fan renders here, or empty placeholder -->
+        <div id="topD" class="pemp">+</div>
         <div class="psub" id="pileC">empty</div>
       </div>
       <div class="pslot">
-        <div class="plbl">Burned</div>
-        <div style="font-size:32px;text-align:center;margin-bottom:4px">🔥</div>
+        <div class="plbl">Burned 🔥</div>
+        <div style="font-size:30px;text-align:center;margin:6px 0">🔥</div>
         <div class="psub" id="burnC">0</div>
       </div>
     </div>
     <div class="toast" id="msg">Welcome!</div>
-    <div id="tbadge" class="tbadge wait">Waiting…</div>
+    <div id="tbdg" class="tbdg wait">Waiting…</div>
     <div class="myarea">
       <div class="myname" id="myname">You</div>
       <div id="swapbox" style="display:none"></div>
@@ -254,43 +191,58 @@
 
 <!-- END -->
 <div id="endScreen" class="screen">
-  <div class="trophy">🏆</div>
-  <div class="etitle" id="wtext">Winner!</div>
-  <div style="font-size:18px;margin-bottom:6px">💩 Shithead: <span class="shn" id="shtext">—</span></div>
-  <div style="font-size:13px;color:var(--muted);margin-bottom:20px">The Shithead shuffles next round!</div>
-  <button class="btn btn-primary" onclick="location.reload()">Play Again</button>
+  <div style="font-size:80px;margin-bottom:10px">🏆</div>
+  <div style="font-family:'Abril Fatface',serif;font-size:38px;color:var(--acc);margin-bottom:8px" id="endTitle">Game Over!</div>
+  <div id="endResults" style="width:100%;max-width:320px;margin-bottom:20px"></div>
+  <button class="btn btn-pri" onclick="location.reload()">Play Again</button>
+</div>
+
+<!-- RULES OVERLAY -->
+<div class="overlay" id="rulesOverlay">
+  <div style="max-width:420px;margin:0 auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc)">💩 Rules</div>
+      <button onclick="closeRules()" style="background:var(--sur);border:1.5px solid var(--bdr);color:var(--txt);border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer">✕ Close</button>
+    </div>
+    <div class="rcard"><div class="rh">🎯 Goal</div><div class="rb">Be the FIRST to get rid of all your cards. The last player still holding cards is the <strong>Shithead 💩</strong>!</div></div>
+    <div class="rcard"><div class="rh">🃏 Setup</div><div class="rb">Each player gets:<br>• <strong>3 face-down cards</strong> — secret from everyone, even you<br>• <strong>6 hand cards</strong> — pick 3 to place face-up on top of your face-down cards, keep 3 in hand<br><br>💡 Put your highest cards face-up!</div></div>
+    <div class="rcard"><div class="rh">▶️ On Your Turn</div><div class="rb">• Play a card <strong>strictly higher</strong> than the top card of the pile<br>• You can play <strong>multiple cards of the same rank</strong> at once<br>• After playing, draw back up to 3 cards (while draw pile lasts)<br>• <strong>Can't play?</strong> Pick up the whole pile<br>• Hand empty → play <strong>face-up cards</strong><br>• Face-up gone → flip <strong>face-down cards blind</strong> (if it can't be played, you take the pile + that card)</div></div>
+    <div class="rcard">
+      <div class="rh">✨ Special Cards</div>
+      <div class="rb">
+        <div style="margin-bottom:8px"><span class="rbadge">2</span> Always playable. Resets the pile — next player can play anything.</div>
+        <div style="margin-bottom:8px"><span class="rbadge">3</span> <strong>Transparent.</strong> Playable on anything except another 3. Next player must beat the card <em>below</em> the 3.</div>
+        <div style="margin-bottom:8px"><span class="rbadge">7</span> Next player must play <strong>strictly lower than 7</strong>. After that, normal rules resume.</div>
+        <div style="margin-bottom:8px"><span class="rbadge">10</span> Burns the entire pile 🔥 Play again!</div>
+        <div><span class="rbadge">4×</span> Four of same rank also burns the pile 🔥 Play again!</div>
+      </div>
+    </div>
+    <div class="rcard"><div class="rh">💡 Tips</div><div class="rb">• Place high cards (A, K, Q) face-up before the game<br>• Save 10s and 2s for tough situations<br>• The pile display shows all recently played cards stacked — the card sticking out behind is what you need to beat</div></div>
+    <button class="btn btn-pri" style="max-width:100%;margin-top:8px" onclick="closeRules()">Got it! ✓</button>
+  </div>
 </div>
 
 <script>
 const socket = io();
 let myCode=null, myIndex=-1, state=null, sel=[];
 
-function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
 function isRed(c){return c.suit==='♥'||c.suit==='♦'}
+function openRules(){document.getElementById('rulesOverlay').classList.add('open')}
+function closeRules(){document.getElementById('rulesOverlay').classList.remove('open')}
+function clearSel(){sel=[]}
 
-socket.on('roomCreated',({code,playerIndex})=>{
-  myCode=code; myIndex=playerIndex;
-  document.getElementById('dcode').textContent=code;
-  show('lobbyScreen');
-});
-socket.on('roomJoined',({code,playerIndex})=>{
-  myCode=code; myIndex=playerIndex;
-  document.getElementById('dcode').textContent=code;
-  show('lobbyScreen');
-});
+socket.on('roomCreated',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;document.getElementById('dcode').textContent=code;show('lobbyScreen')});
+socket.on('roomJoined',({code,playerIndex})=>{myCode=code;myIndex=playerIndex;document.getElementById('dcode').textContent=code;show('lobbyScreen')});
 socket.on('error',msg=>{document.getElementById('jerr').textContent='❌ '+msg});
+
 socket.on('gameState',gs=>{
+  // Clear selection when it stops being our turn
+  if(state && state.currentPlayer===myIndex && gs.currentPlayer!==myIndex) clearSel();
   state=gs;
-  if(gs.phase==='ended'){
-    document.getElementById('wtext').textContent=gs.winner?`🏆 ${gs.winner} wins!`:'Game Over!';
-    document.getElementById('shtext').textContent=gs.shithead||'?';
-    show('endScreen'); return;
-  }
+  if(gs.phase==='ended'){renderEnd(gs);show('endScreen');return}
   renderLobby(gs);
-  if(gs.phase==='lobby'){show('lobbyScreen'); return;}
+  if(gs.phase==='lobby'){show('lobbyScreen');return}
   show('gameScreen');
   renderGame(gs);
 });
@@ -308,18 +260,16 @@ function joinGame(){
 }
 
 function renderLobby(gs){
-  const c=document.getElementById('lplayers');
-  c.innerHTML='';
+  const c=document.getElementById('lplayers');c.innerHTML='';
   gs.players.forEach((p,i)=>{
-    const el=document.createElement('div');
-    el.className='ppill';
+    const el=document.createElement('div');el.className='ppill';
     const dc=p.ready?'dot rdy':(p.connected?'dot on':'dot');
-    const st=p.ready?'Ready ✅':p.connected?'Connected':'Waiting…';
-    el.innerHTML=`<div class="${dc}"></div><span style="flex:1">${p.name||'Player '+(i+1)}</span><span style="color:var(--muted);font-size:12px">${st}</span>`;
+    const st=p.ready?'Ready ✅':p.connected?'Connected':'Waiting to join…';
+    el.innerHTML=`<div class="${dc}"></div><span style="flex:1">${p.name||'Player '+(i+1)}</span><span style="color:var(--mut);font-size:12px">${st}</span>`;
     c.appendChild(el);
   });
-  const n=gs.players.filter(p=>p.connected).length, t=gs.players.length;
-  document.getElementById('lstatus').textContent=n<t?`Waiting for players… (${n}/${t} joined)`:'Everyone joined! Choose your face-up cards in the game.';
+  const n=gs.players.filter(p=>p.connected).length,t=gs.players.length;
+  document.getElementById('lstatus').textContent=n<t?`Waiting for players… (${n}/${t} joined)`:'Everyone in! Choose your face-up cards in the game.';
 }
 
 function makeCard(card,opts={}){
@@ -328,86 +278,142 @@ function makeCard(card,opts={}){
   if(opts.fd){el.classList.add('fd');return el}
   if(opts.sel)el.classList.add('sel');
   if(opts.dim)el.classList.add('dim');
-  const sp={'2':'↺','3':'👻','7':'↓','10':'🔥'};
-  el.innerHTML=`<div class="cr">${card.rank}</div><div class="cs">${card.suit}</div><div class="cr" style="transform:rotate(180deg)">${card.rank}</div>${sp[card.rank]?`<div class="sp">${sp[card.rank]}</div>`:''}`;
+  const badges={'2':'↺','3':'👻','7':'↓','10':'🔥'};
+  el.innerHTML=`<div class="cr">${card.rank}</div><div class="cs">${card.suit}</div><div class="cr" style="transform:rotate(180deg)">${card.rank}</div>${badges[card.rank]?`<div class="sp">${badges[card.rank]}</div>`:''}`;
   return el;
+}
+
+// Build the pile fan display:
+// Shows: the card below the last play (if last play was 3s or multiple cards), 
+// then all cards in the latest "play group", stacked with top-right peekout.
+// Rule: always show the effective-bottom card + all top cards played, max 3 shown in fan.
+function renderPileFan(pile){
+  const td=document.getElementById('topD');
+  td.innerHTML=''; td.className='';
+  if(!pile.length){td.className='pemp';td.textContent='+';return}
+
+  // Find the "cards to show":
+  // 1. Find the last "batch" — cards played in sequence that are all the same rank at the very top
+  //    (since multiple same-rank cards are played at once, they're consecutive in the array)
+  // 2. Also include the card directly below that batch if it exists (the "effective base")
+  const topRank=pile[pile.length-1].rank;
+  
+  // Collect the top batch (consecutive same-rank from the end)
+  let batchEnd=pile.length-1;
+  let batchStart=batchEnd;
+  while(batchStart>0 && pile[batchStart-1].rank===topRank) batchStart--;
+  const batch=pile.slice(batchStart, batchEnd+1); // all the top same-rank cards
+  
+  // Find the card below the batch (if any), skipping nothing — it's pile[batchStart-1]
+  const below=batchStart>0 ? pile[batchStart-1] : null;
+
+  // Build display list: [below (if exists), ...batch cards up to 2 shown]
+  // We show at most 3 cards total in the fan
+  const display=[];
+  if(below) display.push(below);
+  // Show up to 2 from the batch (first and last if >2, otherwise all)
+  if(batch.length>2){
+    display.push(batch[0]); // oldest of the batch (peek behind)
+    display.push(batch[batch.length-1]); // top card (front)
+  } else {
+    batch.forEach(c=>display.push(c));
+  }
+
+  // Render as a fan: first in array = furthest behind, last = front
+  if(display.length===1){
+    // Single card, no fan needed
+    const c=makeCard(display[0]);c.style.margin='0 auto';
+    td.appendChild(c);
+  } else {
+    const fan=document.createElement('div');fan.className='pile-fan';
+    // Pad to 3 slots for consistent CSS nth-child positioning
+    const padded=display.length<3 ? [null,...display] : display;
+    padded.forEach((card,i)=>{
+      if(!card){
+        // invisible spacer
+        const sp=document.createElement('div');
+        sp.className='pf-card';sp.style.visibility='hidden';
+        const dummy=makeCard({rank:'A',suit:'♠'});
+        sp.appendChild(dummy);fan.appendChild(sp);
+      } else {
+        const wrap=document.createElement('div');wrap.className='pf-card';
+        wrap.appendChild(makeCard(card));
+        fan.appendChild(wrap);
+      }
+    });
+    td.appendChild(fan);
+  }
+}
+
+function renderEnd(gs){
+  document.getElementById('endTitle').textContent=`💩 ${gs.shithead} is the Shithead!`;
+  const res=document.getElementById('endResults');res.innerHTML='';
+  const sorted=gs.players.slice().sort((a,b)=>(a.finishOrder||99)-(b.finishOrder||99));
+  sorted.forEach((p,i)=>{
+    const isShit=p.name===gs.shithead;
+    const div=document.createElement('div');
+    div.style.cssText='background:var(--sur);border:1.5px solid var(--bdr);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:14px';
+    div.innerHTML=`<span style="font-size:20px">${isShit?'💩':i===0?'🥇':i===1?'🥈':'🥉'}</span><span style="flex:1;font-weight:600">${p.name}</span><span style="color:var(--mut)">${isShit?'SHITHEAD 😭':p.finishOrder?'#'+p.finishOrder:''}</span>`;
+    res.appendChild(div);
+  });
 }
 
 function renderGame(gs){
   if(!gs)return;
-  const me=gs.players[myIndex];
-  if(!me)return;
+  const me=gs.players[myIndex];if(!me)return;
   const myTurn=gs.currentPlayer===myIndex&&gs.phase==='play';
 
-  // Badge
-  const b=document.getElementById('tbadge');
-  b.className='tbadge '+(myTurn?'mine':'wait');
+  const b=document.getElementById('tbdg');
+  b.className='tbdg '+(myTurn?'mine':'wait');
   b.textContent=myTurn?'🎮 YOUR TURN':`⏳ ${gs.players[gs.currentPlayer]?.name||'?'}'s turn`;
 
-  // Message
   document.getElementById('msg').textContent=gs.message||'';
 
-  // Pile
-  const td=document.getElementById('topD');
-  td.innerHTML=''; td.className='';
-  if(gs.pile.length){
-    const c=makeCard(gs.pile[gs.pile.length-1]);
-    c.style.margin='0 auto'; td.appendChild(c);
-  } else {td.className='pempty'; td.textContent='+'}
+  // Pile fan display
+  renderPileFan(gs.pile);
   document.getElementById('pileC').textContent=gs.pile.length+' cards';
   document.getElementById('drawC').textContent=gs.drawPileCount+' left';
   document.getElementById('burnC').textContent=gs.burned;
-  const dd=document.getElementById('drawD');
-  dd.className='pempty'; dd.textContent=gs.drawPileCount>0?'🂠':'✓';
+  const dd=document.getElementById('drawD');dd.className='pemp';dd.textContent=gs.drawPileCount>0?'🂠':'✓';
 
-  // Others
-  const oe=document.getElementById('others');
-  oe.innerHTML='';
+  // Other players
+  const oe=document.getElementById('others');oe.innerHTML='';
   gs.players.forEach((p,i)=>{
     if(i===myIndex)return;
-    const div=document.createElement('div');
-    div.className='op'+(gs.currentPlayer===i?' act':'');
+    const div=document.createElement('div');div.className='op'+(gs.currentPlayer===i?' act':'');
     let ch='';
-    for(let s=0;s<Math.min(Math.max(p.faceDownCount||0,p.faceUp.length),5);s++){
+    const nstk=Math.min(Math.max(p.faceDownCount||0,p.faceUp.length),5);
+    for(let s=0;s<nstk;s++){
       const fu=p.faceUp[s];
       if(s<(p.faceDownCount||0)){
         const fuh=fu?`<div class="mc msfu ${isRed(fu)?'mr':''}">${fu.rank}</div>`:'';
-        ch+=`<div class="mstack"><div class="mc msfd mfd">🂠</div>${fuh}</div>`;
-      } else if(fu){
-        ch+=`<div class="mc ${isRed(fu)?'mr':''}">${fu.rank}</div>`;
-      }
+        ch+=`<div class="mstk"><div class="mc msfd mfd">🂠</div>${fuh}</div>`;
+      } else if(fu){ch+=`<div class="mc ${isRed(fu)?'mr':''}">${fu.rank}</div>`}
     }
-    for(let h=0;h<Math.min(p.handCount,5);h++) ch+=`<div class="mc mfd">🂠</div>`;
+    for(let h=0;h<Math.min(p.handCount,5);h++)ch+=`<div class="mc mfd">🂠</div>`;
     div.innerHTML=`<div class="opn">${p.name}${p.finished?' <span class="ftag">Done ✅</span>':''}${gs.currentPlayer===i?' 👈':''}</div><div class="opc">${ch}</div>`;
     oe.appendChild(div);
   });
 
-  // My name
   document.getElementById('myname').textContent=(me.name||'You')+(me.finished?' ✅':'');
 
-  // Swap box
   const sb=document.getElementById('swapbox');
   if(gs.phase==='swap'){
     sb.style.display='block';
-    sb.innerHTML=`<strong>${me.faceUp.length}/3 face-up cards chosen</strong><br>Tap a hand card to place it face-up on the table. Tap a face-up card to take it back.`;
-  } else sb.style.display='none';
+    sb.innerHTML=`<strong>${me.faceUp.length}/3 face-up cards chosen</strong><br>Tap a hand card to place it face-up. Tap a face-up card to return it. Put your highest cards face-up!`;
+  } else {sb.style.display='none'}
 
-  // My table: stacked face-down (always hidden) + face-up on top
-  const te=document.getElementById('mytable');
-  te.innerHTML='';
+  // My table: face-down (always hidden) with face-up on top
+  const te=document.getElementById('mytable');te.innerHTML='';
   const sc=Math.max(me.faceDown.length,me.faceUp.length);
   for(let s=0;s<sc;s++){
     const hasFD=s<me.faceDown.length;
     const fu=me.faceUp[s];
-    const stk=document.createElement('div');
-    stk.className='stack';
-    // Face-down: always shown as card back, never revealed
+    const stk=document.createElement('div');stk.className='stk';
     if(hasFD){
       const fde=makeCard({rank:'?',suit:'?'},{fd:true});
-      fde.classList.add('sfd');
-      stk.appendChild(fde);
+      fde.classList.add('sfd');stk.appendChild(fde);
     }
-    // Face-up: sits on top
     if(fu){
       const canFU=gs.phase==='play'&&myTurn&&me.hand.length===0;
       const fue=makeCard(fu,{sel:sel.includes(fu.id)});
@@ -416,26 +422,21 @@ function renderGame(gs){
       else if(canFU) fue.onclick=()=>toggle(fu.id);
       stk.appendChild(fue);
     } else if(hasFD&&gs.phase==='play'&&myTurn&&me.hand.length===0&&me.faceUp.length===0){
-      // Playable face-down blind
+      // Blind face-down: clickable back card, uses positional index
       const fde2=makeCard({rank:'?',suit:'?'},{fd:true});
-      fde2.classList.add('sfu');
-      fde2.style.cursor='pointer';
-      fde2.title='Tap to play blind!';
-      fde2.onclick=()=>socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:[s]});
+      fde2.classList.add('sfu');fde2.style.cursor='pointer';
+      fde2.title='Tap to flip blind!';
+      fde2.onclick=(pos=>()=>socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:['__fd__'+pos]}))(s);
       stk.appendChild(fde2);
     }
     te.appendChild(stk);
   }
 
-  // Hand label
   document.getElementById('hlbl').textContent=gs.phase==='swap'?`Hand — tap to place face-up (${3-me.faceUp.length} more)`:'Hand';
-
-  // My hand
-  const he=document.getElementById('myhand');
-  he.innerHTML='';
+  const he=document.getElementById('myhand');he.innerHTML='';
   (me.hand||[]).forEach(c=>{
-    const canH=gs.phase==='play'&&myTurn&&me.hand.length>0;
-    const ce=makeCard(c,{sel:sel.includes(c.id),dim:gs.phase==='play'&&!myTurn});
+    const canH=gs.phase==='play'&&myTurn;
+    const ce=makeCard(c,{sel:sel.includes(c.id),dim:!myTurn&&gs.phase==='play'});
     if(gs.phase==='swap') ce.onclick=()=>socket.emit('placeFaceUp',{code:myCode,playerIndex:myIndex,handCardId:c.id});
     else if(canH) ce.onclick=()=>toggle(c.id);
     he.appendChild(ce);
@@ -445,41 +446,36 @@ function renderGame(gs){
 }
 
 function renderBar(gs,me,myTurn){
-  const bar=document.getElementById('abar');
-  bar.innerHTML='';
+  const bar=document.getElementById('abar');bar.innerHTML='';
   if(gs.phase==='swap'){
-    const btn=document.createElement('button');
-    btn.className='btn btn-green';
-    btn.textContent=me.ready?'⏳ Waiting for others…':(me.faceUp.length===3?'✅ Ready to Play!':'Choose '+(3-me.faceUp.length)+' more card(s)');
-    btn.disabled=me.faceUp.length!==3||me.ready;
+    const btn=document.createElement('button');btn.className='btn btn-grn';
+    const need=3-me.faceUp.length;
+    btn.textContent=me.ready?'⏳ Waiting for others…':need>0?`Choose ${need} more card${need>1?'s':''}`:'✅ Ready to Play!';
+    btn.disabled=need>0||me.ready;
     btn.onclick=()=>socket.emit('readyToPlay',{code:myCode,playerIndex:myIndex});
-    bar.appendChild(btn); return;
+    bar.appendChild(btn);return;
   }
   if(!myTurn)return;
   if(sel.length>0){
-    const pb=document.createElement('button');
-    pb.className='btn btn-primary';
+    const pb=document.createElement('button');pb.className='btn btn-pri';
     pb.textContent=`▶ Play ${sel.length} card${sel.length>1?'s':''}`;
-    pb.onclick=playSel;
-    bar.appendChild(pb);
+    pb.onclick=playSel;bar.appendChild(pb);
   }
-  const pick=document.createElement('button');
-  pick.className='btn btn-danger';
-  pick.textContent='📥 Pick Up Pile';
-  pick.disabled=!gs.pile.length;
-  pick.onclick=()=>{sel=[];socket.emit('pickUpPile',{code:myCode,playerIndex:myIndex})};
-  bar.appendChild(pick);
+  const pk=document.createElement('button');pk.className='btn btn-red';
+  pk.textContent='📥 Pick Up Pile';pk.disabled=!gs.pile.length;
+  pk.onclick=()=>{clearSel();socket.emit('pickUpPile',{code:myCode,playerIndex:myIndex})};
+  bar.appendChild(pk);
 }
 
 function toggle(id){
   const i=sel.indexOf(id);
-  if(i===-1)sel.push(id); else sel.splice(i,1);
+  if(i===-1)sel.push(id);else sel.splice(i,1);
   renderGame(state);
 }
 function playSel(){
   if(!sel.length)return;
-  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:sel});
-  sel=[];
+  socket.emit('playCards',{code:myCode,playerIndex:myIndex,cardIds:[...sel]});
+  clearSel();
 }
 </script>
 </body>
