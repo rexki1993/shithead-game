@@ -176,6 +176,7 @@ function getRoomState(room, forPlayerIndex) {
     shithead: g.shithead,
     lastBlind: g.lastBlind || null,
     lastBlindPlayerName: g.lastBlindPlayerName || null,
+    lastBlindSuccess: g.lastBlindSuccess !== undefined ? g.lastBlindSuccess : null,
     fourWindow: g.fourWindow || null,
     topRank: topInfo.rank,
     topCount: topInfo.count
@@ -331,18 +332,26 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown) {
 
     if (canPlay(card, g.pile)) {
       g.pile.push(card);
-      g.message = player.name + " flipped blind: " + card.rank + card.suit + " \u2713";
+      g.message = player.name + " flipped blind: " + card.rank + card.suit + " ✓";
+      g.lastBlindSuccess = true;
       afterPlay(room, playerIdx);
     } else {
-      player.hand.push(card);
-      for (let i = 0; i < g.pile.length; i++) player.hand.push(g.pile[i]);
-      g.pile = [];
-      g.message = player.name + " flipped " + card.rank + card.suit + " -- can't play! Takes it + the pile.";
-      g.lastBlind = null;
-      g.lastBlindPlayerName = null;
-      nextPlayer(room);
+      // Send flip animation first, delay the state update for drama
+      g.lastBlindSuccess = false;
+      g.message = player.name + " flipped " + card.rank + card.suit + " — can't play! 😈😂";
       emitToAll(room);
-      scheduleBotTurn(room);
+      setTimeout(function() {
+        player.hand.push(card);
+        for (let i = 0; i < g.pile.length; i++) player.hand.push(g.pile[i]);
+        g.pile = [];
+        g.message = player.name + " picks up " + card.rank + card.suit + " + the whole pile! 💩";
+        g.lastBlind = null;
+        g.lastBlindPlayerName = null;
+        g.lastBlindSuccess = null;
+        nextPlayer(room);
+        emitToAll(room);
+        scheduleBotTurn(room);
+      }, 2800);
     }
     return;
   }
