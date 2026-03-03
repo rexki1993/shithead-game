@@ -273,18 +273,22 @@ function afterPlay(room, playerIdx) {
     return;
   }
 
-  // Check if 4-of-a-kind window opens for other players
+  // Check if 4-of-a-kind window opens for other players.
+  // Only open for players who have ENOUGH cards to complete to exactly 4.
+  // e.g. pile has 2x5: player needs 2 fives. pile has 3x5: player needs 1 five.
   const topInfo = countTopRank(g.pile);
   if (topInfo.rank && topInfo.count >= 1 && topInfo.count < 4) {
+    const needed = 4 - topInfo.count;
     let othersCanComplete = false;
     for (let i = 0; i < g.players.length; i++) {
       if (i === playerIdx || g.players[i].finished) continue;
       const p = g.players[i];
       const src = p.hand.length > 0 ? p.hand : (p.faceUp.length > 0 ? p.faceUp : []);
+      let playerCount = 0;
       for (let j = 0; j < src.length; j++) {
-        if (src[j].rank === topInfo.rank) { othersCanComplete = true; break; }
+        if (src[j].rank === topInfo.rank) playerCount++;
       }
-      if (othersCanComplete) break;
+      if (playerCount >= needed) { othersCanComplete = true; break; }
     }
     if (othersCanComplete) {
       g.fourWindow = { rank: topInfo.rank, count: topInfo.count };
@@ -362,6 +366,13 @@ function processPlay(room, playerIdx, cardIds, fromFaceDown) {
   const isMyTurn = g.currentPlayer === playerIdx;
   if (!isMyTurn) {
     if (!g.fourWindow || cards[0].rank !== g.fourWindow.rank) {
+      io.to(player.socketId).emit("gameState", getRoomState(room, playerIdx));
+      return;
+    }
+    // Validate player has exactly enough to complete to 4
+    const neededNow = 4 - g.fourWindow.count;
+    if (cards.length !== neededNow) {
+      g.message = "You need exactly " + neededNow + " card(s) to complete the 4-of-a-kind!";
       io.to(player.socketId).emit("gameState", getRoomState(room, playerIdx));
       return;
     }

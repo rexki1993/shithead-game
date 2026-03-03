@@ -34,6 +34,9 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 .gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
 .card{width:54px;height:78px;background:var(--cbg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
 .card.r{color:var(--red)}.card.b{color:var(--blk)}
+.corner{position:absolute;top:3px;left:4px;display:flex;flex-direction:column;align-items:flex-start;line-height:1;z-index:1}
+.corner .cr{font-size:13px;font-weight:700}
+.corner .cs{font-size:11px}
 .card.sel{border-color:var(--acc);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
 .card.fd{background:linear-gradient(135deg,#1e2a4a,#0f3460);border-color:#2a4a8a;cursor:default}
 .card.fd>*{display:none}
@@ -62,13 +65,13 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 .stk .sfu{position:absolute;top:18px;left:0}
 .crow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;align-items:flex-end}
 /* Pile fan */
-.pile-fan-wrap{position:relative;width:90px;height:88px;margin:0 auto}
+.pile-fan-wrap{position:relative;width:116px;height:88px;margin:0 auto}
 .pile-fan-wrap .pfc{position:absolute;bottom:0}
 .pile-fan-wrap .pfc:nth-child(1){left:0px;transform:rotate(-8deg);z-index:1;filter:brightness(.85)}
-.pile-fan-wrap .pfc:nth-child(2){left:18px;transform:rotate(-3deg);z-index:2;filter:brightness(.93)}
-.pile-fan-wrap .pfc:nth-child(3){left:36px;transform:rotate(0deg);z-index:3}
+.pile-fan-wrap .pfc:nth-child(2){left:31px;transform:rotate(-3deg);z-index:2;filter:brightness(.93)}
+.pile-fan-wrap .pfc:nth-child(3){left:62px;transform:rotate(0deg);z-index:3}
 .pile-fan-wrap.fan2 .pfc:nth-child(1){left:8px;transform:rotate(-6deg);z-index:1;filter:brightness(.88)}
-.pile-fan-wrap.fan2 .pfc:nth-child(2){left:28px;transform:rotate(0deg);z-index:2}
+.pile-fan-wrap.fan2 .pfc:nth-child(2){left:46px;transform:rotate(0deg);z-index:2}
 .pile-count-badge{position:absolute;top:-8px;right:-8px;background:var(--acc);color:#000;border-radius:50%;width:22px;height:22px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:10}
 /* 4-of-a-kind banner */
 .four-banner{background:rgba(240,165,0,.12);border:1.5px solid var(--acc);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
@@ -159,6 +162,9 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 <!-- GAME -->
 <div id="gameScreen" class="screen">
   <div class="gwrap">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+      <button onclick="leaveGame()" style="background:none;border:1.5px solid var(--bdr);color:var(--mut);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">✕ Leave</button>
+    </div>
     <div id="others"></div>
     <div class="parea">
       <div class="pslot">
@@ -334,7 +340,7 @@ function makeCard(card, opts) {
   if (opts.dim) el.classList.add('dim');
   var badges = { '2':'↑', '3':'👻', '7':'↓', '10':'🔥' };
   var badge = badges[card.rank] ? '<div class="sp">' + badges[card.rank] + '</div>' : '';
-  el.innerHTML = '<div class="cr">' + card.rank + '</div><div class="cs">' + card.suit + '</div><div class="cr" style="transform:rotate(180deg)">' + card.rank + '</div>' + badge;
+  el.innerHTML = '<div class="corner"><span class="cr">' + card.rank + '</span></div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
   return el;
 }
 
@@ -630,6 +636,13 @@ function toggle(id) {
     }
   }
   renderGame(state);
+}
+
+function leaveGame() {
+  if (confirm('Leave this game and go back to the home screen?')) {
+    clearSession();
+    location.reload();
+  }
 }
 
 function playSel() {
