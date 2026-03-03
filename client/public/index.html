@@ -340,7 +340,7 @@ function makeCard(card, opts) {
   if (opts.dim) el.classList.add('dim');
   var badges = { '2':'↑', '3':'👻', '7':'↓', '10':'🔥' };
   var badge = badges[card.rank] ? '<div class="sp">' + badges[card.rank] + '</div>' : '';
-  el.innerHTML = '<div class="corner"><span class="cr">' + card.rank + '</span><span class="cs">' + card.suit + '</span></div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
+  el.innerHTML = '<div class="corner"><span class="cr">' + card.rank + '</span></div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
   return el;
 }
 
