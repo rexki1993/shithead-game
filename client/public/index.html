@@ -34,59 +34,38 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 .gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
 .card{width:54px;height:78px;background:var(--cbg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
 .card.r{color:var(--red)}.card.b{color:var(--blk)}
-.corner{position:absolute;top:3px;left:4px;font-size:14px;font-weight:800;line-height:1;z-index:1}
+.corner{position:absolute;top:3px;left:4px;font-size:14px;font-weight:800;line-height:1}
 .card.sel{border-color:var(--acc);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
 .card.fd{background:linear-gradient(135deg,#1e2a4a,#0f3460);border-color:#2a4a8a;cursor:default}
 .card.fd>*{display:none}
-.card.fd::after{content:'🂠';font-size:32px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
+.card.fd::after{content:'\uD83C\uDCA0';font-size:32px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
 .card.blind-tap{cursor:pointer!important}
 .card.blind-tap:active{transform:scale(.95)}
 .card.dim{opacity:.4;cursor:default}
-.cr{font-size:13px;line-height:1}
 .cs{font-size:20px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
 .sp{position:absolute;top:-7px;right:-7px;background:var(--acc);border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;z-index:2}
-/* Flip animation */
 .flip-stage{perspective:600px;width:54px;height:78px;display:inline-block}
 .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:doFlip 1.8s ease-in-out forwards}
-@keyframes doFlip{
-  0%{transform:rotateY(0deg)}
-  35%{transform:rotateY(88deg)}
-  55%{transform:rotateY(90deg)}
-  100%{transform:rotateY(180deg)}
-}
+@keyframes doFlip{0%{transform:rotateY(0)}50%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
 .flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:7px}
-.flip-front{background:linear-gradient(135deg,#1e2a4a,#0f3460);border:2.5px solid #2a4a8a;display:flex;align-items:center;justify-content:center;font-size:32px}
-.flip-back{transform:rotateY(180deg)}
-/* Table stacks */
-.stk{position:relative;width:54px;height:96px;display:inline-block;flex-shrink:0}
-.stk .sfd{position:absolute;top:0;left:0}
-.stk .sfu{position:absolute;top:18px;left:0}
-.crow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;align-items:flex-end}
-/* Pile fan */
+.flip-front{background:linear-gradient(135deg,#1e2a4a,#0f3460);display:flex;align-items:center;justify-content:center;font-size:32px}
+.flip-back{background:var(--cbg)}
+#blindReveal{display:none;text-align:center;padding:10px 0;background:rgba(22,33,62,.7);border-radius:12px;margin-bottom:8px}
+#blindLabel{font-size:13px;color:var(--mut);margin-bottom:8px}
+.pile-area{background:var(--pile);border:1.5px solid var(--bdr);border-radius:14px;padding:12px;margin-bottom:8px;text-align:center;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .pile-fan-wrap{position:relative;width:116px;height:88px;margin:0 auto}
 .pile-fan-wrap .pfc{position:absolute;bottom:0}
-.pile-fan-wrap .pfc:nth-child(1){left:0px;transform:rotate(-8deg);z-index:1;filter:brightness(.85)}
+.pile-fan-wrap .pfc:nth-child(1){left:0;transform:rotate(-8deg);z-index:1;filter:brightness(.85)}
 .pile-fan-wrap .pfc:nth-child(2){left:31px;transform:rotate(-3deg);z-index:2;filter:brightness(.93)}
 .pile-fan-wrap .pfc:nth-child(3){left:62px;transform:rotate(0deg);z-index:3}
 .pile-fan-wrap.fan2 .pfc:nth-child(1){left:8px;transform:rotate(-6deg);z-index:1;filter:brightness(.88)}
 .pile-fan-wrap.fan2 .pfc:nth-child(2){left:46px;transform:rotate(0deg);z-index:2}
-.pile-count-badge{position:absolute;top:-8px;right:-8px;background:var(--acc);color:#000;border-radius:50%;width:22px;height:22px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:10}
-/* 4-of-a-kind banner */
-.four-banner{background:rgba(240,165,0,.12);border:1.5px solid var(--acc);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:13px}
-/* Other players */
-.op{background:var(--sur);border:1.5px solid var(--bdr);border-radius:11px;padding:9px 11px;margin-bottom:7px}
-.op.act{border-color:var(--acc);box-shadow:0 0 12px rgba(240,165,0,.2)}
-.opn{font-weight:600;font-size:14px;margin-bottom:6px}
-.opc{display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap}
-.mc{width:26px;height:38px;background:var(--cbg);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blk);flex-shrink:0}
-.mc.mr{color:var(--red)}.mc.mfd{background:linear-gradient(135deg,#1e2a4a,#0f3460);font-size:14px;color:#fff}
-.mstk{position:relative;width:26px;height:48px;display:inline-block;flex-shrink:0}
-.mstk .msfd{position:absolute;top:0}.mstk .msfu{position:absolute;top:10px}
-.parea{background:var(--pile);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
-.pslot{text-align:center;flex:1}
-.plbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.pemp{width:54px;height:78px;border:2px dashed var(--bdr);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:20px;margin:0 auto}
-.psub{font-size:10px;color:var(--mut);margin-top:4px}
+.pile-lbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px}
+.pfc-empty{width:54px;height:78px;border:2px dashed var(--bdr);border-radius:7px;opacity:.3}
+.opp-area{background:var(--sur);border:1.5px solid var(--bdr);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.oppname{font-size:13px;font-weight:600;color:var(--mut);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.oppname .tbdg{margin:0}
+.cards-row{display:flex;gap:5px;flex-wrap:wrap}
 .myarea{background:var(--sur);border:1.5px solid var(--bdr);border-radius:14px;padding:12px}
 .myname{font-family:'Abril Fatface',serif;font-size:20px;color:var(--acc);margin-bottom:10px}
 .slbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:10px}
@@ -105,19 +84,51 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 #endScreen{text-align:center}
 .ftag{font-size:10px;background:var(--grn);color:#fff;padding:2px 5px;border-radius:5px;font-weight:600}
 #jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
-@keyframes shake{0%,100%{transform:translateX(0)}10%,50%,90%{transform:translateX(-14px)}30%,70%{transform:translateX(14px)}40%,60%,80%{transform:translateX(-8px) rotate(-1deg)}}
-.shaking{animation:shake 0.5s ease-in-out 4}
+
+/* ── All animation CSS ── */
+@keyframes shake{0%,100%{transform:translateX(0)}15%,45%,75%{transform:translateX(-16px)}30%,60%,90%{transform:translateX(16px)}}
+.shaking{animation:shake 0.45s ease-in-out 4}
 @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-240px) scale(2.2) rotate(25deg)}}
-@keyframes floatUpLeft{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translate(-150px,-200px) scale(2.0) rotate(-35deg)}}
-@keyframes floatUpRight{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translate(150px,-200px) scale(2.0) rotate(35deg)}}
-@keyframes spinOut{0%{opacity:1;transform:scale(1) rotate(0deg)}100%{opacity:0;transform:scale(3.5) rotate(900deg)}}
-@keyframes flashWord{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3) rotate(-10deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(-3deg)}75%{opacity:1;transform:translate(-50%,-50%) scale(1.0) rotate(3deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.6) rotate(8deg)}}
+@keyframes floatUpLeft{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translate(-160px,-210px) scale(2.0) rotate(-40deg)}}
+@keyframes floatUpRight{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translate(160px,-210px) scale(2.0) rotate(40deg)}}
+@keyframes spinOut{0%{opacity:1;transform:scale(1) rotate(0)}100%{opacity:0;transform:scale(3.5) rotate(900deg)}}
+@keyframes fireRise{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-300px) scale(2.8) rotate(20deg)}}
+@keyframes posFloat{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-180px) scale(1.8)}}
+@keyframes flashWord{0%{opacity:0;transform:translate(-50%,-50%) scale(0.2) rotate(-12deg)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(-4deg)}75%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(2deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.7) rotate(8deg)}}
+@keyframes celebIn{0%{opacity:0;transform:scale(0.4)}60%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(-10px) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+@keyframes diceRoll{0%{transform:rotate(0) scale(1)}25%{transform:rotate(20deg) scale(1.25)}75%{transform:rotate(-20deg) scale(1.25)}100%{transform:rotate(0) scale(1)}}
+@keyframes diceSettle{0%{transform:scale(1.2)}100%{transform:scale(1)}}
 .emoji-burst{position:fixed;pointer-events:none;z-index:999}
 .emoji-burst.up{animation:floatUp 1.8s ease-out forwards}
 .emoji-burst.left{animation:floatUpLeft 1.8s ease-out forwards}
 .emoji-burst.right{animation:floatUpRight 1.8s ease-out forwards}
 .emoji-burst.spin{animation:spinOut 2.0s ease-out forwards}
-.flash-word{position:fixed;pointer-events:none;z-index:1000;font-family:'Abril Fatface',serif;left:50%;transform:translate(-50%,-50%);text-align:center;text-shadow:0 0 40px currentColor,0 4px 0 rgba(0,0,0,.9);animation:flashWord 1.2s ease-in-out forwards}
+.emoji-burst.fire{animation:fireRise 1.4s ease-out forwards}
+.emoji-burst.pos{animation:posFloat 1.5s ease-out forwards}
+.flash-word{position:fixed;pointer-events:none;z-index:1000;font-family:'Abril Fatface',serif;left:50%;text-align:center;text-shadow:0 0 40px currentColor,0 4px 0 rgba(0,0,0,.9);animation:flashWord 1.2s ease-in-out forwards}
+/* Win celebration overlay */
+.celeb-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:30px 16px 40px;overflow-y:auto;animation:celebIn .5s ease-out}
+.celeb-title{font-family:'Abril Fatface',serif;font-size:46px;color:var(--acc);text-align:center;text-shadow:0 0 50px var(--acc),0 0 100px rgba(240,165,0,.4);margin-bottom:6px;line-height:1.1}
+.celeb-emoji{font-size:70px;margin-bottom:8px;text-align:center}
+.celeb-sub{font-size:17px;text-align:center;color:var(--mut);margin-bottom:22px}
+.celeb-section{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--mut);margin-bottom:10px;text-align:center}
+.celeb-cards{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px;max-width:380px}
+.celeb-player-row{background:var(--sur);border:1.5px solid var(--bdr);border-radius:12px;padding:12px 16px;margin-bottom:8px;width:100%;max-width:380px}
+.celeb-player-name{font-weight:700;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.celeb-btn-row{display:flex;gap:10px;width:100%;max-width:380px;margin-top:10px}
+.celeb-btn{flex:1;padding:14px;border-radius:12px;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer}
+/* Dice overlay */
+.dice-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;animation:celebIn .4s ease-out}
+.dice-title{font-family:'Abril Fatface',serif;font-size:32px;color:var(--acc);text-align:center}
+.dice-row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.die-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.die-emoji{font-size:56px}
+.die-rolling{animation:diceRoll .3s ease-in-out infinite}
+.die-done{animation:diceSettle .3s ease-out}
+.die-name{font-size:13px;color:var(--mut)}
+.die-winner-tag{font-size:12px;color:var(--acc);font-weight:700}
+.confetti-piece{position:fixed;pointer-events:none;z-index:499;animation:confettiFall linear forwards}
 </style>
 </head>
 <body>
@@ -127,47 +138,64 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
   <div style="font-size:80px;margin-bottom:4px">💩</div>
   <h1 style="font-family:'Abril Fatface',serif;font-size:56px;color:var(--acc);letter-spacing:-2px">Shithead</h1>
   <div style="color:var(--mut);font-size:13px;margin-bottom:32px;letter-spacing:3px;text-transform:uppercase">Zweeds Pesten</div>
-  <button class="btn btn-pri" onclick="show('createScreen')">🎮 Create Game</button>
-  <button class="btn btn-grn" onclick="startVsBot()">🤖 Play vs Bot</button>
+  <button class="btn btn-pri" onclick="show('createScreen')">🎮 Maak Spel</button>
+  <button class="btn btn-grn" onclick="startVsBot()">🤖 Speel vs Bot</button>
   <button class="btn btn-sec" onclick="show('joinScreen')">🔗 Join Game</button>
-  <button class="btn btn-sec" style="margin-top:4px;opacity:.7" onclick="openRules()">📖 Rules</button>
+  <button class="btn btn-sec" style="margin-top:4px;opacity:.7" onclick="openRules()">📖 Regels</button>
 </div>
 
 <!-- CREATE -->
 <div id="createScreen" class="screen">
   <button class="back" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc);margin-bottom:22px">New Game</h2>
-  <div class="field"><label>Your Name</label><input id="cname" type="text" placeholder="e.g. Sjoerd" maxlength="16"/></div>
-  <div class="field"><label>Number of Players</label>
-    <select id="pcount">
-      <option value="2">2 Players</option>
-      <option value="3">3 Players</option>
-      <option value="4" selected>4 Players</option>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;margin-bottom:22px">Nieuw Spel</h2>
+  <div class="field"><label>Jouw naam</label><input id="cname" type="text" placeholder="bv. Lars" maxlength="16"/></div>
+  <div class="field"><label>Aantal spelers</label>
+    <select id="ccount">
+      <option value="2">2 spelers</option>
+      <option value="3">3 spelers</option>
+      <option value="4">4 spelers</option>
     </select>
   </div>
-  <button class="btn btn-pri" onclick="createGame()">Create Room →</button>
+  <button class="btn btn-pri" onclick="createRoom()">🚀 Maak Room</button>
+  <div id="cerr" style="color:#e74c3c;font-size:13px;margin-top:6px;text-align:center"></div>
 </div>
 
 <!-- JOIN -->
 <div id="joinScreen" class="screen">
   <button class="back" onclick="show('homeScreen')">←</button>
-  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc);margin-bottom:22px">Join Game</h2>
-  <div class="field"><label>Your Name</label><input id="jname" type="text" placeholder="e.g. Lars" maxlength="16"/></div>
-  <div class="field"><label>Room Code</label><input id="jcode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:26px;letter-spacing:6px;text-align:center"/></div>
-  <button class="btn btn-pri" onclick="joinGame()">Join →</button>
-  <div id="jerr"></div>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;margin-bottom:22px">Join Spel</h2>
+  <div class="field"><label>Jouw naam</label><input id="jname" type="text" placeholder="bv. Lars" maxlength="16"/></div>
+  <div class="field"><label>Room Code</label><input id="jcode" type="text" placeholder="XXXX" maxlength="4" style="text-transform:uppercase;font-size:28px;letter-spacing:8px;text-align:center"/></div>
+  <button class="btn btn-pri" onclick="joinRoom()">🔗 Join</button>
+  <div id="jerr">{JERR}</div>
 </div>
 
 <!-- LOBBY -->
 <div id="lobbyScreen" class="screen" style="justify-content:flex-start;padding-top:50px">
-  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;color:var(--acc);margin-bottom:14px">Waiting Room</h2>
+  <button class="back" onclick="leaveGame()">←</button>
+  <h2 style="font-family:'Abril Fatface',serif;font-size:28px;margin-bottom:16px">Lobby</h2>
   <div class="codebox">
-    <div style="font-size:11px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Share this code</div>
-    <div class="bigcode" id="dcode">----</div>
-    <div style="font-size:11px;color:var(--mut);margin-top:4px">Everyone opens the same link</div>
+    <div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">Room Code</div>
+    <div class="bigcode" id="lobbyCode">----</div>
   </div>
-  <div id="lplayers" style="width:100%;max-width:320px"></div>
-  <div id="lstatus" style="font-size:13px;color:var(--mut);text-align:center;max-width:300px;margin-top:10px"></div>
+  <div id="lobbyPlayers" style="width:100%;max-width:320px"></div>
+  <div id="lobbyMsg" style="color:var(--mut);font-size:13px;text-align:center;margin-top:12px"></div>
+</div>
+
+<!-- SWAP (choose face-up cards) -->
+<div id="swapScreen" class="screen" style="justify-content:flex-start;padding-top:40px">
+  <h2 style="font-family:'Abril Fatface',serif;font-size:26px;margin-bottom:6px">Kies Face-Up Kaarten</h2>
+  <div style="color:var(--mut);font-size:13px;margin-bottom:18px">Klik op 3 handkaarten om ze face-up te leggen</div>
+  <div style="margin-bottom:10px">
+    <div class="slbl">Face-Up (klik om terug)</div>
+    <div id="swapFaceUp" class="cards-row" style="min-height:88px;gap:6px"></div>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="slbl">Hand (klik om face-up te zetten)</div>
+    <div id="swapHand" class="cards-row" style="gap:6px"></div>
+  </div>
+  <button class="btn btn-pri" id="readyBtn" onclick="readyUp()" disabled>✅ Ready!</button>
+  <div id="swapMsg" style="color:var(--mut);font-size:13px;text-align:center;margin-top:8px"></div>
 </div>
 
 <!-- GAME -->
@@ -177,42 +205,31 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
       <button onclick="leaveGame()" style="background:none;border:1.5px solid var(--bdr);color:var(--mut);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">✕ Leave</button>
     </div>
     <div id="others"></div>
-    <div class="parea">
-      <div class="pslot">
-        <div class="plbl">Draw Pile</div>
-        <div id="drawD" class="pemp">🂠</div>
-        <div class="psub" id="drawC">0 left</div>
-      </div>
-      <div class="pslot" style="flex:1.6">
-        <div class="plbl">Play Pile</div>
-        <div id="topD" class="pemp" style="margin:0 auto">+</div>
-        <div class="psub" id="pileC">empty</div>
-      </div>
-      <div class="pslot">
-        <div class="plbl">Burned 🔥</div>
-        <div style="font-size:28px;text-align:center;margin:6px 0">🔥</div>
-        <div class="psub" id="burnC">0</div>
-      </div>
-    </div>
-    <!-- 4-of-a-kind window banner -->
-    <div id="fourBanner" style="display:none"></div>
-    <!-- Blind flip animation area -->
-    <div id="blindReveal" style="display:none;text-align:center;margin-bottom:10px;padding:10px;background:rgba(240,165,0,.07);border:1.5px solid rgba(240,165,0,.25);border-radius:12px">
-      <div style="font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px" id="blindLabel">Blind flip!</div>
+    <div id="blindReveal">
+      <div id="blindLabel">Blind flip...</div>
       <div id="blindFlipCard"></div>
     </div>
-    <div class="toast" id="msg">Welcome!</div>
-    <div id="tbdg" class="tbdg wait">Waiting…</div>
-    <div class="myarea">
-      <div class="myname" id="myname">You</div>
-      <div id="swapbox" style="display:none"></div>
-      <div class="slbl">Table Cards</div>
-      <div class="crow" id="mytable"></div>
-      <div class="slbl" id="hlbl">Hand</div>
-      <div class="crow" id="myhand"></div>
+    <div class="pile-area" id="pileArea">
+      <div id="pileFan"></div>
+      <div class="pile-lbl" id="pileLbl">Stapel leeg</div>
+    </div>
+    <div class="toast" id="toastMsg">Welkom!</div>
+    <div id="tbdg" class="tbdg wait">Wachten...</div>
+    <div class="myarea" id="myArea">
+      <div class="myname" id="myName">Jij</div>
+      <div class="slbl">Face-Down</div>
+      <div class="cards-row" id="myFaceDown"></div>
+      <div class="slbl">Face-Up</div>
+      <div class="cards-row" id="myFaceUp"></div>
+      <div class="slbl">Hand</div>
+      <div class="cards-row" id="myHand"></div>
     </div>
   </div>
-  <div class="abar" id="abar"></div>
+  <div class="abar">
+    <button class="btn btn-pri" id="btnPlay" onclick="playSel()" disabled>Speel</button>
+    <button class="btn btn-sec" id="btnPickup" onclick="pickUpPile()" disabled>Pak stapel</button>
+    <button class="btn btn-sec" id="btnRules" onclick="openRules()" style="max-width:60px;flex:0">📖</button>
+  </div>
 </div>
 
 <!-- END -->
@@ -220,200 +237,414 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
   <div style="font-size:80px;margin-bottom:10px">🏆</div>
   <div style="font-family:'Abril Fatface',serif;font-size:38px;color:var(--acc);margin-bottom:8px" id="endTitle">Game Over!</div>
   <div id="endResults" style="width:100%;max-width:320px;margin-bottom:20px"></div>
-  <button class="btn btn-pri" onclick="location.reload()">Play Again</button>
+  <button class="btn btn-pri" id="rematchBtn" style="display:none" onclick="sendRematch()">🔄 Rematch!</button>
+  <button class="btn btn-sec" onclick="location.reload()">🏠 Nieuw Spel</button>
 </div>
 
 <!-- RULES -->
 <div class="overlay" id="rulesOverlay">
   <div style="max-width:420px;margin:0 auto">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <div style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc)">💩 Rules</div>
-      <button onclick="closeRules()" style="background:var(--sur);border:1.5px solid var(--bdr);color:var(--txt);border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer">✕ Close</button>
+      <div style="font-family:'Abril Fatface',serif;font-size:28px;color:var(--acc)">Regels</div>
+      <button onclick="closeRules()" style="background:none;border:none;color:var(--mut);font-size:22px;cursor:pointer">✕</button>
     </div>
-    <div class="rcard"><div class="rh">🎯 Goal</div><div class="rb">Be first to get rid of all cards. Last player with cards is the <strong>Shithead 💩</strong>!</div></div>
-    <div class="rcard"><div class="rh">🃏 Setup</div><div class="rb">Each player gets 3 secret face-down cards + 6 hand cards. Place 3 hand cards face-up on your table spots, keep 3 in hand.<br><br>💡 Place your highest cards face-up!</div></div>
-    <div class="rcard"><div class="rh">▶️ Playing</div><div class="rb">
-      Card order (low→high): <strong>A · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10 · J · Q · K · 2</strong><br><br>
-      • Play a card <strong>strictly higher</strong> than the top of pile<br>
-      • Same rank = <strong>never allowed</strong> (including 7 on 7, 2 on 2)<br>
-      • Can't play? <strong>Pick up the whole pile</strong><br>
-      • Draw back to 3 cards after each play<br>
-      • Hand empty + draw empty → face-up cards move to hand<br>
-      • Face-up gone → flip <strong>face-down blind</strong><br>
-      • Someone plays a card and you can complete 4-of-a-kind? You may <strong>jump in</strong> (optional, 8 sec window)!
-    </div></div>
-    <div class="rcard">
-      <div class="rh">✨ Special Cards</div>
+    <div class="rcard"><div class="rh">Doel</div><div class="rb">Wees niet de laatste met kaarten. De laatste speler = de Shithead 💩</div></div>
+    <div class="rcard"><div class="rh">Speelbeurt</div><div class="rb">Speel een kaart die hoger is dan de bovenste kaart. Meerdere kaarten van dezelfde rang spelen mag. Kun je niet spelen? Pak de hele stapel.</div></div>
+    <div class="rcard"><div class="rh">Bijzondere kaarten</div>
       <div class="rb">
-        <div style="margin-bottom:8px"><span class="rbadge">2</span> Always playable (except on another 2). After a 2, next player can play <strong>anything except 2 or Ace</strong>.</div>
-        <div style="margin-bottom:8px"><span class="rbadge">3</span> <strong>Transparent.</strong> Next player beats the card <em>below</em> the 3.</div>
-        <div style="margin-bottom:8px"><span class="rbadge">7</span> Next player must play <strong>lower than 7</strong> (A, 3, 4, 5, or 6).</div>
-        <div style="margin-bottom:8px"><span class="rbadge">10</span> Always playable (except on another 10). Burns the pile 🔥 Play again!</div>
-        <div><span class="rbadge">4×</span> Four of a kind burns the pile 🔥 Play again!</div>
+        <span class="rbadge">2</span> Altijd speelbaar — volgende speler mag alles behalve 2 of Aas<br>
+        <span class="rbadge">3</span> Transparant — verandert de effectieve top niet<br>
+        <span class="rbadge">7</span> Volgende speler moet 7 of lager spelen<br>
+        <span class="rbadge">10</span> Altijd speelbaar — verbrandt de stapel 🔥, speel opnieuw<br>
+        <span class="rbadge">4x</span> Vier gelijke — verbrandt de stapel 🔥, speel opnieuw<br>
+        <span class="rbadge">A</span> Alleen op een K speelbaar
       </div>
     </div>
-    <button class="btn btn-pri" style="max-width:100%;margin-top:8px" onclick="closeRules()">Got it! ✓</button>
+    <div class="rcard"><div class="rh">Fases</div><div class="rb">1. Speel met handkaarten (3 bijvullen na elke beurt)<br>2. Als trekstapel leeg: speel face-up kaarten<br>3. Als face-up leeg: speel blind de face-down kaarten</div></div>
+    <div class="rcard"><div class="rh">Dobbelstenen</div><div class="rb">Bij start en rematch wordt gegooid om te bepalen wie begint. Hoogste gooi gaat als eerste.</div></div>
   </div>
 </div>
 
 <script>
 var socket = io();
-var myCode = null;
-var myIndex = -1;
-var state = null;
-var sel = [];
-var lastBlindId = null;
-var blindAnimating = false;
+var myCode = null, myIndex = null, state = null, sel = [], lastBlindId = null, blindAnimating = false;
 
-// Rank order for sorting
-var RANK_ORDER = ["A","3","4","5","6","7","8","9","10","J","Q","K","2"];
+function saveSession(code, idx) { try { sessionStorage.setItem('sh_code', code); sessionStorage.setItem('sh_idx', idx); } catch(e){} }
+function clearSession() { try { sessionStorage.removeItem('sh_code'); sessionStorage.removeItem('sh_idx'); } catch(e){} }
+function loadSession() { try { return { code: sessionStorage.getItem('sh_code'), idx: sessionStorage.getItem('sh_idx') }; } catch(e){ return {}; } }
 
 function show(id) {
-  var screens = document.querySelectorAll('.screen');
-  for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
 }
-function isRed(c) { return c.suit === '\u2665' || c.suit === '\u2666'; }
-function openRules() { document.getElementById('rulesOverlay').classList.add('open'); }
-function closeRules() { document.getElementById('rulesOverlay').classList.remove('open'); }
-function clearSel() { sel = []; }
 
-function saveSession() {
-  try { sessionStorage.setItem('sh_code', myCode); sessionStorage.setItem('sh_idx', myIndex); } catch(e) {}
-}
-function loadSession() {
-  try { return { code: sessionStorage.getItem('sh_code'), idx: parseInt(sessionStorage.getItem('sh_idx')) }; } catch(e) { return { code: null, idx: -1 }; }
-}
-function clearSession() {
-  try { sessionStorage.removeItem('sh_code'); sessionStorage.removeItem('sh_idx'); } catch(e) {}
+function leaveGame() {
+  if (confirm('Spel verlaten?')) { clearSession(); location.reload(); }
 }
 
-socket.on('connect', function() {
-  if (myCode && myIndex >= 0) {
-    socket.emit('rejoinRoom', { code: myCode, playerIndex: myIndex });
-  } else {
-    var s = loadSession();
-    if (s.code && s.idx >= 0) { myCode = s.code; myIndex = s.idx; socket.emit('rejoinRoom', { code: s.code, playerIndex: s.idx }); }
+// ── Home screen reconnect ──────────────────────────────────────────────────────
+(function() {
+  var sess = loadSession();
+  if (sess.code && sess.idx !== null) {
+    socket.emit('rejoinRoom', { code: sess.code, playerIndex: parseInt(sess.idx) });
   }
+})();
+
+socket.on('roomCreated', function(data) {
+  myCode = data.code; myIndex = data.playerIndex;
+  saveSession(myCode, myIndex);
+  document.getElementById('lobbyCode').textContent = myCode;
+  show('lobbyScreen');
 });
 
-socket.on('roomCreated', function(d) { myCode = d.code; myIndex = d.playerIndex; saveSession(); document.getElementById('dcode').textContent = d.code; show('lobbyScreen'); });
-socket.on('roomJoined', function(d) { myCode = d.code; myIndex = d.playerIndex; saveSession(); document.getElementById('dcode').textContent = d.code; show('lobbyScreen'); });
-socket.on('error', function(msg) { document.getElementById('jerr').textContent = 'Error: ' + msg; if (msg.indexOf('not found') >= 0 || msg.indexOf('ended') >= 0) clearSession(); });
-
-socket.on('gameState', function(gs) {
-  if (state && state.currentPlayer === myIndex && gs.currentPlayer !== myIndex) clearSel();
-  state = gs;
-  if (gs.phase === 'ended') { clearSession(); renderEnd(gs); show('endScreen'); return; }
-  renderLobby(gs);
-  if (gs.phase === 'lobby') { show('lobbyScreen'); return; }
-  show('gameScreen');
-  renderGame(gs);
+socket.on('roomJoined', function(data) {
+  myCode = data.code; myIndex = data.playerIndex;
+  saveSession(myCode, myIndex);
+  document.getElementById('lobbyCode').textContent = myCode;
+  show('lobbyScreen');
 });
 
-function startVsBot() {
-  var name = prompt('Your name?', 'Player 1') || 'Player 1';
-  socket.emit('createRoom', { playerName: name, vsBot: true });
-}
-function createGame() {
-  socket.emit('createRoom', { playerCount: parseInt(document.getElementById('pcount').value), playerName: document.getElementById('cname').value.trim() || 'Player 1' });
-}
-function joinGame() {
-  var code = document.getElementById('jcode').value.trim().toUpperCase();
-  if (code.length < 4) { document.getElementById('jerr').textContent = 'Enter 4-letter code'; return; }
-  document.getElementById('jerr').textContent = '';
-  socket.emit('joinRoom', { code: code, playerName: document.getElementById('jname').value.trim() || 'Player' });
+socket.on('error', function(msg) {
+  document.getElementById('jerr').textContent = msg;
+  document.getElementById('cerr').textContent = msg;
+});
+
+// ── Dice roll overlay ─────────────────────────────────────────────────────────
+var diceOverlayEl = null;
+var diceRollingTimers = [];
+
+function showDiceOverlay(gs) {
+  if (diceOverlayEl) { diceOverlayEl.remove(); diceOverlayEl = null; }
+  diceRollingTimers.forEach(clearTimeout);
+  diceRollingTimers = [];
+
+  var overlay = document.createElement('div');
+  overlay.className = 'dice-overlay';
+
+  var title = document.createElement('div');
+  title.className = 'dice-title';
+  title.textContent = '🎲 Wie begint?';
+  overlay.appendChild(title);
+
+  var row = document.createElement('div');
+  row.className = 'dice-row';
+
+  var DICE_FACES = ['', '⚀','⚁','⚂','⚃','⚄','⚅'];
+
+  gs.players.forEach(function(p, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'die-wrap';
+    var die = document.createElement('div');
+    die.className = 'die-emoji die-rolling';
+    die.id = 'die-' + i;
+    // Roll animation shows random faces
+    var rollCount = 0;
+    var maxRolls = 12 + Math.floor(Math.random() * 8);
+    var interval = setInterval(function() {
+      die.textContent = DICE_FACES[Math.ceil(Math.random()*6)];
+      rollCount++;
+      if (rollCount >= maxRolls) {
+        clearInterval(interval);
+        if (gs.diceRolls && gs.diceRolls[i] !== undefined) {
+          die.textContent = DICE_FACES[gs.diceRolls[i]];
+          die.classList.remove('die-rolling');
+          die.classList.add('die-done');
+        }
+      }
+    }, 80 + i * 30);
+    diceRollingTimers.push(interval);
+
+    var name = document.createElement('div');
+    name.className = 'die-name';
+    name.textContent = p.name;
+
+    wrap.appendChild(die);
+    wrap.appendChild(name);
+
+    if (gs.diceWinner === i) {
+      var tag = document.createElement('div');
+      tag.className = 'die-winner-tag';
+      tag.textContent = '🏆 Begint!';
+      wrap.appendChild(tag);
+    }
+
+    row.appendChild(wrap);
+  });
+
+  overlay.appendChild(row);
+  document.body.appendChild(overlay);
+  diceOverlayEl = overlay;
 }
 
-function renderLobby(gs) {
-  var c = document.getElementById('lplayers');
-  c.innerHTML = '';
-  for (var i = 0; i < gs.players.length; i++) {
-    var p = gs.players[i];
-    var el = document.createElement('div');
-    el.className = 'ppill';
-    var dc = p.ready ? 'dot rdy' : (p.connected ? 'dot on' : 'dot');
-    var st = p.ready ? 'Ready ✅' : (p.connected ? 'Connected' : 'Waiting…');
-    el.innerHTML = '<div class="' + dc + '"></div><span style="flex:1">' + (p.name || 'Player ' + (i+1)) + '</span><span style="color:var(--mut);font-size:12px">' + st + '</span>';
-    c.appendChild(el);
+function hideDiceOverlay() {
+  if (diceOverlayEl) {
+    diceOverlayEl.style.opacity = '0';
+    diceOverlayEl.style.transition = 'opacity .4s';
+    setTimeout(function() {
+      if (diceOverlayEl) { diceOverlayEl.remove(); diceOverlayEl = null; }
+    }, 450);
   }
-  var n = gs.players.filter(function(p) { return p.connected; }).length;
-  var t = gs.players.length;
-  document.getElementById('lstatus').textContent = n < t ? 'Waiting (' + n + '/' + t + ' joined)' : 'Everyone in! Choose your face-up cards.';
 }
 
+// ── Win celebration overlay ───────────────────────────────────────────────────
+var celebOverlayEl = null;
+
+function showWinCelebration(gs) {
+  if (celebOverlayEl) return;
+
+  spawnConfetti(60);
+
+  var overlay = document.createElement('div');
+  overlay.className = 'celeb-overlay';
+
+  var shitheadName = gs.shithead;
+  var winners = gs.players.filter(function(p) { return p.finishOrder === 1; });
+  var winner = winners.length ? winners[0].name : '';
+
+  // Big title
+  var emoji = document.createElement('div');
+  emoji.className = 'celeb-emoji';
+  emoji.textContent = '🏆';
+  overlay.appendChild(emoji);
+
+  var title = document.createElement('div');
+  title.className = 'celeb-title';
+  title.textContent = winner + ' wint!';
+  overlay.appendChild(title);
+
+  var sub = document.createElement('div');
+  sub.className = 'celeb-sub';
+  sub.textContent = '💩 ' + shitheadName + ' is de Shithead!';
+  overlay.appendChild(sub);
+
+  // Hidden cards reveal
+  var secLabel = document.createElement('div');
+  secLabel.className = 'celeb-section';
+  secLabel.textContent = 'Verborgen kaarten';
+  overlay.appendChild(secLabel);
+
+  gs.players.forEach(function(p) {
+    var row = document.createElement('div');
+    row.className = 'celeb-player-row';
+
+    var nameRow = document.createElement('div');
+    nameRow.className = 'celeb-player-name';
+    var icon = p.name === shitheadName ? '💩' : (p.finishOrder === 1 ? '🥇' : (p.finishOrder === 2 ? '🥈' : '🥉'));
+    nameRow.textContent = icon + ' ' + p.name;
+    row.appendChild(nameRow);
+
+    var cards = p.faceDown && p.faceDown.length ? p.faceDown : [];
+    if (cards.length > 0) {
+      var cardRow = document.createElement('div');
+      cardRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px';
+      cards.forEach(function(card) {
+        if (card.rank !== '?') cardRow.appendChild(makeCard(card, {}));
+      });
+      row.appendChild(cardRow);
+    } else {
+      var none = document.createElement('div');
+      none.style.cssText = 'font-size:12px;color:var(--mut)';
+      none.textContent = 'Geen verborgen kaarten';
+      row.appendChild(none);
+    }
+    overlay.appendChild(row);
+  });
+
+  // Buttons
+  var btnRow = document.createElement('div');
+  btnRow.className = 'celeb-btn-row';
+  btnRow.style.marginTop = '16px';
+
+  if (myCode) {
+    var remBtn = document.createElement('button');
+    remBtn.className = 'celeb-btn';
+    remBtn.style.cssText = 'background:var(--acc);color:#0a0a0f';
+    remBtn.textContent = '🔄 Rematch!';
+    remBtn.onclick = function() { sendRematch(); overlay.remove(); celebOverlayEl = null; };
+    btnRow.appendChild(remBtn);
+  }
+
+  var newBtn = document.createElement('button');
+  newBtn.className = 'celeb-btn';
+  newBtn.style.cssText = 'background:var(--sur);color:var(--txt);border:1.5px solid var(--bdr)';
+  newBtn.textContent = '🏠 Nieuw Spel';
+  newBtn.onclick = function() { location.reload(); };
+  btnRow.appendChild(newBtn);
+
+  overlay.appendChild(btnRow);
+  document.body.appendChild(overlay);
+  celebOverlayEl = overlay;
+
+  // Flash the winner name
+  setTimeout(function() {
+    flashBigWord(winner + '!!!', '#f0a500', '64px', '40%');
+  }, 300);
+  setTimeout(function() {
+    flashBigWord('WINNAAR! 🏆', '#00ffaa', '52px', '55%');
+  }, 900);
+}
+
+function spawnConfetti(count) {
+  var colors = ['🎊','🎉','⭐','✨','🌟','💫'];
+  for (var i = 0; i < count; i++) {
+    (function(delay) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.textContent = colors[Math.floor(Math.random()*colors.length)];
+        el.style.left = (Math.random() * 100) + 'vw';
+        el.style.top = '-30px';
+        el.style.fontSize = (14 + Math.random() * 18) + 'px';
+        el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 3800);
+      }, delay);
+    })(i * 60);
+  }
+}
+
+// ── Fire effect (10 or 4-of-a-kind burn) ────────────────────────────────────
+function showFireEffect() {
+  var flames = ['🔥','🔥','💥','🔥','🔥','💥','🔥','🌋'];
+  for (var i = 0; i < flames.length; i++) {
+    (function(emoji, delay) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'emoji-burst fire';
+        el.textContent = emoji;
+        el.style.left = (5 + Math.random() * 80) + 'vw';
+        el.style.top = (20 + Math.random() * 50) + 'vh';
+        el.style.fontSize = (40 + Math.random() * 44) + 'px';
+        el.style.animationDuration = (1.0 + Math.random() * 0.8) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 2200);
+      }, delay);
+    })(flames[i], i * 110);
+  }
+  flashBigWord('🔥 BURN! 🔥', '#ff4400', '68px', '42%');
+}
+
+// ── Positive blind flip ───────────────────────────────────────────────────────
+function triggerBlindSuccess() {
+  var emojis = ['🎉','⭐','😎','✅','🙌','💪','🎯','🔥','😍','🥳'];
+  for (var i = 0; i < 10; i++) {
+    (function(emoji, dir, delay) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'emoji-burst pos';
+        el.textContent = emoji;
+        el.style.left = (5 + Math.random() * 85) + 'vw';
+        el.style.top = (20 + Math.random() * 55) + 'vh';
+        el.style.fontSize = (36 + Math.random() * 32) + 'px';
+        el.style.animationDuration = (1.0 + Math.random() * 0.8) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 2200);
+      }, delay);
+    })(emojis[i], 'pos', i * 120);
+  }
+  flashBigWord('NICE! 🎉', '#00ffaa', '60px', '38%');
+}
+
+// ── Failed blind flip (absurd) ────────────────────────────────────────────────
+function triggerBlindFail() {
+  var wrap = document.querySelector('.gwrap');
+  if (wrap) { wrap.classList.add('shaking'); setTimeout(function() { wrap.classList.remove('shaking'); }, 2000); }
+
+  var words = [
+    { t: 'NOOOOOB!', c: '#ff2222', size: '76px', top: '32%' },
+    { t: 'LMAOOOO 😂', c: '#f0a500', size: '58px', top: '58%' },
+    { t: 'UNLUCKY 💀', c: '#cc44ff', size: '52px', top: '42%' },
+    { t: 'RIP 😂', c: '#ff4488', size: '66px', top: '50%' },
+    { t: 'GG EZ', c: '#00ffaa', size: '60px', top: '36%' },
+    { t: 'HAHAHA 😈', c: '#ff2222', size: '62px', top: '55%' },
+  ];
+  words.forEach(function(w, i) {
+    setTimeout(function() {
+      flashBigWord(w.t, w.c, w.size, w.top);
+    }, i * 380);
+  });
+
+  var emojiData = [
+    ['😂','up'],['😈','left'],['😂','right'],
+    ['💩','spin'],['😈','up'],['😂','left'],
+    ['💩','right'],['😈','spin'],['😂','up'],
+    ['🤡','left'],['💩','spin'],['😈','right'],
+    ['😂','up'],['🤡','spin'],['😈','left'],
+    ['😂','right'],['💩','up'],['😈','spin'],
+  ];
+  emojiData.forEach(function(item, i) {
+    setTimeout(function() {
+      var el = document.createElement('div');
+      el.className = 'emoji-burst ' + item[1];
+      el.textContent = item[0];
+      el.style.left = (3 + Math.random() * 88) + 'vw';
+      el.style.top = (10 + Math.random() * 65) + 'vh';
+      el.style.fontSize = (52 + Math.random() * 52) + 'px';
+      el.style.animationDuration = (1.3 + Math.random() * 0.9) + 's';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 2800);
+    }, i * 120);
+  });
+}
+
+function flashBigWord(text, color, size, top) {
+  var el = document.createElement('div');
+  el.className = 'flash-word';
+  el.textContent = text;
+  el.style.color = color;
+  el.style.fontSize = size || '60px';
+  el.style.top = top || '45%';
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 1300);
+}
+
+// ── Card rendering ─────────────────────────────────────────────────────────────
 function makeCard(card, opts) {
   opts = opts || {};
   var el = document.createElement('div');
-  el.className = 'card ' + (isRed(card) ? 'r' : 'b');
-  if (opts.fd) { el.classList.add('fd'); return el; }
-  if (opts.sel) el.classList.add('sel');
-  if (opts.dim) el.classList.add('dim');
-  var badges = { '2':'↑', '3':'👻', '7':'↓', '10':'🔥' };
+  var isRed = card.suit === '\u2665' || card.suit === '\u2666';
+  el.className = 'card ' + (isRed ? 'r' : 'b') + (opts.sel ? ' sel' : '') + (opts.dim ? ' dim' : '');
+  var badges = { '2':'\u2191','3':'\uD83D\uDC7B','7':'\u2193','10':'\uD83D\uDD25' };
   var badge = badges[card.rank] ? '<div class="sp">' + badges[card.rank] + '</div>' : '';
-  el.innerHTML = '<div class="corner">' + card.rank + '</div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
+  el.innerHTML = '<div class="corner">' + card.rank + '</div><div class="cs">' + card.suit + '</div>' + badge;
   return el;
 }
 
-// Sort hand low to high, grouped by rank
-function sortHand(hand) {
-  var sorted = hand.slice();
-  sorted.sort(function(a, b) {
-    var ai = RANK_ORDER.indexOf(a.rank);
-    var bi = RANK_ORDER.indexOf(b.rank);
-    if (ai !== bi) return ai - bi;
-    return a.suit < b.suit ? -1 : 1;
-  });
-  return sorted;
-}
-
+// ── Pile fan ──────────────────────────────────────────────────────────────────
 function renderPileFan(pile) {
-  var td = document.getElementById('topD');
-  td.innerHTML = '';
-  td.className = '';
-  if (!pile || !pile.length) { td.className = 'pemp'; td.textContent = '+'; return; }
-
-  var topRank = pile[pile.length - 1].rank;
-  var bStart = pile.length - 1;
-  while (bStart > 0 && pile[bStart - 1].rank === topRank) bStart--;
-  var batch = pile.slice(bStart);
-  var below = bStart > 0 ? pile[bStart - 1] : null;
-
-  var display = [];
-  if (below) display.push(below);
-  var batchShow = batch.length > 2 ? [batch[0], batch[batch.length - 1]] : batch;
-  for (var i = 0; i < batchShow.length; i++) display.push(batchShow[i]);
-  var trimmed = display.slice(-3);
-
+  var fan = document.getElementById('pileFan');
+  var lbl = document.getElementById('pileLbl');
+  fan.innerHTML = '';
+  if (!pile || !pile.length) {
+    lbl.textContent = 'Stapel leeg';
+    return;
+  }
+  var show = pile.slice(-3);
   var wrap = document.createElement('div');
-  wrap.className = 'pile-fan-wrap' + (trimmed.length === 2 ? ' fan2' : '');
-  for (var j = 0; j < trimmed.length; j++) {
-    var w = document.createElement('div');
-    w.className = 'pfc';
-    w.appendChild(makeCard(trimmed[j]));
-    wrap.appendChild(w);
-  }
-  if (batch.length > 1) {
-    var badge = document.createElement('div');
-    badge.className = 'pile-count-badge';
-    badge.textContent = 'x' + batch.length;
-    wrap.lastChild.appendChild(badge);
-  }
-  td.appendChild(wrap);
+  wrap.className = 'pile-fan-wrap' + (show.length < 3 ? ' fan2' : '');
+  show.forEach(function(card) {
+    var div = document.createElement('div');
+    div.className = 'pfc';
+    div.appendChild(makeCard(card, {}));
+    wrap.appendChild(div);
+  });
+  fan.appendChild(wrap);
+  lbl.textContent = pile.length + ' kaart' + (pile.length !== 1 ? 'en' : '');
 }
 
+// ── Blind flip animation ──────────────────────────────────────────────────────
 function showBlindFlip(card, playerName, success) {
   blindAnimating = true;
   var area = document.getElementById('blindReveal');
   var label = document.getElementById('blindLabel');
   var slot = document.getElementById('blindFlipCard');
-  label.textContent = (playerName || 'Someone') + ' flips blind...';
+  label.textContent = (playerName || 'Iemand') + ' flipt blind...';
   slot.innerHTML = '';
   var stage = document.createElement('div'); stage.className = 'flip-stage';
   var inner = document.createElement('div'); inner.className = 'flip-inner';
-  var front = document.createElement('div'); front.className = 'flip-front'; front.textContent = '🂠';
+  var front = document.createElement('div'); front.className = 'flip-front'; front.textContent = '\uD83C\uDCA0';
   var back = document.createElement('div'); back.className = 'flip-back';
-  var revealed = makeCard(card); revealed.style.cursor = 'default';
+  var revealed = makeCard(card, {}); revealed.style.cursor = 'default';
   back.appendChild(revealed);
   inner.appendChild(front); inner.appendChild(back);
   stage.appendChild(inner); slot.appendChild(stage);
@@ -422,84 +653,97 @@ function showBlindFlip(card, playerName, success) {
   setTimeout(function() {
     blindAnimating = false;
     if (state) renderPileFan(success === false ? (state.pileWithoutBlind || []) : state.pile);
-    if (success === false) triggerBlindFail();
+    if (success === true) triggerBlindSuccess();
+    else if (success === false) triggerBlindFail();
     area._hideTimer = setTimeout(function() { area.style.display = 'none'; }, 2600);
   }, 2100);
 }
 
-function triggerBlindFail() {
-  var wrap = document.querySelector('.gwrap');
-  wrap.classList.add('shaking');
-  setTimeout(function() { wrap.classList.remove('shaking'); }, 2200);
-  var words = [
-    { t: "NOOOOOB!", c: "#ff2222", size: "78px", top: "32%" },
-    { t: "LMAOOOO 😂", c: "#f0a500", size: "60px", top: "58%" },
-    { t: "UNLUCKY 💀", c: "#cc44ff", size: "54px", top: "42%" },
-    { t: "RIP 😂", c: "#ff4488", size: "68px", top: "50%" },
-    { t: "GG EZ", c: "#00ffaa", size: "62px", top: "36%" },
-    { t: "HAHAHA 😈", c: "#ff2222", size: "64px", top: "55%" },
-  ];
-  words.forEach(function(w, i) {
-    setTimeout(function() {
-      var el = document.createElement('div');
-      el.className = 'flash-word';
-      el.textContent = w.t;
-      el.style.color = w.c;
-      el.style.fontSize = w.size;
-      el.style.top = w.top;
-      document.body.appendChild(el);
-      setTimeout(function() { el.remove(); }, 1300);
-    }, i * 380);
+// ── Lobby / swap rendering ────────────────────────────────────────────────────
+function renderLobby(gs) {
+  if (!gs) return;
+  document.getElementById('lobbyCode').textContent = gs.roomCode || '----';
+  var lp = document.getElementById('lobbyPlayers');
+  if (!lp) return;
+  lp.innerHTML = '';
+  gs.players.forEach(function(p) {
+    var div = document.createElement('div'); div.className = 'ppill';
+    var dot = document.createElement('div'); dot.className = 'dot' + (p.connected ? (p.ready ? ' rdy' : ' on') : '');
+    var name = document.createElement('span'); name.textContent = p.name + (p.isBot ? ' 🤖' : '');
+    var status = document.createElement('span'); status.style.cssText = 'margin-left:auto;font-size:11px;color:var(--mut)';
+    status.textContent = p.ready ? '✅ Ready' : (p.connected ? 'Verbonden' : 'Wachten...');
+    div.appendChild(dot); div.appendChild(name); div.appendChild(status);
+    lp.appendChild(div);
   });
-  var emojiData = [
-    ["😂","up"],["😈","left"],["😂","right"],
-    ["💩","spin"],["😈","up"],["😂","left"],
-    ["💩","right"],["😈","spin"],["😂","up"],
-    ["🤡","left"],["💩","spin"],["😈","right"],
-    ["😂","up"],["🤡","spin"],["😈","left"],
-    ["😂","right"],["💩","up"],["😈","spin"],
-  ];
-  emojiData.forEach(function(item, i) {
-    (function(emoji, dir, delay) {
-      setTimeout(function() {
-        var el = document.createElement('div');
-        el.className = 'emoji-burst ' + dir;
-        el.textContent = emoji;
-        el.style.left = (3 + Math.random() * 88) + 'vw';
-        el.style.top = (10 + Math.random() * 65) + 'vh';
-        el.style.fontSize = (56 + Math.random() * 52) + 'px';
-        el.style.animationDuration = (1.3 + Math.random() * 0.9) + 's';
-        document.body.appendChild(el);
-        setTimeout(function() { el.remove(); }, 2800);
-      }, delay);
-    })(item[0], item[1], i * 120);
-  });
+  var lm = document.getElementById('lobbyMsg');
+  if (lm) lm.textContent = gs.message || '';
 }
 
+function renderSwap(gs) {
+  if (!gs || myIndex === null) return;
+  var me = gs.players[myIndex];
+  if (!me) return;
+  var fu = document.getElementById('swapFaceUp');
+  var hand = document.getElementById('swapHand');
+  fu.innerHTML = ''; hand.innerHTML = '';
+
+  me.faceUp.forEach(function(card) {
+    var c = makeCard(card, {});
+    c.onclick = function() { socket.emit('returnToHand', { code: myCode, playerIndex: myIndex, faceUpCardId: card.id }); };
+    fu.appendChild(c);
+  });
+
+  if (me.hand) {
+    var sorted = me.hand.slice().sort(function(a, b) {
+      var rv = {"A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"J":11,"Q":12,"K":13,"2":15};
+      return (rv[a.rank]||50) - (rv[b.rank]||50);
+    });
+    sorted.forEach(function(card) {
+      var c = makeCard(card, {});
+      c.onclick = function() { if (me.faceUp.length < 3) socket.emit('placeFaceUp', { code: myCode, playerIndex: myIndex, handCardId: card.id }); };
+      hand.appendChild(c);
+    });
+  }
+
+  var readyBtn = document.getElementById('readyBtn');
+  readyBtn.disabled = me.faceUp.length !== 3;
+  document.getElementById('swapMsg').textContent = gs.message || '';
+}
+
+// ── End screen ────────────────────────────────────────────────────────────────
 function renderEnd(gs) {
-  document.getElementById('endTitle').textContent = '💩 ' + gs.shithead + ' is the Shithead!';
+  document.getElementById('endTitle').textContent = '\uD83D\uDCA9 ' + gs.shithead + ' is de Shithead!';
   var res = document.getElementById('endResults');
   res.innerHTML = '';
   var sorted = gs.players.slice().sort(function(a, b) { return (a.finishOrder || 99) - (b.finishOrder || 99); });
-  for (var i = 0; i < sorted.length; i++) {
-    var p = sorted[i];
+  sorted.forEach(function(p, i) {
     var isShit = p.name === gs.shithead;
     var div = document.createElement('div');
     div.style.cssText = 'background:var(--sur);border:1.5px solid var(--bdr);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:14px';
-    var icon = isShit ? '💩' : (i === 0 ? '🥇' : (i === 1 ? '🥈' : '🥉'));
-    var tag = isShit ? 'SHITHEAD 😭' : (p.finishOrder ? '#' + p.finishOrder : '');
+    var icon = isShit ? '\uD83D\uDCA9' : (i === 0 ? '\uD83E\uDD47' : (i === 1 ? '\uD83E\uDD48' : '\uD83E\uDD49'));
+    var tag = isShit ? 'SHITHEAD \uD83D\uDE2D' : (p.finishOrder ? '#' + p.finishOrder : '');
     div.innerHTML = '<span style="font-size:20px">' + icon + '</span><span style="flex:1;font-weight:600">' + p.name + '</span><span style="color:var(--mut)">' + tag + '</span>';
     res.appendChild(div);
-  }
+  });
+  var rb = document.getElementById('rematchBtn');
+  if (rb && myCode) rb.style.display = 'block';
 }
+
+function sendRematch() {
+  if (myCode) socket.emit('rematch', { code: myCode });
+}
+
+// ── Main game render ──────────────────────────────────────────────────────────
+function clearSel() { sel = []; }
 
 function renderGame(gs) {
   if (!gs) return;
   var me = gs.players[myIndex];
   if (!me) return;
   var myTurn = gs.currentPlayer === myIndex && gs.phase === 'play';
+  var firstCard = sel.length ? { rank: sel[0].split('|')[0] } : null;
 
-  // Blind flip trigger
+  // Blind flip
   if (gs.lastBlind && gs.lastBlind.id !== lastBlindId) {
     lastBlindId = gs.lastBlind.id;
     showBlindFlip(gs.lastBlind, gs.lastBlindPlayerName, gs.lastBlindSuccess);
@@ -507,209 +751,288 @@ function renderGame(gs) {
     lastBlindId = null;
   }
 
+  // Turn badge
   var b = document.getElementById('tbdg');
   b.className = 'tbdg ' + (myTurn ? 'mine' : 'wait');
-  b.textContent = myTurn ? '🎮 YOUR TURN' : '⏳ ' + (gs.players[gs.currentPlayer] ? gs.players[gs.currentPlayer].name : '?') + "'s turn";
-  document.getElementById('msg').textContent = gs.message || '';
+  b.textContent = myTurn ? 'Jij bent aan de beurt!' : ('Wacht op ' + (gs.players[gs.currentPlayer] ? gs.players[gs.currentPlayer].name : '...'));
 
-  // Pile: hide blind card during animation
-  var pileToShow = (blindAnimating && gs.lastBlind) ? (gs.pileWithoutBlind || gs.pile.slice(0, -1)) : gs.pile;
-  renderPileFan(pileToShow);
-  document.getElementById('pileC').textContent = gs.pile.length + (gs.pile.length === 1 ? ' card' : ' cards');
-  document.getElementById('drawC').textContent = gs.drawPileCount + ' left';
-  document.getElementById('burnC').textContent = gs.burned;
-  var dd = document.getElementById('drawD');
-  dd.className = 'pemp';
-  dd.textContent = gs.drawPileCount > 0 ? '🂠' : '✓';
+  // Toast message
+  document.getElementById('toastMsg').textContent = gs.message || '';
 
-  // 4-of-a-kind banner
-  var fourBanner = document.getElementById('fourBanner');
-  fourBanner.style.display = 'none';
-  if (gs.fourWindow && !myTurn && gs.phase === 'play') {
-    var rank = gs.fourWindow.rank;
-    var myHand = me.hand || [];
-    var matching = myHand.filter(function(c) { return c.rank === rank; });
-    if (matching.length > 0) {
-      fourBanner.style.display = 'flex';
-      fourBanner.className = 'four-banner';
-      fourBanner.innerHTML = '<div style="font-family:Abril Fatface,serif;font-size:22px;color:var(--acc)">' + rank + '</div>' +
-        '<div style="flex:1"><strong>Jump in!</strong> Complete the 4-of-a-kind (optional)<br>' +
-        '<span style="font-size:11px;color:var(--mut)">' + gs.fourWindow.count + ' ' + rank + 's on pile — you have ' + matching.length + '</span></div>';
-      var jbtn = document.createElement('button');
-      jbtn.style.cssText = 'background:var(--acc);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0';
-      jbtn.textContent = 'Jump in!';
-      var matchIds = matching.map(function(c) { return c.id; });
-      jbtn.onclick = function() { socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: matchIds }); };
-      fourBanner.appendChild(jbtn);
-    }
+  // Pile (skip during blind animating)
+  if (!blindAnimating) renderPileFan(gs.pile);
+
+  // Fire effect for 10-burn
+  if (gs.tenBurn && !document.querySelector('.fire-effect-shown')) {
+    var marker = document.createElement('div');
+    marker.className = 'fire-effect-shown';
+    marker.style.display = 'none';
+    document.body.appendChild(marker);
+    showFireEffect();
+    setTimeout(function() { var m = document.querySelector('.fire-effect-shown'); if (m) m.remove(); }, 3000);
   }
+  if (!gs.tenBurn) { var fe = document.querySelector('.fire-effect-shown'); if (fe) fe.remove(); }
 
-  // Other players
-  var oe = document.getElementById('others');
-  oe.innerHTML = '';
-  for (var pi = 0; pi < gs.players.length; pi++) {
-    if (pi === myIndex) continue;
-    var p = gs.players[pi];
-    var div = document.createElement('div');
-    div.className = 'op' + (gs.currentPlayer === pi ? ' act' : '');
-    var ch = '';
-    var nstk = Math.min(Math.max(p.faceDownCount || 0, p.faceUp.length), 5);
-    for (var s = 0; s < nstk; s++) {
-      var fu = p.faceUp[s];
-      if (s < (p.faceDownCount || 0)) {
-        var fuh = fu ? '<div class="mc msfu ' + (isRed(fu) ? 'mr' : '') + '">' + fu.rank + '</div>' : '';
-        ch += '<div class="mstk"><div class="mc msfd mfd">🂠</div>' + fuh + '</div>';
-      } else if (fu) {
-        ch += '<div class="mc ' + (isRed(fu) ? 'mr' : '') + '">' + fu.rank + '</div>';
+  // Four-of-a-kind burn effect
+  if (gs.fourBurn && !document.querySelector('.four-effect-shown')) {
+    var marker4 = document.createElement('div');
+    marker4.className = 'four-effect-shown';
+    marker4.style.display = 'none';
+    document.body.appendChild(marker4);
+    showFireEffect();
+    flashBigWord('VIER GELIJKE! 💥', '#ff6600', '58px', '36%');
+    setTimeout(function() { var m = document.querySelector('.four-effect-shown'); if (m) m.remove(); }, 3000);
+  }
+  if (!gs.fourBurn) { var fe4 = document.querySelector('.four-effect-shown'); if (fe4) fe4.remove(); }
+
+  // Opponent areas
+  var others = document.getElementById('others');
+  others.innerHTML = '';
+  gs.players.forEach(function(p, i) {
+    if (i === myIndex) return;
+    var div = document.createElement('div'); div.className = 'opp-area';
+    var isOppTurn = gs.currentPlayer === i;
+    var badge = document.createElement('span'); badge.className = 'tbdg ' + (isOppTurn ? 'mine' : 'wait');
+    badge.style.cssText = 'padding:3px 10px;font-size:10px;margin:0';
+    badge.textContent = isOppTurn ? 'Aan beurt' : 'Wachten';
+    var nameDiv = document.createElement('div'); nameDiv.className = 'oppname';
+    nameDiv.innerHTML = '<span>' + p.name + (p.isBot ? ' 🤖' : '') + '</span>';
+    nameDiv.appendChild(badge);
+
+    var row = document.createElement('div'); row.className = 'cards-row';
+    // Face-down
+    for (var j = 0; j < p.faceDownCount; j++) {
+      var fd = document.createElement('div'); fd.className = 'card fd'; row.appendChild(fd);
+    }
+    // Face-up
+    p.faceUp.forEach(function(card) { row.appendChild(makeCard(card, {})); });
+    // Hand
+    for (var k = 0; k < p.handCount; k++) {
+      var hc = document.createElement('div'); hc.className = 'card fd'; row.appendChild(hc);
+    }
+
+    // 4-of-a-kind window banner
+    if (gs.fourWindow) {
+      var src = p.hand ? p.hand : (p.faceUp.length > 0 ? p.faceUp : []);
+      var myMatchCount = 0;
+      if (me.hand && me.hand.length > 0) {
+        me.hand.forEach(function(c) { if (c.rank === gs.fourWindow.rank) myMatchCount++; });
+      } else if (me.faceUp && me.faceUp.length > 0) {
+        me.faceUp.forEach(function(c) { if (c.rank === gs.fourWindow.rank) myMatchCount++; });
+      }
+      var needed = 4 - gs.fourWindow.count;
+      if (myMatchCount >= needed && i !== gs.currentPlayer) {
+        var banner = document.createElement('div');
+        banner.style.cssText = 'background:var(--acc);color:#000;font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;margin-bottom:6px;text-align:center';
+        banner.textContent = '\uD83C\uDFAF Jump-in met ' + gs.fourWindow.rank + '!';
+        div.insertBefore(banner, nameDiv);
       }
     }
-    for (var h = 0; h < Math.min(p.handCount, 6); h++) ch += '<div class="mc mfd">🂠</div>';
-    var botIcon = p.isBot ? '🤖 ' : '';
-    div.innerHTML = '<div class="opn">' + botIcon + p.name + (p.finished ? ' <span class="ftag">Done ✅</span>' : '') + (gs.currentPlayer === pi ? ' 👈' : '') + '</div><div class="opc">' + ch + '</div>';
-    oe.appendChild(div);
+
+    div.appendChild(nameDiv); div.appendChild(row);
+    others.appendChild(div);
+  });
+
+  // My name
+  document.getElementById('myName').textContent = me.name;
+
+  // My face-down
+  var myFD = document.getElementById('myFaceDown');
+  myFD.innerHTML = '';
+  var isBlindPhase = me.hand && me.hand.length === 0 && me.faceUp && me.faceUp.length === 0 && myTurn;
+  me.faceDown.forEach(function(card, idx) {
+    var isRevealed = card.rank !== '?';
+    var el;
+    if (isRevealed) {
+      el = makeCard(card, {});
+    } else {
+      el = document.createElement('div'); el.className = 'card fd';
+      if (isBlindPhase) {
+        el.classList.add('blind-tap');
+        el.onclick = (function(pos) { return function() { socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: ['__fd__' + pos] }); }; })(idx);
+      }
+    }
+    myFD.appendChild(el);
+  });
+
+  // My face-up
+  var myFU = document.getElementById('myFaceUp');
+  myFU.innerHTML = '';
+  me.faceUp.forEach(function(card) {
+    var inSel = sel.indexOf(card.id + '|fu') !== -1;
+    var el = makeCard(card, { sel: inSel });
+    if (myTurn && me.hand && me.hand.length === 0) {
+      el.onclick = function() { toggleSel(card, 'fu'); };
+    }
+    myFU.appendChild(el);
+  });
+
+  // My hand
+  var myH = document.getElementById('myHand');
+  myH.innerHTML = '';
+  if (me.hand) {
+    var sorted = me.hand.slice().sort(function(a, b) {
+      var rv = {"A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"J":11,"Q":12,"K":13,"2":15};
+      return (rv[a.rank]||50) - (rv[b.rank]||50);
+    });
+    sorted.forEach(function(card) {
+      var inSel = sel.indexOf(card.id + '|h') !== -1;
+      var playable = myTurn && canPlayClient(card, gs.pile);
+      var el = makeCard(card, { sel: inSel, dim: myTurn && !playable && !inSel && sel.length === 0 });
+      if (myTurn) {
+        el.onclick = function() { toggleSel(card, 'h'); };
+      }
+      myH.appendChild(el);
+    });
   }
 
-  document.getElementById('myname').textContent = (me.name || 'You') + (me.finished ? ' ✅' : '');
-
-  var sb = document.getElementById('swapbox');
-  if (gs.phase === 'swap') {
-    sb.style.display = 'block';
-    sb.innerHTML = '<strong>' + me.faceUp.length + '/3 face-up chosen</strong><br>Tap a hand card to place face-up. Tap face-up card to return.';
+  // 4-of-a-kind jump-in banner for me
+  if (gs.fourWindow && gs.currentPlayer !== myIndex) {
+    var myCards = (me.hand && me.hand.length > 0) ? me.hand : ((me.faceUp && me.faceUp.length > 0) ? me.faceUp : []);
+    var matchCount = myCards.filter(function(c) { return c.rank === gs.fourWindow.rank; }).length;
+    var needed2 = 4 - gs.fourWindow.count;
+    if (matchCount >= needed2) {
+      var jumpBanner = document.getElementById('jumpBanner');
+      if (!jumpBanner) {
+        jumpBanner = document.createElement('div');
+        jumpBanner.id = 'jumpBanner';
+        jumpBanner.style.cssText = 'background:var(--acc);color:#000;padding:10px;border-radius:10px;text-align:center;font-weight:700;font-size:14px;margin-bottom:8px';
+        jumpBanner.textContent = '\uD83C\uDFAF Jij kunt jump-in met ' + gs.fourWindow.rank + '! Selecteer en speel.';
+        document.getElementById('myArea').insertBefore(jumpBanner, document.getElementById('myArea').firstChild);
+      }
+    }
   } else {
-    sb.style.display = 'none';
+    var jb = document.getElementById('jumpBanner');
+    if (jb) jb.remove();
   }
 
-  // My table cards
-  var te = document.getElementById('mytable');
-  te.innerHTML = '';
-  if (me.faceUp.length > 0) {
-    var sc = Math.max(me.faceDown.length, me.faceUp.length);
-    for (var si = 0; si < sc; si++) {
-      var hasFD = si < me.faceDown.length;
-      var fup = me.faceUp[si];
-      var stk = document.createElement('div');
-      stk.className = 'stk';
-      if (hasFD) {
-        var fde = makeCard({ rank: '?', suit: '?' }, { fd: true });
-        fde.classList.add('sfd');
-        stk.appendChild(fde);
-      }
-      if (fup) {
-        var canFU = gs.phase === 'play' && myTurn && me.hand.length === 0;
-        var fue = makeCard(fup, { sel: sel.indexOf(fup.id) >= 0 });
-        fue.classList.add('sfu');
-        if (gs.phase === 'swap') {
-          (function(cardId) { fue.onclick = function() { socket.emit('returnToHand', { code: myCode, playerIndex: myIndex, faceUpCardId: cardId }); }; })(fup.id);
-        } else if (canFU) {
-          (function(cardId) { fue.onclick = function() { toggle(cardId); }; })(fup.id);
-        }
-        stk.appendChild(fue);
-      }
-      te.appendChild(stk);
-    }
-  } else if (me.faceDown.length > 0) {
-    var canFlip = gs.phase === 'play' && myTurn && me.hand.length === 0;
-    for (var fi = 0; fi < me.faceDown.length; fi++) {
-      var fde2 = makeCard({ rank: '?', suit: '?' }, { fd: true });
-      if (canFlip) {
-        fde2.classList.add('blind-tap');
-        fde2.title = 'Tap to flip blind!';
-        (function(pos) { fde2.onclick = function() { socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: ['__fd__' + pos] }); }; })(fi);
-      }
-      te.appendChild(fde2);
-    }
-  }
-
-  // Hand — sorted low to high grouped by rank
-  document.getElementById('hlbl').textContent = gs.phase === 'swap' ? 'Hand — tap to place face-up (' + (3 - me.faceUp.length) + ' more)' : 'Hand';
-  var he = document.getElementById('myhand');
-  he.innerHTML = '';
-  var sortedHand = sortHand(me.hand || []);
-  for (var hi2 = 0; hi2 < sortedHand.length; hi2++) {
-    var c = sortedHand[hi2];
-    var canH = gs.phase === 'play' && myTurn;
-    var ce = makeCard(c, { sel: sel.indexOf(c.id) >= 0, dim: !myTurn && gs.phase === 'play' });
-    if (gs.phase === 'swap') {
-      (function(cardId) { ce.onclick = function() { socket.emit('placeFaceUp', { code: myCode, playerIndex: myIndex, handCardId: cardId }); }; })(c.id);
-    } else if (canH) {
-      (function(cardId) { ce.onclick = function() { toggle(cardId); }; })(c.id);
-    }
-    he.appendChild(ce);
-  }
-
-  renderBar(gs, me, myTurn);
+  // Buttons
+  document.getElementById('btnPlay').disabled = sel.length === 0;
+  document.getElementById('btnPickup').disabled = !myTurn || !gs.pile.length;
 }
 
-function renderBar(gs, me, myTurn) {
-  var bar = document.getElementById('abar');
-  bar.innerHTML = '';
-  if (gs.phase === 'swap') {
-    var btn = document.createElement('button');
-    btn.className = 'btn btn-grn';
-    var need = 3 - me.faceUp.length;
-    btn.textContent = me.ready ? '⏳ Waiting for others…' : (need > 0 ? 'Choose ' + need + ' more card' + (need !== 1 ? 's' : '') : '✅ Ready to Play!');
-    btn.disabled = need > 0 || me.ready;
-    btn.onclick = function() { socket.emit('readyToPlay', { code: myCode, playerIndex: myIndex }); };
-    bar.appendChild(btn);
-    return;
-  }
-  if (!myTurn) return;
-  if (sel.length > 0) {
-    var pb = document.createElement('button');
-    pb.className = 'btn btn-pri';
-    pb.textContent = 'Play ' + sel.length + ' card' + (sel.length > 1 ? 's' : '');
-    pb.onclick = playSel;
-    bar.appendChild(pb);
-  }
-  var pk = document.createElement('button');
-  pk.className = 'btn btn-red';
-  pk.textContent = '📥 Pick Up Pile';
-  pk.disabled = !gs.pile.length;
-  pk.onclick = function() { clearSel(); socket.emit('pickUpPile', { code: myCode, playerIndex: myIndex }); };
-  bar.appendChild(pk);
-}
-
-function toggle(id) {
-  var idx = sel.indexOf(id);
+function toggleSel(card, src) {
+  var key = card.id + '|' + src;
+  var idx = sel.indexOf(key);
+  var firstCard = sel.length ? { rank: sel[0].split('|')[0] } : null;
   if (idx !== -1) {
     sel.splice(idx, 1);
   } else {
-    // Only allow same rank
-    if (state && state.players[myIndex]) {
-      var hand = state.players[myIndex].hand || [];
-      var faceUp = state.players[myIndex].faceUp || [];
-      var allCards = hand.concat(faceUp);
-      var card = null;
-      for (var i = 0; i < allCards.length; i++) {
-        if (allCards[i].id === id) { card = allCards[i]; break; }
-      }
-      if (card) {
-        if (sel.length > 0) {
-          var firstCard = null;
-          for (var j = 0; j < allCards.length; j++) {
-            if (allCards[j].id === sel[0]) { firstCard = allCards[j]; break; }
-          }
-          if (firstCard && firstCard.rank !== card.rank) sel = [];
-        }
-        sel.push(id);
-      }
-    }
+    if (firstCard && firstCard.rank !== card.rank) sel = [];
+    sel.push(key);
+    // Auto-deselect incompatible source
+    var firstSrc = sel.length > 1 ? sel[0].split('|')[1] : src;
+    if (firstSrc !== src) sel = [key];
   }
-  renderGame(state);
+  if (state) renderGame(state);
 }
 
-function leaveGame() {
-  if (confirm('Leave this game and go back to the home screen?')) {
-    clearSession();
-    location.reload();
-  }
+function canPlayClient(card, pile) {
+  if (!pile || !pile.length) return true;
+  var last = pile[pile.length-1];
+  if (card.rank === last.rank) return false;
+  if (card.rank === '10' || card.rank === '3' || card.rank === '2') return true;
+  var rv = {"A":1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"J":11,"Q":12,"K":13,"2":15};
+  // Find effective top (skip 3s)
+  var nt = pile.filter(function(c) { return c.rank !== '3'; });
+  if (!nt.length) return true;
+  var top = nt[nt.length-1];
+  if (top.rank === '2') return card.rank !== 'A';
+  if (top.rank === '7') return rv[card.rank] < rv['7'];
+  if (card.rank === 'A' && top.rank === 'K') return true;
+  return rv[card.rank] > rv[top.rank];
 }
 
 function playSel() {
   if (!sel.length) return;
-  socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: sel.slice() });
-  clearSel();
+  var ids = sel.map(function(k) { return k.split('|')[0]; });
+  sel = [];
+  socket.emit('playCards', { code: myCode, playerIndex: myIndex, cardIds: ids });
 }
+
+function pickUpPile() {
+  socket.emit('pickUpPile', { code: myCode, playerIndex: myIndex });
+}
+
+function createRoom() {
+  var name = document.getElementById('cname').value.trim();
+  if (!name) { document.getElementById('cerr').textContent = 'Vul een naam in'; return; }
+  var count = parseInt(document.getElementById('ccount').value);
+  socket.emit('createRoom', { playerName: name, playerCount: count });
+}
+
+function joinRoom() {
+  var name = document.getElementById('jname').value.trim();
+  var code = document.getElementById('jcode').value.trim().toUpperCase();
+  if (!name) { document.getElementById('jerr').textContent = 'Vul een naam in'; return; }
+  if (!code || code.length !== 4) { document.getElementById('jerr').textContent = 'Vul een 4-letter code in'; return; }
+  socket.emit('joinRoom', { playerName: name, code: code });
+}
+
+function startVsBot() {
+  var name = prompt('Jouw naam?', 'Speler');
+  if (!name) return;
+  socket.emit('createRoom', { playerName: name.trim(), vsBot: true });
+}
+
+function readyUp() {
+  socket.emit('readyToPlay', { code: myCode, playerIndex: myIndex });
+}
+
+function openRules() { document.getElementById('rulesOverlay').classList.add('open'); }
+function closeRules() { document.getElementById('rulesOverlay').classList.remove('open'); }
+
+// ── Main gameState handler ─────────────────────────────────────────────────────
+var prevDiceRolls = null;
+var prevTenBurn = false;
+var prevFourBurn = false;
+var prevWinReveal = false;
+
+socket.on('gameState', function(gs) {
+  if (myIndex === null && gs.players) {
+    // After rejoin, find our socket
+  }
+  if (state && state.currentPlayer === myIndex && gs.currentPlayer !== myIndex) clearSel();
+  state = gs;
+
+  // Dice overlay
+  if (gs.diceRolls && !prevDiceRolls) {
+    showDiceOverlay(gs);
+  } else if (!gs.diceRolls && prevDiceRolls) {
+    hideDiceOverlay();
+  } else if (gs.diceRolls && diceOverlayEl) {
+    // Update winner display when diceWinner arrives
+  }
+  prevDiceRolls = gs.diceRolls;
+
+  // Phase routing
+  if (gs.phase === 'ended') {
+    if (celebOverlayEl) celebOverlayEl.remove();
+    celebOverlayEl = null;
+    clearSession();
+    renderEnd(gs);
+    show('endScreen');
+    return;
+  }
+  if (gs.phase === 'winReveal' && !prevWinReveal) {
+    prevWinReveal = true;
+    show('gameScreen');
+    renderGame(gs);
+    showWinCelebration(gs);
+    return;
+  }
+  if (gs.phase === 'winReveal') {
+    // Just keep showing the celebration
+    return;
+  }
+  prevWinReveal = false;
+
+  renderLobby(gs);
+  if (gs.phase === 'lobby') { show('lobbyScreen'); return; }
+  if (gs.phase === 'swap') { show('swapScreen'); renderSwap(gs); return; }
+  show('gameScreen');
+  renderGame(gs);
+});
 </script>
 </body>
 </html>
