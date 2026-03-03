@@ -107,6 +107,10 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 #endScreen{text-align:center}
 .ftag{font-size:10px;background:var(--grn);color:#fff;padding:2px 5px;border-radius:5px;font-weight:600}
 #jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,50%,90%{transform:translateX(-10px)}30%,70%{transform:translateX(10px)}}
+.shaking{animation:shake 0.6s ease-in-out 3}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-160px) scale(1.6)}}
+.emoji-burst{position:fixed;pointer-events:none;font-size:36px;z-index:999;animation:floatUp 1.4s ease-out forwards}
 </style>
 </head>
 <body>
@@ -391,7 +395,7 @@ function renderPileFan(pile) {
   td.appendChild(wrap);
 }
 
-function showBlindFlip(card, playerName) {
+function showBlindFlip(card, playerName, success) {
   blindAnimating = true;
   var area = document.getElementById('blindReveal');
   var label = document.getElementById('blindLabel');
@@ -408,13 +412,35 @@ function showBlindFlip(card, playerName) {
   stage.appendChild(inner); slot.appendChild(stage);
   area.style.display = 'block';
   clearTimeout(area._hideTimer);
-  // After animation (1.8s + 0.3s buffer), update pile and schedule hide
   setTimeout(function() {
     blindAnimating = false;
-    if (state) renderPileFan(state.pile);
-    area._hideTimer = setTimeout(function() { area.style.display = 'none'; }, 2000);
+    if (state) renderPileFan(success === false ? (state.pileWithoutBlind || []) : state.pile);
+    if (success === false) { triggerBlindFail(); }
+    area._hideTimer = setTimeout(function() { area.style.display = 'none'; }, 2400);
   }, 2100);
 }
+
+function triggerBlindFail() {
+  var wrap = document.querySelector('.gwrap');
+  wrap.classList.add('shaking');
+  setTimeout(function() { wrap.classList.remove('shaking'); }, 2000);
+  var emojis = ["😈","😂","😈","😂","💩","😈","😂","💩","😈","😂"];
+  for (var i = 0; i < emojis.length; i++) {
+    (function(emoji, delay) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'emoji-burst';
+        el.textContent = emoji;
+        el.style.left = (5 + Math.random() * 85) + 'vw';
+        el.style.top = (15 + Math.random() * 60) + 'vh';
+        el.style.animationDuration = (1.0 + Math.random() * 0.8) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 2200);
+      }, delay);
+    })(emojis[i], i * 180);
+  }
+}
+
 
 function renderEnd(gs) {
   document.getElementById('endTitle').textContent = '💩 ' + gs.shithead + ' is the Shithead!';
@@ -442,7 +468,7 @@ function renderGame(gs) {
   // Blind flip trigger
   if (gs.lastBlind && gs.lastBlind.id !== lastBlindId) {
     lastBlindId = gs.lastBlind.id;
-    showBlindFlip(gs.lastBlind, gs.lastBlindPlayerName);
+    showBlindFlip(gs.lastBlind, gs.lastBlindPlayerName, gs.lastBlindSuccess);
   } else if (!gs.lastBlind) {
     lastBlindId = null;
   }
