@@ -34,9 +34,7 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 .gwrap{width:100%;max-width:480px;margin:0 auto;padding:10px 10px 130px}
 .card{width:54px;height:78px;background:var(--cbg);border-radius:7px;display:inline-flex;flex-direction:column;justify-content:space-between;padding:4px 5px;font-weight:700;cursor:pointer;border:2.5px solid transparent;transition:transform .1s,border-color .1s,box-shadow .1s;position:relative;user-select:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.5)}
 .card.r{color:var(--red)}.card.b{color:var(--blk)}
-.corner{position:absolute;top:3px;left:4px;display:flex;flex-direction:column;align-items:flex-start;line-height:1;z-index:1}
-.corner .cr{font-size:13px;font-weight:700}
-.corner .cs{font-size:11px}
+.corner{position:absolute;top:3px;left:4px;font-size:14px;font-weight:800;line-height:1;z-index:1}
 .card.sel{border-color:var(--acc);transform:translateY(-10px);box-shadow:0 10px 24px rgba(240,165,0,.45)}
 .card.fd{background:linear-gradient(135deg,#1e2a4a,#0f3460);border-color:#2a4a8a;cursor:default}
 .card.fd>*{display:none}
@@ -107,10 +105,19 @@ label{font-size:12px;color:var(--mut);margin-bottom:5px;display:block;text-trans
 #endScreen{text-align:center}
 .ftag{font-size:10px;background:var(--grn);color:#fff;padding:2px 5px;border-radius:5px;font-weight:600}
 #jerr{color:#e74c3c;font-size:13px;margin-top:6px;text-align:center}
-@keyframes shake{0%,100%{transform:translateX(0)}10%,50%,90%{transform:translateX(-10px)}30%,70%{transform:translateX(10px)}}
-.shaking{animation:shake 0.6s ease-in-out 3}
-@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-160px) scale(1.6)}}
-.emoji-burst{position:fixed;pointer-events:none;font-size:36px;z-index:999;animation:floatUp 1.4s ease-out forwards}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,50%,90%{transform:translateX(-14px)}30%,70%{transform:translateX(14px)}40%,60%,80%{transform:translateX(-8px) rotate(-1deg)}}
+.shaking{animation:shake 0.5s ease-in-out 4}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-240px) scale(2.2) rotate(25deg)}}
+@keyframes floatUpLeft{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translate(-150px,-200px) scale(2.0) rotate(-35deg)}}
+@keyframes floatUpRight{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translate(150px,-200px) scale(2.0) rotate(35deg)}}
+@keyframes spinOut{0%{opacity:1;transform:scale(1) rotate(0deg)}100%{opacity:0;transform:scale(3.5) rotate(900deg)}}
+@keyframes flashWord{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3) rotate(-10deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(-3deg)}75%{opacity:1;transform:translate(-50%,-50%) scale(1.0) rotate(3deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.6) rotate(8deg)}}
+.emoji-burst{position:fixed;pointer-events:none;z-index:999}
+.emoji-burst.up{animation:floatUp 1.8s ease-out forwards}
+.emoji-burst.left{animation:floatUpLeft 1.8s ease-out forwards}
+.emoji-burst.right{animation:floatUpRight 1.8s ease-out forwards}
+.emoji-burst.spin{animation:spinOut 2.0s ease-out forwards}
+.flash-word{position:fixed;pointer-events:none;z-index:1000;font-family:'Abril Fatface',serif;left:50%;transform:translate(-50%,-50%);text-align:center;text-shadow:0 0 40px currentColor,0 4px 0 rgba(0,0,0,.9);animation:flashWord 1.2s ease-in-out forwards}
 </style>
 </head>
 <body>
@@ -344,7 +351,7 @@ function makeCard(card, opts) {
   if (opts.dim) el.classList.add('dim');
   var badges = { '2':'↑', '3':'👻', '7':'↓', '10':'🔥' };
   var badge = badges[card.rank] ? '<div class="sp">' + badges[card.rank] + '</div>' : '';
-  el.innerHTML = '<div class="corner"><span class="cr">' + card.rank + '</span></div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
+  el.innerHTML = '<div class="corner">' + card.rank + '</div><div class="cs" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px">' + card.suit + '</div>' + badge;
   return el;
 }
 
@@ -415,32 +422,59 @@ function showBlindFlip(card, playerName, success) {
   setTimeout(function() {
     blindAnimating = false;
     if (state) renderPileFan(success === false ? (state.pileWithoutBlind || []) : state.pile);
-    if (success === false) { triggerBlindFail(); }
-    area._hideTimer = setTimeout(function() { area.style.display = 'none'; }, 2400);
+    if (success === false) triggerBlindFail();
+    area._hideTimer = setTimeout(function() { area.style.display = 'none'; }, 2600);
   }, 2100);
 }
 
 function triggerBlindFail() {
   var wrap = document.querySelector('.gwrap');
   wrap.classList.add('shaking');
-  setTimeout(function() { wrap.classList.remove('shaking'); }, 2000);
-  var emojis = ["😈","😂","😈","😂","💩","😈","😂","💩","😈","😂"];
-  for (var i = 0; i < emojis.length; i++) {
-    (function(emoji, delay) {
+  setTimeout(function() { wrap.classList.remove('shaking'); }, 2200);
+  var words = [
+    { t: "NOOOOOB!", c: "#ff2222", size: "78px", top: "32%" },
+    { t: "LMAOOOO 😂", c: "#f0a500", size: "60px", top: "58%" },
+    { t: "UNLUCKY 💀", c: "#cc44ff", size: "54px", top: "42%" },
+    { t: "RIP 😂", c: "#ff4488", size: "68px", top: "50%" },
+    { t: "GG EZ", c: "#00ffaa", size: "62px", top: "36%" },
+    { t: "HAHAHA 😈", c: "#ff2222", size: "64px", top: "55%" },
+  ];
+  words.forEach(function(w, i) {
+    setTimeout(function() {
+      var el = document.createElement('div');
+      el.className = 'flash-word';
+      el.textContent = w.t;
+      el.style.color = w.c;
+      el.style.fontSize = w.size;
+      el.style.top = w.top;
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 1300);
+    }, i * 380);
+  });
+  var emojiData = [
+    ["😂","up"],["😈","left"],["😂","right"],
+    ["💩","spin"],["😈","up"],["😂","left"],
+    ["💩","right"],["😈","spin"],["😂","up"],
+    ["🤡","left"],["💩","spin"],["😈","right"],
+    ["😂","up"],["🤡","spin"],["😈","left"],
+    ["😂","right"],["💩","up"],["😈","spin"],
+  ];
+  emojiData.forEach(function(item, i) {
+    (function(emoji, dir, delay) {
       setTimeout(function() {
         var el = document.createElement('div');
-        el.className = 'emoji-burst';
+        el.className = 'emoji-burst ' + dir;
         el.textContent = emoji;
-        el.style.left = (5 + Math.random() * 85) + 'vw';
-        el.style.top = (15 + Math.random() * 60) + 'vh';
-        el.style.animationDuration = (1.0 + Math.random() * 0.8) + 's';
+        el.style.left = (3 + Math.random() * 88) + 'vw';
+        el.style.top = (10 + Math.random() * 65) + 'vh';
+        el.style.fontSize = (56 + Math.random() * 52) + 'px';
+        el.style.animationDuration = (1.3 + Math.random() * 0.9) + 's';
         document.body.appendChild(el);
-        setTimeout(function() { el.remove(); }, 2200);
+        setTimeout(function() { el.remove(); }, 2800);
       }, delay);
-    })(emojis[i], i * 180);
-  }
+    })(item[0], item[1], i * 120);
+  });
 }
-
 
 function renderEnd(gs) {
   document.getElementById('endTitle').textContent = '💩 ' + gs.shithead + ' is the Shithead!';
